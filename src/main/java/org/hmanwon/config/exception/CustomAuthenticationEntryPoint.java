@@ -1,4 +1,4 @@
-package org.hmanwon.exception;
+package org.hmanwon.config.exception;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

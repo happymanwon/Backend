@@ -2,8 +2,7 @@ package org.hmanwon.config;
 
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.config.jwt.JwtProperties;
-import org.hmanwon.config.jwt.JwtTokenFilter;
-import org.hmanwon.exception.CustomAuthenticationEntryPoint;
+import org.hmanwon.config.exception.CustomAuthenticationEntryPoint;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.http.HttpMethod;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration

@@ -1,4 +1,4 @@
-package org.hmanwon.util;
+package org.hmanwon.config.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
