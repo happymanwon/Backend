@@ -1,4 +1,4 @@
-package org.hmanwon.config.util;
+package org.hmanwon.global.config.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -8,7 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import org.hmanwon.config.jwt.SigningKeyResolver;
+import org.hmanwon.global.config.jwt.SigningKeyResolver;
 
 public class JwtTokenUtils {
     public static String getUsername(String token) {

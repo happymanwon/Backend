@@ -1,4 +1,4 @@
-package org.hmanwon.config.jwt;
+package org.hmanwon.global.config.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;

@@ -1,4 +1,4 @@
-package org.hmanwon.config.jwt;
+package org.hmanwon.global.config.jwt;
 
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;

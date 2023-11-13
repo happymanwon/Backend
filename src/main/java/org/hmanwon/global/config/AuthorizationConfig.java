@@ -1,8 +1,8 @@
-package org.hmanwon.config;
+package org.hmanwon.global.config;
 
 import lombok.RequiredArgsConstructor;
-import org.hmanwon.config.jwt.JwtProperties;
-import org.hmanwon.config.exception.CustomAuthenticationEntryPoint;
+import org.hmanwon.global.config.jwt.JwtProperties;
+import org.hmanwon.global.config.exception.CustomAuthenticationEntryPoint;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.http.HttpMethod;

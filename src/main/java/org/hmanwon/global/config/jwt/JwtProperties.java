@@ -1,4 +1,4 @@
-package org.hmanwon.config.jwt;
+package org.hmanwon.global.config.jwt;
 
 public class JwtProperties {
     public static final int EXPIRATION_TIME = 600000; // 10분
