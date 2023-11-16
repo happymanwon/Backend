@@ -1,4 +1,4 @@
-package org.hmanwon.domain.model.member.dao;
+package org.hmanwon.domain.zzan_purchase.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
