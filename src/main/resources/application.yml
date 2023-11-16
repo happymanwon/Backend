@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/HappyManwon?createDatabaseIfNotExist=true&useSSL=true
+    username: root
+    password: 2096401jj
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+server:
+  address: localhost
+  #  error:
+  #    include-stacktrace: never
+  port: 8080
