@@ -3,11 +3,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/HappyManwon?createDatabaseIfNotExist=true&useSSL=true
     username: root
-    password: 2096401jj
+    password: root1234!!
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     database: mysql
     show-sql: true
     properties:
@@ -17,6 +17,4 @@ spring:
 
 server:
   address: localhost
-  #  error:
-  #    include-stacktrace: never
-  port: 8080
+  port: 3000
