@@ -15,14 +15,12 @@ public class DisplayController {
     private final DisplayService displayService;
 
     @GetMapping("/api/stores")
-    @CrossOrigin("http://localhost:3000")
     public List<SeoulGoodShopDTO> getAllStores(){
         return displayService.getAllStores();
     }
 
     //지금은 Category가 Long이지만 나중엔 Category 클래스로 뺄거임
     @GetMapping("/api/stores/{category}")
-    @CrossOrigin("http://localhost:3000")
     public List<SeoulGoodShopDTO> getCategoryStores(
         @PathVariable final Long category
     ){
