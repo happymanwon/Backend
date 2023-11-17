@@ -60,11 +60,11 @@ public class SeoulGoodShop {
 
     @Column(nullable = true)
     @Comment("업소 썸네일")
-    private String image_url;
+    private String imageUrl;
 
     @Column(nullable = false)
     @Comment("업소 추천 수")
-    private Integer rcmm_cnt;
+    private Integer rcmnCnt;
 
     @Column(nullable = true)
     @Comment("업소 위치 번호(ex.종로구 = 1)")
@@ -72,11 +72,11 @@ public class SeoulGoodShop {
 
     @Column(nullable = true)
     @Comment("업소 카테고리 번호")
-    private Long shopCategoryId;
+    private Long category;
 
     @OneToMany(mappedBy = "seoulGoodShop",
             cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
     @Setter
-    private List<Item> itemList = new ArrayList<>();
+    private List<Menu> menuList = new ArrayList<>();
 
 }
