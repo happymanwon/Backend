@@ -18,6 +18,10 @@ public class ResponseDTO<T> {
         return new ResponseDTO<>(HttpStatus.OK, msg, data);
     }
 
+    public static <T> ResponseDTO<T> created(String msg, T data) {
+        return new ResponseDTO<>(HttpStatus.CREATED, msg, data);
+    }
+
     public static <T> ResponseDTO<Void> ok(String msg) {
         return new ResponseDTO<>(HttpStatus.OK, msg, null);
     }
