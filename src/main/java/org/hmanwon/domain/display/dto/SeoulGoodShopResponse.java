@@ -15,9 +15,6 @@ public class SeoulGoodShopResponse {
     private Long category;
     private String address;
 
-    /*menu는 보류하고 나중에 수정하겠습니다*/
-    private JsonElement menu;
-
     public static SeoulGoodShopResponse fromEntity(SeoulGoodShop seoulGoodShop){
         return SeoulGoodShopResponse.builder()
             .way(seoulGoodShop.getWay())

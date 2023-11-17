@@ -77,6 +77,6 @@ public class SeoulGoodShop {
     @OneToMany(mappedBy = "seoulGoodShop",
             cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
     @Setter
-    private List<Item> itemList = new ArrayList<>();
+    private List<Menu> menuList = new ArrayList<>();
 
 }

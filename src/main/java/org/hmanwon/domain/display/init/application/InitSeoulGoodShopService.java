@@ -13,7 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hmanwon.domain.display.dao.SeoulGoodShopRepository;
-import org.hmanwon.domain.display.entity.Item;
+import org.hmanwon.domain.display.entity.Menu;
 import org.hmanwon.domain.display.entity.SeoulGoodShop;
 import org.hmanwon.domain.display.init.dto.FirstJsonReadDTO;
 import org.hmanwon.domain.display.init.dto.SeoulGoodShopDTO;
@@ -84,12 +84,12 @@ public class InitSeoulGoodShopService {
                 .locationCode(AddressToCodeConverter.getCode(data.getAddress()))
                 .category(data.getCategory())
                 .build();
-        seoulGoodShop.setItemList(getItem(data.getMenu(), seoulGoodShop));
+        seoulGoodShop.setMenuList(getItem(data.getMenu(), seoulGoodShop));
         return seoulGoodShop;
     }
 
-    private List<Item> getItem(JsonElement jsonElement, SeoulGoodShop seoulGoodShop) {
-        List<Item> itemList = new ArrayList<>();
+    private List<Menu> getItem(JsonElement jsonElement, SeoulGoodShop seoulGoodShop) {
+        List<Menu> menuList = new ArrayList<>();
         if (jsonElement != null && jsonElement.isJsonObject()) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
 
@@ -101,9 +101,9 @@ public class InitSeoulGoodShopService {
                             .replace(",", "")
                             .replace("원", "");
                     int price = Integer.parseInt(valueOfInt);
-                    itemList.add(Item.builder()
-                            .itemPrice(price)
-                            .itemName(key)
+                    menuList.add(Menu.builder()
+                            .menuPrice(price)
+                            .menuName(key)
                             .seoulGoodShop(seoulGoodShop)
                             .build());
                 } catch (Exception e) {
@@ -112,6 +112,6 @@ public class InitSeoulGoodShopService {
                 }
             }
         }
-        return itemList;
+        return menuList;
     }
 }
