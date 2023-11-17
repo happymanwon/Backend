@@ -13,8 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -24,6 +26,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class SeoulGoodShop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,6 +76,7 @@ public class SeoulGoodShop {
 
     @OneToMany(mappedBy = "seoulGoodShop",
             cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+    @Setter
     private List<Item> itemList = new ArrayList<>();
 
 }
