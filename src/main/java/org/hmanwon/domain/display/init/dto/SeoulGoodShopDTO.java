@@ -11,12 +11,12 @@ import lombok.Setter;
 public class SeoulGoodShopDTO {
 
     private String way;
-    private String imageUrl;
+    private String image_url;
     private String info;
     private String phone;
     private String name;
     private Long category;
-    private int rcmnCnt;
+    private int rcmn_cnt;
     private String pride;
     private String address;
 

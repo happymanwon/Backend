@@ -79,8 +79,8 @@ public class InitSeoulGoodShopService {
                 .way(data.getWay())
                 .phone(data.getPhone())
                 .pride(data.getPride())
-                .imageUrl(data.getImageUrl())
-                .rcmnCnt(data.getRcmnCnt())
+                .imageUrl(data.getImage_url())
+                .rcmnCnt(data.getRcmn_cnt())
                 .locationCode(AddressToCodeConverter.getCode(data.getAddress()))
                 .category(data.getCategory())
                 .build();
