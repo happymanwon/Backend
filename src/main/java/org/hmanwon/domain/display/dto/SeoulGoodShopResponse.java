@@ -9,6 +9,7 @@ import org.hmanwon.domain.display.entity.SeoulGoodShop;
 @Getter
 @Builder
 public class SeoulGoodShopResponse {
+    private Long id;
     private String way;
     private String imageUrl;
     private String name;
@@ -17,6 +18,7 @@ public class SeoulGoodShopResponse {
 
     public static SeoulGoodShopResponse fromEntity(SeoulGoodShop seoulGoodShop){
         return SeoulGoodShopResponse.builder()
+            .id(seoulGoodShop.getId())
             .way(seoulGoodShop.getWay())
             .imageUrl(seoulGoodShop.getImageUrl())
             .name(seoulGoodShop.getName())
