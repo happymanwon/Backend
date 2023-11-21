@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class DisplayController {
     private final DisplayService displayService;
 
-    @GetMapping("/api/stores")
-    public List<SeoulGoodShopResponse> getAllStores(){
-        return displayService.getAllStores();
+    @GetMapping("/api/shops")
+    public List<SeoulGoodShopResponse> getAllShops(){
+        return displayService.getAllShops();
     }
 
     //지금은 Category가 Long이지만 나중엔 Category 클래스로 뺄거임
-    @GetMapping("/api/stores/categories/{categoryId}")
-    public List<SeoulGoodShopResponse> getCategoryStores(
+    @GetMapping("/api/shops/categories/{categoryId}")
+    public List<SeoulGoodShopResponse> getCategoryShops(
         @PathVariable final Long categoryId
     ){
-        return displayService.getCategoryStores(categoryId);
+        return displayService.getCategoryShops(categoryId);
     }
 
-    @GetMapping("/api/stores/{storeId}")
-    public List<SeoulGoodShopDetailResponse> getStoreDetail(
-        @PathVariable final Long storeId
+    @GetMapping("/api/shops/{shopId}")
+    public List<SeoulGoodShopDetailResponse> getShopDetail(
+        @PathVariable final Long shopId
     ){
-        return displayService.getStoreDetail(storeId);
+        return displayService.getShopDetail(shopId);
     }
 
 }
