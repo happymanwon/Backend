@@ -1,4 +1,4 @@
-package org.hmanwon.domain.display.api;
+package org.hmanwon.domain.display.presentation;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
