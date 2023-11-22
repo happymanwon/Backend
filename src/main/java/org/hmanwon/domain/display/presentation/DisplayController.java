@@ -7,31 +7,40 @@ import org.hmanwon.domain.display.dto.SeoulGoodShopDetailResponse;
 import org.hmanwon.domain.display.dto.SeoulGoodShopResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/shops")
 @RequiredArgsConstructor
 public class DisplayController {
     private final DisplayService displayService;
 
-    @GetMapping("/api/shops")
+    @GetMapping
     public List<SeoulGoodShopResponse> getAllShops(){
         return displayService.getAllShops();
     }
 
-    //지금은 Category가 Long이지만 나중엔 Category 클래스로 뺄거임
-    @GetMapping("/api/shops/categories/{categoryId}")
+    @GetMapping("/categories/{categoryId}")
     public List<SeoulGoodShopResponse> getCategoryShops(
         @PathVariable final Long categoryId
     ){
         return displayService.getCategoryShops(categoryId);
     }
 
-    @GetMapping("/api/shops/{shopId}")
+    @GetMapping("/{shopId}")
     public List<SeoulGoodShopDetailResponse> getShopDetail(
         @PathVariable final Long shopId
     ){
         return displayService.getShopDetail(shopId);
+    }
+
+    @GetMapping("/search")
+    public List<SeoulGoodShopResponse> searchShopByKeyword(
+        @RequestParam(name = "keyword") final String keyword
+    ) {
+        return displayService.searchShopByKeyword(keyword);
     }
 
 }
