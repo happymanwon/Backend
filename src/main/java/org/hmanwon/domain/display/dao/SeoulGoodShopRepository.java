@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SeoulGoodShopRepository extends JpaRepository<SeoulGoodShop, Long> {
     List<SeoulGoodShop> findByCategory(Long category);
-
+    List<SeoulGoodShop> findByNameContains(String keyword);
 }

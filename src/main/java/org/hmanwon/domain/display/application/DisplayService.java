@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.display.dao.SeoulGoodShopRepository;
 import org.hmanwon.domain.display.dto.SeoulGoodShopDetailResponse;
 import org.hmanwon.domain.display.dto.SeoulGoodShopResponse;
+import org.hmanwon.domain.display.entity.SeoulGoodShop;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,4 +33,11 @@ public class DisplayService {
             .stream().map(SeoulGoodShopDetailResponse::fromEntity)
             .collect(Collectors.toList());
     }
+
+    public List<SeoulGoodShopResponse> searchShopByKeyword(String keyword) {
+        return seoulGoodShopRepository.findByNameContains(keyword)
+            .stream().map(SeoulGoodShopResponse::fromEntity)
+            .collect(Collectors.toList());
+    }
+
 }
