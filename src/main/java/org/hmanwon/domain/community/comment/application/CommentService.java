@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.board.dao.BoardRepository;
 import org.hmanwon.domain.community.comment.dto.request.CommentRequestDto;
+import org.hmanwon.domain.community.comment.dto.request.CommentUpdateRequestsDto;
 import org.hmanwon.domain.community.comment.dto.response.CommentResponseDto;
 import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.community.comment.dao.CommentRepository;
@@ -29,7 +30,8 @@ public class CommentService {
      */
     public CommentResponseDto createComment(Long memberId, CommentRequestDto commentRequestDTO) {
         Comment comment = Comment.builder()
-            .board((Board) boardRepository.findById(commentRequestDTO.boardId()).orElseThrow()) //추후 변경 예정
+            .board((Board) boardRepository.findById(commentRequestDTO.boardId())
+                .orElseThrow()) //추후 변경 예정
             .member((Member) memberRepository.findById(memberId).orElseThrow()) //추후 변경 예정
             .content(commentRequestDTO.content())
             .build();
@@ -40,13 +42,37 @@ public class CommentService {
     }
 
     /***
+     * 댓글 내용 수정
+     * @param memberId 회원 ID
+     * @param commentId 댓글 ID
+     * @param commentUpdateRequestsDto 댓글 수정 요청 DTO
+     * @return 댓글 응답 DTO
+     */
+    public CommentResponseDto updateContent(Long memberId, Long commentId,
+        CommentUpdateRequestsDto commentUpdateRequestsDto) {
+        Comment comment = getComment(commentId);
+        comment.updateContent(commentUpdateRequestsDto.Content());
+        commentRepository.save(comment);
+        return CommentResponseDto.entityFromDTO(comment);
+    }
+
+    /***
+     * 댓글 Entity 조회
+     * @param commentId 댓글 ID
+     * @return 댓글 Entity
+     */
+    public Comment getComment(Long commentId) {
+        return (Comment) commentRepository.findById(commentId).orElseThrow();
+    }
+
+    /***
      * 댓글 삭제
      * @param memberId 회원 ID
      * @param commentId 댓글 ID
      * @return 댓글
      */
     public CommentResponseDto deleteCommentById(Long memberId, Long commentId) {
-        Comment comment = (Comment) commentRepository.findById(commentId).orElseThrow();
+        Comment comment = getComment(commentId);
         commentRepository.delete(comment);
 
         return CommentResponseDto.entityFromDTO(comment);
