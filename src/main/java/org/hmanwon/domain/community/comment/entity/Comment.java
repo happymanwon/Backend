@@ -1,6 +1,5 @@
 package org.hmanwon.domain.community.comment.entity;
 
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,14 +14,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.member.entity.Member;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hmanwon.global.common.entity.BaseTimeEntity;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,13 +39,6 @@ public class Comment {
     @JoinColumn(name = "board_id")
     @org.hibernate.annotations.Comment("게시판 FK")
     private Board board;
-
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createAt;
-
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 
     @Builder
     public Comment(Long id, String content, Member member, Board board) {
