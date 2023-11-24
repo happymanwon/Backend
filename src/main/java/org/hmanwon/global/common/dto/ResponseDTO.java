@@ -11,7 +11,7 @@ import org.springframework.lang.Nullable;
 @Setter
 @ToString
 @Builder
-public class ResponseDTO<T>{
+public class ResponseDTO<T> {
 
     private int code;
     private String message;
@@ -26,7 +26,7 @@ public class ResponseDTO<T>{
      * @param <T>        데이터의 제네릭 타입
      * @return 생성된 ResponseDTO 객체
      */
-    public static <T> ResponseDTO<T> res (HttpStatus httpStatus, @Nullable T data, String message) {
+    public static <T> ResponseDTO<T> res(HttpStatus httpStatus, @Nullable T data, String message) {
         return ResponseDTO.<T>builder()
             .code(httpStatus.value())
             .message(message)
@@ -42,7 +42,7 @@ public class ResponseDTO<T>{
      * @param <T>        데이터의 제네릭 타입
      * @return 생성된 ResponseDTO 객체
      */
-    public static <T> ResponseDTO<T> res (HttpStatus httpStatus, String message) {
+    public static <T> ResponseDTO<T> res(HttpStatus httpStatus, String message) {
         return ResponseDTO.<T>builder()
             .code(httpStatus.value())
             .message(message)

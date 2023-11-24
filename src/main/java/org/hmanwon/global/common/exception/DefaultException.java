@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class DefaultException extends RuntimeException {
 
     ExceptionCode errorCode;
+
     public DefaultException(ExceptionCode errorCode) {
         super(errorCode.getMsg());
         this.errorCode = errorCode;
