@@ -1,5 +1,6 @@
 package org.hmanwon.domain.community.comment.application;
 
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.board.repository.BoardRepository;
@@ -12,6 +13,7 @@ import org.hmanwon.domain.member.entity.Member;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CommentService {
 
@@ -19,10 +21,16 @@ public class CommentService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
+    /***
+     * 댓글 생성
+     * @param memberId 회원 ID
+     * @param commentRequestDTO 댓글 요청 DTO
+     * @return 댓글 응답 DTO
+     */
     public CommentResponseDTO createComment(Long memberId, CommentRequestDTO commentRequestDTO) {
         Comment comment = Comment.builder()
-            .board((Board) boardRepository.findById(commentRequestDTO.getBoardId()).orElseThrow())
-            .member((Member) memberRepository.findById(memberId).orElseThrow())
+            .board((Board) boardRepository.findById(commentRequestDTO.getBoardId()).orElseThrow()) //추후 변경 예정
+            .member((Member) memberRepository.findById(memberId).orElseThrow()) //추후 변경 예정
             .content(commentRequestDTO.getContent())
             .build();
 
@@ -31,4 +39,16 @@ public class CommentService {
         return new CommentResponseDTO(comment);
     }
 
+    /***
+     * 댓글 삭제
+     * @param memberId 회원 ID
+     * @param commentId 댓글 ID
+     * @return 댓글
+     */
+    public CommentResponseDTO deleteCommentById(Long memberId, Long commentId) {
+        Comment comment = (Comment) commentRepository.findById(commentId).orElseThrow();
+        commentRepository.delete(comment);
+
+        return new CommentResponseDTO(comment);
+    }
 }
