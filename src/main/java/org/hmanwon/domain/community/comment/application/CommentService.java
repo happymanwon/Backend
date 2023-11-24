@@ -29,14 +29,14 @@ public class CommentService {
      */
     public CommentResponseDTO createComment(Long memberId, CommentRequestDTO commentRequestDTO) {
         Comment comment = Comment.builder()
-            .board((Board) boardRepository.findById(commentRequestDTO.getBoardId()).orElseThrow()) //추후 변경 예정
+            .board((Board) boardRepository.findById(commentRequestDTO.boardId()).orElseThrow()) //추후 변경 예정
             .member((Member) memberRepository.findById(memberId).orElseThrow()) //추후 변경 예정
-            .content(commentRequestDTO.getContent())
+            .content(commentRequestDTO.content())
             .build();
 
         commentRepository.save(comment);
 
-        return new CommentResponseDTO(comment);
+        return CommentResponseDTO.entityFromDTO(comment);
     }
 
     /***
@@ -49,6 +49,6 @@ public class CommentService {
         Comment comment = (Comment) commentRepository.findById(commentId).orElseThrow();
         commentRepository.delete(comment);
 
-        return new CommentResponseDTO(comment);
+        return CommentResponseDTO.entityFromDTO(comment);
     }
 }

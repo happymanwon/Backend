@@ -1,15 +1,12 @@
 package org.hmanwon.domain.community.comment.dto.request;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
-public class CommentRequestDTO {
-
+public record CommentRequestDTO(
     @NotNull
-    Long boardId;
-    @NotNull
-    String content;
+    Long boardId,
+    @NotBlank
+    String content
+) {
 }
