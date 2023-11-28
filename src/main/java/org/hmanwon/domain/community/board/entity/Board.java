@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,18 +13,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.global.common.entity.BaseTimeEntity;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Board extends BaseTimeEntity {
 
     @Id
@@ -50,5 +49,14 @@ public class Board extends BaseTimeEntity {
     public void setCommentList(
         List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    public static Board of(String title, String content, Member member) {
+        return Board
+            .builder()
+            .title(title)
+            .content(content)
+            .member(member)
+            .build();
     }
 }
