@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
+import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.global.common.entity.BaseTimeEntity;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -30,29 +30,25 @@ public class Board extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Comment("게시판 ID")
     private Long id;
 
     @Column(nullable = false)
-    @Comment("게시판 제목")
     private String title;
 
     @Column(nullable = false)
-    @Comment("게시판 글 내용")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @Comment("회원 FK")
     private Member member;
 
     @OneToMany(mappedBy = "board",
         cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<org.hmanwon.domain.community.comment.entity.Comment> commentList =
+    private List<Comment> commentList =
         new ArrayList<>();
 
     public void setCommentList(
-        List<org.hmanwon.domain.community.comment.entity.Comment> commentList) {
+        List<Comment> commentList) {
         this.commentList = commentList;
     }
 }

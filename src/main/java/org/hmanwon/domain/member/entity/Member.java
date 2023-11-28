@@ -28,19 +28,15 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @org.hibernate.annotations.Comment("회원 ID")
     private Long id;
 
     @Column(nullable = false)
-    @org.hibernate.annotations.Comment("회원 email")
     private String email;
 
     @Column(nullable = false)
-    @org.hibernate.annotations.Comment("회원 닉네임")
     private String nickName;
 
     @Column(nullable = false)
-    @org.hibernate.annotations.Comment("회원 포인트")
     @Min(0)
     private Long point;
 
