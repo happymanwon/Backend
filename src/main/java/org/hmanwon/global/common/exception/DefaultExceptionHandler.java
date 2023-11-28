@@ -45,8 +45,8 @@ public class DefaultExceptionHandler {
         );
 
         return new ResponseEntity<>(
-                ErrorResponseDTO.error(e.getErrorCode()),
-                e.getErrorCode().getStatus()
+            ErrorResponseDTO.error(e.getErrorCode()),
+            e.getErrorCode().getStatus()
         );
     }
 
@@ -77,68 +77,69 @@ public class DefaultExceptionHandler {
     }
 
     /**
-     * @RequestParam valid 할 때 예외 처리
      * @param e
      * @param request
      * @return
+     * @RequestParam valid 할 때 예외 처리
      */
     @ExceptionHandler(value = {
         ConstraintViolationException.class
     })
     public ResponseEntity<ErrorResponseDTO> handleConstraintViolationException(
-            ConstraintViolationException e, HttpServletRequest request
+        ConstraintViolationException e, HttpServletRequest request
     ) {
         log.error("ConstraintViolationException error url : {}, message : {}",
-                request.getRequestURI(),
-                e.getMessage()
+            request.getRequestURI(),
+            e.getMessage()
         );
         //searchTripListByKeyword.keyword: 검색어를 채워주세요 -> "검색어를 채워주세요" 반환.
         String[] msgList = e.getMessage().split(":");
-        String msg = msgList[msgList.length-1].substring(1);
+        String msg = msgList[msgList.length - 1].substring(1);
 
         return new ResponseEntity<>(
-                new ErrorResponseDTO(
-                        BAD_REQUEST.getStatus(),
-                        BAD_REQUEST.getCode(),
-                        msg
-                ),
-                HttpStatus.BAD_REQUEST
+            new ErrorResponseDTO(
+                BAD_REQUEST.getStatus(),
+                BAD_REQUEST.getCode(),
+                msg
+            ),
+            HttpStatus.BAD_REQUEST
         );
     }
 
     /**
-     * @Valid 를 통해 나타나는 예외 처리
      * @param e
      * @param request
      * @return
+     * @Valid 를 통해 나타나는 예외 처리
      */
     @ExceptionHandler(value = {
         MethodArgumentNotValidException.class
     })
     public ResponseEntity<ErrorResponseDTO> handleArgumentNotVaildException(
-            MethodArgumentNotValidException e, HttpServletRequest request
+        MethodArgumentNotValidException e, HttpServletRequest request
     ) {
         log.error("MethodArgumentNotValid error url : {}, message : {}",
-                request.getRequestURI(),
-                e.getMessage()
+            request.getRequestURI(),
+            e.getMessage()
         );
 
         List<String> msgList = e.getAllErrors().stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+            .collect(Collectors.toList());
 
         return new ResponseEntity<>(
-                new ErrorResponseDTO(
-                        BAD_REQUEST.getStatus(),
-                        BAD_REQUEST.getCode(),
-                        String.join(", ", msgList)
-                ),
-                HttpStatus.BAD_REQUEST
+            new ErrorResponseDTO(
+                BAD_REQUEST.getStatus(),
+                BAD_REQUEST.getCode(),
+                String.join(", ", msgList)
+            ),
+            HttpStatus.BAD_REQUEST
         );
     }
 
     /**
      * 기타 예외 처리
+     *
      * @param e
      * @param request
      * @return

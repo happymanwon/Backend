@@ -15,9 +15,9 @@ public class ErrorResponseDTO {
 
     public static ErrorResponseDTO error(ExceptionCode exceptionCode) {
         return new ErrorResponseDTO(
-                exceptionCode.getStatus(),
-                exceptionCode.getCode(),
-                exceptionCode.getMsg()
+            exceptionCode.getStatus(),
+            exceptionCode.getCode(),
+            exceptionCode.getMsg()
         );
     }
 }
