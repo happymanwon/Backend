@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.Comment;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -77,7 +76,9 @@ public class SeoulGoodShop {
 
     @OneToMany(mappedBy = "seoulGoodShop",
         cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
-    @Setter
     private List<Menu> menuList = new ArrayList<>();
 
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
 }

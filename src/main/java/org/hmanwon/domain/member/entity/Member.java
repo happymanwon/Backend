@@ -15,7 +15,6 @@ import javax.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.comment.entity.Comment;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -47,12 +46,17 @@ public class Member {
 
     @OneToMany(mappedBy = "member",
         cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    @Setter // 연간관계 메서드로 바꿔야 함
     private List<Board> boardList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member",
         cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    @Setter // 연간관계 메서드로 바꿔야 함
     private List<Comment> commentList = new ArrayList<>();
 
+    public void setBoardList(List<Board> boardList) {
+        this.boardList = boardList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
 }

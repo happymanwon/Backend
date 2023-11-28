@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.Comment;
 import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.global.common.entity.BaseTimeEntity;
@@ -28,6 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Board extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Comment("게시판 ID")
@@ -48,6 +48,11 @@ public class Board extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "board",
         cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
-    @Setter // 연간관계 메서드로 바꿔야 함
-    private List<org.hmanwon.domain.community.comment.entity.Comment> commentList = new ArrayList<>();
+    private List<org.hmanwon.domain.community.comment.entity.Comment> commentList =
+        new ArrayList<>();
+
+    public void setCommentList(
+        List<org.hmanwon.domain.community.comment.entity.Comment> commentList) {
+        this.commentList = commentList;
+    }
 }
