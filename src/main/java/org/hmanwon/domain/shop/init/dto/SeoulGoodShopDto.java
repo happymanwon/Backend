@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter //나중에 처리
 @Builder
-public class SeoulGoodShopDTO {
+public class SeoulGoodShopDto {
 
     private String way;
     private String image_url;
