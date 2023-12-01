@@ -11,6 +11,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hmanwon.domain.shop.dao.LocalCodeRepository;
@@ -18,11 +22,13 @@ import org.hmanwon.domain.shop.dao.SeoulGoodShopRepository;
 import org.hmanwon.domain.shop.entity.LocalCode;
 import org.hmanwon.domain.shop.entity.Menu;
 import org.hmanwon.domain.shop.entity.SeoulGoodShop;
-import org.hmanwon.domain.shop.init.dto.FirstJsonReadDTO;
-import org.hmanwon.domain.shop.init.dto.SeoulGoodShopDTO;
+import org.hmanwon.domain.shop.init.dto.AddressDto;
+import org.hmanwon.domain.shop.init.dto.FirstJsonReadDto;
+import org.hmanwon.domain.shop.init.dto.SeoulGoodShopDto;
 import org.hmanwon.domain.shop.init.exception.InitShopException;
 import org.hmanwon.domain.shop.init.exception.InitShopExceptionCode;
 import org.hmanwon.domain.shop.init.util.AddressToCodeConverter;
+import org.hmanwon.domain.shop.init.util.KakaoApiUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -40,13 +46,16 @@ public class InitSeoulGoodShopService {
     private final String filePath = "seoul_good_shop.json";
     private final Gson gson = new Gson();
 
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
+    // 최대 10개의 스레드를 사용하는 ExecutorService 생성 (조정 가능)
+
     @Transactional
     public void loadJsonAndInsertData() {
 
         saveLocalCodeList();
 
-        List<SeoulGoodShop> seoulShoplist = loadShopData();
-        List<SeoulGoodShop> saveShopData = seoulGoodShopRepository.saveAll(seoulShoplist);
+        List<SeoulGoodShop> seoulGoodShopList = loadShopData();
+        List<SeoulGoodShop> saveShopData = seoulGoodShopRepository.saveAll(seoulGoodShopList);
 
         if (saveShopData == null) {
             throw new InitShopException(FAILED_SAVE);
@@ -64,14 +73,35 @@ public class InitSeoulGoodShopService {
         localCodeRepository.saveAll(localCodeList);
     }
 
+    /**
+     * 비동기적으로 구현하여 실행 속도를 높였습니다.
+     * @return
+     */
     private List<SeoulGoodShop> loadShopData() {
-        FirstJsonReadDTO fromJson = gson.fromJson(readJsonFile(filePath), FirstJsonReadDTO.class);
-        List<SeoulGoodShopDTO> list = fromJson.getDATA();
+        FirstJsonReadDto fromJson = gson.fromJson(readJsonFile(filePath), FirstJsonReadDto.class);
+        List<SeoulGoodShopDto> list = fromJson.getDATA();
 
         List<SeoulGoodShop> seoulGoodShopList = new ArrayList<>();
-        for (SeoulGoodShopDTO data : list) {
+
+        List<CompletableFuture<Void>> apiCalls = new ArrayList<>();
+
+        for (SeoulGoodShopDto data : list) {
             SeoulGoodShop seoulGoodShop = dtoToEntity(data);
             seoulGoodShopList.add(seoulGoodShop);
+
+//            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+//
+//            }, executorService);
+//
+//            apiCalls.add(future);
+//
+//            // 모든 API 호출이 완료될 때까지 대기
+//            CompletableFuture<Void> allOf = CompletableFuture.allOf(
+//                    apiCalls.toArray(new CompletableFuture[0])
+//            );
+//            allOf.join(); // 모든 API 호출이 완료될 때까지 대기
+//            executorService.shutdown(); // ExecutorService 종료
+
         }
         return seoulGoodShopList;
     }
@@ -88,14 +118,20 @@ public class InitSeoulGoodShopService {
         }
     }
 
-    private SeoulGoodShop dtoToEntity(SeoulGoodShopDTO data) {
+    private SeoulGoodShop dtoToEntity(SeoulGoodShopDto data) {
         if (data.getCategory() >= 9L) {
             data.setCategory(6L);
         }
+
+        AddressDto addressDto = KakaoApiUtil.searchLocInfoByAddress(data.getAddress());
+
         SeoulGoodShop seoulGoodShop = SeoulGoodShop.builder()
             .name(data.getName())
             .info(data.getInfo())
             .address(data.getAddress())
+            .latitude(addressDto.getLatitude())
+            .longitude(addressDto.getLongitude())
+            .roadAddress(addressDto.getRoadAddress())
             .way(data.getWay())
             .phone(data.getPhone())
             .pride(data.getPride())
@@ -104,6 +140,7 @@ public class InitSeoulGoodShopService {
             .localCode(getLocalCode(data.getAddress()))
             .category(data.getCategory())
             .build();
+
         seoulGoodShop.setMenuList(getItem(data.getMenu(), seoulGoodShop));
         return seoulGoodShop;
     }
