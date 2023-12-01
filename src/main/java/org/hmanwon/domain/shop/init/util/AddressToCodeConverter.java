@@ -2,6 +2,7 @@ package org.hmanwon.domain.shop.init.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class AddressToCodeConverter {
 
@@ -43,6 +44,14 @@ public class AddressToCodeConverter {
             }
         }
         return map.get("종로구");
+    }
+
+    public static Set<String> getLocalCodeNameSet() {
+        return map.keySet();
+    }
+
+    public static Long getLocalCodeId(String name) {
+        return Long.valueOf(map.get(name));
     }
 
 }
