@@ -10,9 +10,12 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hmanwon.domain.shop.dao.LocalCodeRepository;
 import org.hmanwon.domain.shop.dao.SeoulGoodShopRepository;
+import org.hmanwon.domain.shop.entity.LocalCode;
 import org.hmanwon.domain.shop.entity.Menu;
 import org.hmanwon.domain.shop.entity.SeoulGoodShop;
 import org.hmanwon.domain.shop.init.dto.FirstJsonReadDTO;
@@ -32,18 +35,33 @@ import org.springframework.util.FileCopyUtils;
 public class InitSeoulGoodShopService {
 
     private final SeoulGoodShopRepository seoulGoodShopRepository;
+    private final LocalCodeRepository localCodeRepository;
     private final ResourceLoader resourceLoader;
     private final String filePath = "seoul_good_shop.json";
     private final Gson gson = new Gson();
 
     @Transactional
     public void loadJsonAndInsertData() {
+
+        saveLocalCodeList();
+
         List<SeoulGoodShop> seoulShoplist = loadShopData();
         List<SeoulGoodShop> saveShopData = seoulGoodShopRepository.saveAll(seoulShoplist);
 
         if (saveShopData == null) {
             throw new InitShopException(FAILED_SAVE);
         }
+    }
+
+    private void saveLocalCodeList() {
+        Set<String> localCodeNameSet = AddressToCodeConverter.getLocalCodeNameSet();
+        List<LocalCode> localCodeList = new ArrayList<>();
+        for (String name : localCodeNameSet) {
+            localCodeList.add(LocalCode.builder().id(
+                    AddressToCodeConverter.getLocalCodeId(name)
+            ).name(name).build());
+        }
+        localCodeRepository.saveAll(localCodeList);
     }
 
     private List<SeoulGoodShop> loadShopData() {
@@ -83,11 +101,18 @@ public class InitSeoulGoodShopService {
             .pride(data.getPride())
             .imageUrl(data.getImage_url())
             .rcmnCnt(data.getRcmn_cnt())
-            .locationCode(AddressToCodeConverter.getCode(data.getAddress()))
+            .localCode(getLocalCode(data.getAddress()))
             .category(data.getCategory())
             .build();
         seoulGoodShop.setMenuList(getItem(data.getMenu(), seoulGoodShop));
         return seoulGoodShop;
+    }
+
+    private LocalCode getLocalCode(String address) {
+        int code = AddressToCodeConverter.getCode(address);
+        return localCodeRepository.findById(Long.valueOf(code)).orElseThrow(
+                () -> new InitShopException(FAILED_SAVE)
+        );
     }
 
     private List<Menu> getItem(JsonElement jsonElement, SeoulGoodShop seoulGoodShop) {
