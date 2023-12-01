@@ -42,8 +42,20 @@ public class SeoulGoodShop {
     private String name;
 
     @Column(nullable = false)
-    @Comment("업소 주소")
+    @Comment("업소 제공 주소")
     private String address;
+
+    @Column(nullable = false)
+    @Comment("업소 도로명 주소")
+    private String roadAddress;
+
+    @Column(nullable = false)
+    @Comment("주소 위치 기반 위도")
+    private String latitude;
+
+    @Column(nullable = false)
+    @Comment("주소 위치 기반 위도")
+    private String longitude;
 
     @Column(nullable = true)
     @Comment("업소 정보")
