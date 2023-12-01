@@ -7,7 +7,8 @@ import org.hmanwon.domain.community.board.entity.Board;
 public record BoardResponse(
     String memberNickName,
     Long boardId,
-    String title
+    String content
+
 
 ) {
 
@@ -15,7 +16,6 @@ public record BoardResponse(
         return BoardResponse.builder()
             .memberNickName(board.getMember().getNickName())
             .boardId(board.getId())
-            .title(board.getTitle())
             .build();
     }
 

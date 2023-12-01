@@ -32,29 +32,34 @@ public class Board extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String title;
+    private String content;
+
+    private Double longitude;
+    private Double latitude;
 
     @Column(nullable = false)
-    private String content;
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany(mappedBy = "board",
-        cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<Comment> commentList =
-        new ArrayList<>();
+        cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<BoardHashtag> boardHashtags;
+
+    @OneToMany(mappedBy = "board",
+        cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
 
     public void setCommentList(
         List<Comment> commentList) {
         this.commentList = commentList;
     }
 
-    public static Board of(String title, String content, Member member) {
+    public static Board of(String content, Member member) {
         return Board
             .builder()
-            .title(title)
             .content(content)
             .member(member)
             .build();

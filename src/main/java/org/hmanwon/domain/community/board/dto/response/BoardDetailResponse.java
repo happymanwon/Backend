@@ -9,7 +9,6 @@ import org.hmanwon.domain.community.comment.entity.Comment;
 public record BoardDetailResponse(
     String memberNickName,
     Long boardId,
-    String title,
     String content,
     List<Comment> commentList
 
@@ -19,7 +18,6 @@ public record BoardDetailResponse(
         return BoardDetailResponse.builder()
             .memberNickName(board.getMember().getNickName())
             .boardId(board.getId())
-            .title(board.getTitle())
             .content(board.getContent())
             .commentList(board.getCommentList())
             .build();
