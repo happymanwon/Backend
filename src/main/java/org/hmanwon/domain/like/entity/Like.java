@@ -9,8 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.domain.shop.entity.SeoulGoodShop;
 
@@ -31,10 +33,17 @@ public class Like {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @ColumnDefault("false")
+    private Boolean status;
+
     @Builder
     public Like(Long id, SeoulGoodShop seoulGoodShop, Member member) {
         this.id = id;
         this.seoulGoodShop = seoulGoodShop;
         this.member = member;
+    }
+
+    public void setLikeStatus(Boolean status) {
+        this.status = status;
     }
 }
