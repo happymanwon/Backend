@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class FirstJsonReadDTO {
+public class FirstJsonReadDto {
     private String description;
-    private List<SeoulGoodShopDTO> DATA;
+    private List<SeoulGoodShopDto> DATA;
 }
