@@ -9,13 +9,18 @@ import org.hmanwon.domain.shop.init.dto.AddressDto;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class KakaoApiUtil {
 
-    @Value("${kakao.rest_api_key}")
-    private static String REST_API_KEY;
+    private final String REST_API_KEY;
 
-    private static String getBodyByOkHttpGet(HttpUrl url) {
+    public KakaoApiUtil(@Value("${kakao.rest_api_key}") String key) {
+        REST_API_KEY = key;
+    }
+
+    private String getBodyByOkHttpGet(HttpUrl url) {
         String jsonBody = "";
 
         try {
@@ -49,19 +54,20 @@ public class KakaoApiUtil {
         return jsonBody;
     }
 
-    public static AddressDto searchLocInfoByAddress(String address) {
+    public AddressDto searchLocInfoByAddress(String address) {
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("https")
                 .host("dapi.kakao.com")
                 .addPathSegment("v2/local/search/address.json")
                 .addQueryParameter("query", address)
                 .build();
+
         String jsonBody = getBodyByOkHttpGet(url);
         AddressDto addressDto = getLocationInfoByJson(jsonBody);
         return addressDto;
     }
 
-    private static AddressDto getLocationInfoByJson(String jsonBody) {
+    private AddressDto getLocationInfoByJson(String jsonBody) {
         //json -> loc(위도, 경도)
         JSONObject jsonObject = new JSONObject(jsonBody);
         JSONArray documents = jsonObject.getJSONArray("documents");
