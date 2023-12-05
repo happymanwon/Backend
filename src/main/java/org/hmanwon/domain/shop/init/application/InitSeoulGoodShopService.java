@@ -43,6 +43,7 @@ public class InitSeoulGoodShopService {
     private final SeoulGoodShopRepository seoulGoodShopRepository;
     private final LocalCodeRepository localCodeRepository;
     private final ResourceLoader resourceLoader;
+    private final KakaoApiUtil kakaoApiUtil;
     private final String filePath = "seoul_good_shop.json";
     private final Gson gson = new Gson();
 
@@ -123,7 +124,7 @@ public class InitSeoulGoodShopService {
             data.setCategory(6L);
         }
 
-        AddressDto addressDto = KakaoApiUtil.searchLocInfoByAddress(data.getAddress());
+        AddressDto addressDto = kakaoApiUtil.searchLocInfoByAddress(data.getAddress());
 
         SeoulGoodShop seoulGoodShop = SeoulGoodShop.builder()
             .name(data.getName())
