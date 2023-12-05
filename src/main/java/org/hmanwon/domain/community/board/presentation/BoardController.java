@@ -7,7 +7,7 @@ import org.hmanwon.domain.community.board.dto.request.BoardWriteRequest;
 import org.hmanwon.domain.community.board.dto.response.BoardDetailResponse;
 import org.hmanwon.domain.community.board.dto.response.BoardResponse;
 import org.hmanwon.global.common.dto.ResponseDTO;
-import org.springframework.http.HttpStatus;
+import org.hmanwon.global.common.dto.ResponseDTO.DataBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,38 +25,35 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<BoardResponse>> createBoard(
+    public ResponseEntity<DataBody<BoardResponse>> createBoard(
         @RequestParam Long memberId,
         @RequestBody BoardWriteRequest boardWriteRequest
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-            ResponseDTO.res(
-                HttpStatus.OK,
-                BoardResponse.fromBoard(boardService.createBoard(memberId,boardWriteRequest)),
-                "게시글을 생성 했습니다.")
-        );
+        return
+            ResponseDTO.created(
+                BoardResponse.fromBoard(boardService.createBoard(memberId, boardWriteRequest)),
+                "게시글을 생성 했습니다."
+            );
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<List<BoardResponse>>> getAllBoard(
+    public ResponseEntity<DataBody<List<BoardResponse>>> getAllBoard(
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-            ResponseDTO.res(
-                HttpStatus.OK,
+        return
+            ResponseDTO.ok(
                 boardService.getAllBoard(),
-                "게시글을 모두 조회 했습니다.")
+                "게시글을 모두 조회 했습니다."
         );
     }
 
     @GetMapping("/{boardId}")
-    public ResponseEntity<ResponseDTO<BoardDetailResponse>> getBoardDetail(
+    public ResponseEntity<DataBody<BoardDetailResponse>> getBoardDetail(
         @PathVariable Long boardId
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-            ResponseDTO.res(
-                HttpStatus.OK,
+        return
+            ResponseDTO.ok(
                 boardService.getBoardDetail(boardId),
-                "게시글을 모두 조회 했습니다.")
+                "게시글을 모두 조회 했습니다."
         );
     }
 }
