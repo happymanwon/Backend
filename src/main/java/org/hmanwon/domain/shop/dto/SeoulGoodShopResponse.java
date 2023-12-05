@@ -13,6 +13,9 @@ public class SeoulGoodShopResponse {
     private String name;
     private Long category;
     private String address;
+    private String roadAddress;
+    private String latitude;
+    private String longitude;
 
     public static SeoulGoodShopResponse fromEntity(SeoulGoodShop seoulGoodShop){
         return SeoulGoodShopResponse.builder()
@@ -22,6 +25,9 @@ public class SeoulGoodShopResponse {
             .name(seoulGoodShop.getName())
             .category(seoulGoodShop.getCategory())
             .address(seoulGoodShop.getAddress())
+            .roadAddress(seoulGoodShop.getRoadAddress())
+            .latitude(seoulGoodShop.getLatitude())
+            .longitude(seoulGoodShop.getLongitude())
             .build();
     }
 }

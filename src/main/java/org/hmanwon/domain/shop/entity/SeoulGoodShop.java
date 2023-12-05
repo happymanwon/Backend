@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,8 +38,20 @@ public class SeoulGoodShop {
     private String name;
 
     @Column(nullable = false)
-    @Comment("업소 주소")
+    @Comment("업소 제공 주소")
     private String address;
+
+    @Column(nullable = false)
+    @Comment("업소 도로명 주소")
+    private String roadAddress;
+
+    @Column(nullable = false)
+    @Comment("주소 위치 기반 위도")
+    private String latitude;
+
+    @Column(nullable = false)
+    @Comment("주소 위치 기반 위도")
+    private String longitude;
 
     @Column(nullable = true)
     @Comment("업소 정보")
@@ -63,9 +77,10 @@ public class SeoulGoodShop {
     @Comment("업소 추천 수")
     private Integer rcmnCnt;
 
-    @Column(nullable = true)
-    @Comment("업소 위치 번호(ex.종로구 = 1)")
-    private Integer locationCode;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "local_code")
+    @Comment("지역 코드 FK")
+    private LocalCode localCode;
 
     @Column(nullable = true)
     @Comment("업소 카테고리 번호")
