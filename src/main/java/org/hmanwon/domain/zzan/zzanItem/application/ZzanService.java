@@ -32,12 +32,14 @@ public class ZzanService {
                     .map(ZzanItemResponse::fromEntity)
                     .collect(Collectors.toList());
         }
+
         if (localCode == null) {
             return zzanItemRepository.findZzanItemsByCategory(categoryId)
                     .stream()
                     .map(ZzanItemResponse::fromEntity)
                     .collect(Collectors.toList());
         }
+
         if (categoryId == null) {
             return zzanItemRepository.findZzanItemsByLocalCode(getLocalCode(localCode))
                     .stream()
