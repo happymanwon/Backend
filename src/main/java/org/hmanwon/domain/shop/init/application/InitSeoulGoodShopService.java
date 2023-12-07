@@ -79,8 +79,8 @@ public class InitSeoulGoodShopService {
             if (shop.getMenuList() == null || shop.getMenuList().size() == 0) continue;
 
             Menu menu = shop.getMenuList().get(0); //메뉴
-            Double discountRate = getDiscountRate(); //할인율
-            Integer salePrice = Math.toIntExact(Math.round(menu.getMenuPrice() * discountRate)); //세일 가격
+            Double[] discountRate = getDiscountRate(); //할인율
+            Integer salePrice = Math.toIntExact(Math.round(menu.getMenuPrice() * discountRate[1])); //세일 가격
             int category = shop.getCategory().intValue() - 1; //카테고리
             String content = getContent(category); //카테고리 별 콘텐츠 내용
 
@@ -92,7 +92,7 @@ public class InitSeoulGoodShopService {
                     .deadLine(getDeadLine())
                     .count(gerCount())
                     .originalPrice(menu.getMenuPrice())
-                    .discountRate(discountRate)
+                    .discountRate(discountRate[0])
                     .salePrice(salePrice)
                     .itemName(menu.getMenuName())
                     .status(SaleStatus.SALE)
@@ -129,12 +129,12 @@ public class InitSeoulGoodShopService {
         return random.nextInt(10) + 1;
     }
 
-    private Double getDiscountRate() {
+    private Double[] getDiscountRate() {
         Random random = new Random();
         //할인율 5 ~ 20 할인
         int dis = random.nextInt(15) + 5;
         System.out.println(dis);
-        return 1 - (double) dis / 100.0;
+        return new Double[] {(double)dis, 1 - (double) dis / 100.0};
     }
 
     private void saveLocalCodeList() {

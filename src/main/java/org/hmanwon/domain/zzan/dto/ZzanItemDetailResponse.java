@@ -1,10 +1,12 @@
 package org.hmanwon.domain.zzan.dto;
 
+import java.time.LocalDate;
 import javax.persistence.criteria.CriteriaBuilder.In;
 import lombok.Builder;
 import org.hibernate.annotations.Comment;
 import org.hmanwon.domain.shop.dto.SeoulGoodShopResponse;
 import org.hmanwon.domain.zzan.entity.ZzanItem;
+import org.hmanwon.domain.zzan.type.SaleStatus;
 
 @Builder
 public record ZzanItemDetailResponse(
@@ -16,6 +18,8 @@ public record ZzanItemDetailResponse(
         Double discountRate,
         Integer salePrice,
         Integer count,
+        LocalDate deadLine,
+        Boolean canSale,
         SeoulGoodShopResponse shopInfo
 ) {
     public static ZzanItemDetailResponse fromEntity(ZzanItem zzanItem) {
@@ -28,7 +32,14 @@ public record ZzanItemDetailResponse(
                 .discountRate(zzanItem.getDiscountRate())
                 .salePrice(zzanItem.getSalePrice())
                 .count(zzanItem.getCount())
+                .deadLine(zzanItem.getDeadLine())
+                .canSale(getCanSale(zzanItem.getStatus()))
                 .shopInfo(SeoulGoodShopResponse.fromEntity(zzanItem.getSeoulGoodShop()))
                 .build();
+    }
+
+    private static boolean getCanSale(SaleStatus status) {
+        if (status.equals(SaleStatus.SALE)) return true;
+        return false;
     }
 }
