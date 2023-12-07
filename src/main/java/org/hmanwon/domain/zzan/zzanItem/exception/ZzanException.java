@@ -1,4 +1,4 @@
-package org.hmanwon.domain.zzan.exception;
+package org.hmanwon.domain.zzan.zzanItem.exception;
 
 import org.hmanwon.global.common.exception.DefaultException;
 import org.hmanwon.global.common.exception.ExceptionCode;

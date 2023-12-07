@@ -1,4 +1,4 @@
-package org.hmanwon.domain.zzan.entity;
+package org.hmanwon.domain.zzan.purchase.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -12,13 +12,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hmanwon.domain.member.entity.Member;
-import org.hmanwon.domain.zzan.type.PurchaseStatusType;
+import org.hmanwon.domain.zzan.purchase.type.PurchaseStatusType;
+import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -45,8 +47,10 @@ public class PurchaseHistory {
     @JoinColumn(name = "zzan_item_id")
     private ZzanItem zzanItem;
 
-    @Comment("구매 가능한 QR 코드")
-    private String QRUrl;
+    @Comment("구매 가능한 QR 코드 id")
+    @JoinColumn(name = "qr_image_id")
+    @OneToOne
+    private QrImage qrImage;
 
     @Comment("QR 사용 여부")
     @Enumerated(EnumType.STRING)

@@ -1,8 +1,8 @@
-package org.hmanwon.domain.zzan.dao;
+package org.hmanwon.domain.zzan.zzanItem.dao;
 
 import java.util.List;
 import org.hmanwon.domain.shop.entity.LocalCode;
-import org.hmanwon.domain.zzan.entity.ZzanItem;
+import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

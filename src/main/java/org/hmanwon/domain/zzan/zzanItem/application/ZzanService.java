@@ -1,4 +1,4 @@
-package org.hmanwon.domain.zzan.application;
+package org.hmanwon.domain.zzan.zzanItem.application;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,11 +7,11 @@ import org.hmanwon.domain.shop.dao.LocalCodeRepository;
 import org.hmanwon.domain.shop.entity.LocalCode;
 import org.hmanwon.domain.shop.exception.ShopException;
 import org.hmanwon.domain.shop.exception.ShopExceptionCode;
-import org.hmanwon.domain.zzan.dao.ZzanItemRepository;
-import org.hmanwon.domain.zzan.dto.ZzanItemDetailResponse;
-import org.hmanwon.domain.zzan.dto.ZzanItemResponse;
-import org.hmanwon.domain.zzan.exception.ZzanException;
-import org.hmanwon.domain.zzan.exception.ZzanExceptionCode;
+import org.hmanwon.domain.zzan.zzanItem.dao.ZzanItemRepository;
+import org.hmanwon.domain.zzan.zzanItem.dto.ZzanItemDetailResponse;
+import org.hmanwon.domain.zzan.zzanItem.dto.ZzanItemResponse;
+import org.hmanwon.domain.zzan.zzanItem.exception.ZzanException;
+import org.hmanwon.domain.zzan.zzanItem.exception.ZzanExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

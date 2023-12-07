@@ -1,4 +1,4 @@
-package org.hmanwon.domain.zzan.type;
+package org.hmanwon.domain.zzan.zzanItem.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

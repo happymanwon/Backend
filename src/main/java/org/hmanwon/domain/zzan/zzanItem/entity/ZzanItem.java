@@ -1,4 +1,4 @@
-package org.hmanwon.domain.zzan.entity;
+package org.hmanwon.domain.zzan.zzanItem.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
@@ -17,16 +17,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Comment;
-import org.hmanwon.domain.shop.entity.LocalCode;
 import org.hmanwon.domain.shop.entity.SeoulGoodShop;
-import org.hmanwon.domain.zzan.type.SaleStatus;
+import org.hmanwon.domain.zzan.purchase.entity.PurchaseHistory;
+import org.hmanwon.domain.zzan.zzanItem.type.SaleStatus;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -75,10 +75,12 @@ public class ZzanItem {
     private Integer salePrice;
 
     @Comment("판매 상품 수량")
+    @Setter
     private Integer count;
 
     @Comment("판매 가능 상태")
     @Enumerated(EnumType.STRING)
+    @Setter
     private SaleStatus status;
 
     @OneToMany(mappedBy = "zzanItem",

@@ -1,12 +1,10 @@
-package org.hmanwon.domain.zzan.dto;
+package org.hmanwon.domain.zzan.zzanItem.dto;
 
 import java.time.LocalDate;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import lombok.Builder;
-import org.hibernate.annotations.Comment;
 import org.hmanwon.domain.shop.dto.SeoulGoodShopResponse;
-import org.hmanwon.domain.zzan.entity.ZzanItem;
-import org.hmanwon.domain.zzan.type.SaleStatus;
+import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
+import org.hmanwon.domain.zzan.zzanItem.type.SaleStatus;
 
 @Builder
 public record ZzanItemDetailResponse(

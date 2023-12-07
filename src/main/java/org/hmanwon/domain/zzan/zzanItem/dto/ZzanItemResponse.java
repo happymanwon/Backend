@@ -1,9 +1,9 @@
-package org.hmanwon.domain.zzan.dto;
+package org.hmanwon.domain.zzan.zzanItem.dto;
 
 import java.time.LocalDate;
 import lombok.Builder;
-import org.hmanwon.domain.zzan.entity.ZzanItem;
-import org.hmanwon.domain.zzan.type.SaleStatus;
+import org.hmanwon.domain.zzan.zzanItem.type.SaleStatus;
+import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
 
 @Builder
 public record ZzanItemResponse(

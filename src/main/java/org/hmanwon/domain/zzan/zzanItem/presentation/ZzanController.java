@@ -1,14 +1,12 @@
-package org.hmanwon.domain.zzan.presentation;
+package org.hmanwon.domain.zzan.zzanItem.presentation;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.shop.exception.ShopException;
 import org.hmanwon.domain.shop.exception.ShopExceptionCode;
-import org.hmanwon.domain.zzan.application.ZzanService;
-import org.hmanwon.domain.zzan.dto.ZzanItemDetailResponse;
-import org.hmanwon.domain.zzan.dto.ZzanItemResponse;
-import org.hmanwon.domain.zzan.exception.ZzanException;
-import org.hmanwon.domain.zzan.exception.ZzanExceptionCode;
+import org.hmanwon.domain.zzan.zzanItem.application.ZzanService;
+import org.hmanwon.domain.zzan.zzanItem.dto.ZzanItemDetailResponse;
+import org.hmanwon.domain.zzan.zzanItem.dto.ZzanItemResponse;
 import org.hmanwon.global.common.dto.ResponseDTO;
 import org.hmanwon.global.common.dto.ResponseDTO.DataBody;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +33,9 @@ public class ZzanController {
         }
 
         return ResponseDTO.ok(
-                        zzanService.getZzanItemList(categoryId, localCode),
-                        "짠처리 아이템 조회 완료"
-                );
+            zzanService.getZzanItemList(categoryId, localCode),
+                "짠처리 아이템 조회 완료"
+        );
     }
 
     @GetMapping("/{zzanItemId}")
@@ -45,10 +43,9 @@ public class ZzanController {
             @PathVariable final Long zzanItemId
     ) {
         return ResponseDTO.ok(
-                zzanService.getZzanItemDetail(zzanItemId),
+            zzanService.getZzanItemDetail(zzanItemId),
                 "짠처리 아이템 조회 완료"
         );
     }
-
 
 }
