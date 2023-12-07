@@ -47,6 +47,10 @@ dependencies {
 	// Mockito dependencies
 	testImplementation 'org.mockito:mockito-core:4.1.0'
 	testImplementation 'org.mockito:mockito-junit-jupiter:4.1.0'
+
+	// QR CODE 관련
+	implementation group: 'com.google.zxing', name: 'javase', version: '3.5.0'
+	implementation group: 'com.google.zxing', name: 'core', version: '3.5.0'
 }
 
 tasks.named('test') {
