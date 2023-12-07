@@ -1,4 +1,4 @@
-package org.hmanwon.domain.member.dto;
+package org.hmanwon.domain.member.dto.response;
 
 import java.time.LocalDateTime;
 import lombok.Builder;

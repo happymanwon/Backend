@@ -8,8 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.dao.MemberRepository;
-import org.hmanwon.domain.member.dto.MyBoardsResponseDto;
-import org.hmanwon.domain.member.dto.MyCommentResponseDto;
+import org.hmanwon.domain.member.dto.response.MyBoardsResponseDto;
+import org.hmanwon.domain.member.dto.response.MyCommentResponseDto;
+import org.hmanwon.domain.member.dto.response.NicknameResponse;
 import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.domain.member.exception.MemberException;
 import org.springframework.stereotype.Service;
@@ -66,5 +67,15 @@ public class MemberService {
     public Member findMemberById(Long memberId) {
         return memberRepository.findById(memberId)
             .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+    }
+
+    public NicknameResponse findNickname(String nickname) {
+        NicknameResponse nicknameResponse;
+        if (memberRepository.existsByNickname(nickname)) {
+            nicknameResponse = NicknameResponse.builder().nickname(nickname).exists(true).build();
+        } else {
+            nicknameResponse = NicknameResponse.builder().nickname(nickname).exists(false).build();
+        }
+        return nicknameResponse;
     }
 }

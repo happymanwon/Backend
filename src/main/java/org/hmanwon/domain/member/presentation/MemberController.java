@@ -1,15 +1,18 @@
 package org.hmanwon.domain.member.presentation;
 
 import java.util.List;
+import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.member.application.MemberService;
-import org.hmanwon.domain.member.dto.MyBoardsResponseDto;
-import org.hmanwon.domain.member.dto.MyCommentResponseDto;
+import org.hmanwon.domain.member.dto.response.MyBoardsResponseDto;
+import org.hmanwon.domain.member.dto.response.MyCommentResponseDto;
+import org.hmanwon.domain.member.dto.response.NicknameResponse;
 import org.hmanwon.global.common.dto.ResponseDTO;
 import org.hmanwon.global.common.dto.ResponseDTO.DataBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+
+    @GetMapping("/nickname")
+    public ResponseEntity<DataBody<NicknameResponse>> getNickname(@RequestParam @NotBlank String nickname) {
+        return ResponseDTO.ok(memberService.findNickname(nickname), "닉네임 존재여부를 조회했습니다.");
+    }
 
     @GetMapping("/comments")
     public ResponseEntity<DataBody<List<MyCommentResponseDto>>> getCommentsByMember() {
