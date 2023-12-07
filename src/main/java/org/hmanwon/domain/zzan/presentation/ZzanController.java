@@ -2,6 +2,8 @@ package org.hmanwon.domain.zzan.presentation;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.hmanwon.domain.shop.exception.ShopException;
+import org.hmanwon.domain.shop.exception.ShopExceptionCode;
 import org.hmanwon.domain.zzan.application.ZzanService;
 import org.hmanwon.domain.zzan.dto.ZzanItemDetailResponse;
 import org.hmanwon.domain.zzan.dto.ZzanItemResponse;
@@ -28,6 +30,10 @@ public class ZzanController {
             @RequestParam(name = "categoryId", required = false) final Long categoryId,
             @RequestParam(name = "localCode", required = false) final Long localCode
     ) {
+        if (categoryId != null && categoryId > 8) {
+            throw new ShopException(ShopExceptionCode.CATEGORY_BAD_REQUEST);
+        }
+
         return ResponseDTO.ok(
                         zzanService.getZzanItemList(categoryId, localCode),
                         "짠처리 아이템 조회 완료"
