@@ -25,10 +25,11 @@ public class ZzanController {
 
     @GetMapping("")
     public ResponseEntity<DataBody<List<ZzanItemResponse>>> getZzanItemList(
+            @RequestParam(name = "categoryId", required = false) final Long categoryId,
             @RequestParam(name = "localCode", required = false) final Long localCode
     ) {
         return ResponseDTO.ok(
-                        zzanService.getZzanItemList(localCode),
+                        zzanService.getZzanItemList(categoryId, localCode),
                         "짠처리 아이템 조회 완료"
                 );
     }

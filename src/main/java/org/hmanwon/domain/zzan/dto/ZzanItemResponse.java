@@ -14,7 +14,6 @@ public record ZzanItemResponse(
         Integer originalPrice,
         Double discountRate,
         Integer salePrice,
-        Integer price,
         LocalDate deadLine,
         Boolean canSale,
         Integer count
