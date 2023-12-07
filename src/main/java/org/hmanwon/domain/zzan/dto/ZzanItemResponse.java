@@ -9,6 +9,9 @@ public record ZzanItemResponse(
         String shopName,
         String itemName,
         String imageUrl,
+        Integer originalPrice,
+        Double discountRate,
+        Integer salePrice,
         Integer price,
         Integer count
 ) {
@@ -19,7 +22,9 @@ public record ZzanItemResponse(
                 .itemName(zzanItem.getItemName())
                 .count(zzanItem.getCount())
                 .imageUrl(zzanItem.getImageUrl())
-                .price(zzanItem.getPrice())
+                .originalPrice(zzanItem.getOriginalPrice())
+                .discountRate(zzanItem.getDiscountRate())
+                .salePrice(zzanItem.getSalePrice())
                 .build();
     }
 }

@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +26,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.hmanwon.domain.shop.entity.LocalCode;
 import org.hmanwon.domain.shop.entity.SeoulGoodShop;
+import org.hmanwon.domain.zzan.type.SaleStatus;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -62,14 +65,21 @@ public class ZzanItem {
     @Comment("판매 상품 마감 날짜")
     private LocalDate deadLine;
 
+    @Comment("판매 상품 원래 가격")
+    private Integer originalPrice;
+
+    @Comment("판매 상품 할인율")
+    private Double discountRate;
+
     @Comment("판매 상품 가격")
-    private Integer price;
+    private Integer salePrice;
 
     @Comment("판매 상품 수량")
     private Integer count;
 
     @Comment("판매 가능 상태")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private SaleStatus status;
 
     @OneToMany(mappedBy = "zzanItem",
             cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)

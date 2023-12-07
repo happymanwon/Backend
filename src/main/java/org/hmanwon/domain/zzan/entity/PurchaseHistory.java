@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,6 +49,7 @@ public class PurchaseHistory {
     private String QRUrl;
 
     @Comment("QR 사용 여부")
+    @Enumerated(EnumType.STRING)
     private PurchaseStatusType status;
 
     @Comment("구매 날짜 및 시간")
