@@ -16,7 +16,7 @@ spring:
         format_sql: true
 
 server:
-  address: localhost
+  address: 101.101.166.113
   port: 8080
 
 kakao:
