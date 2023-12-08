@@ -16,8 +16,8 @@ spring:
         format_sql: true
 
 server:
-  address: 101.101.166.113
-  port: 8080
+  host: 118.67.134.91
+  port: 1025
 
 kakao:
   rest_api_key: KakaoAK 2d10cd365cbf8f56eda4e243e68f505e
