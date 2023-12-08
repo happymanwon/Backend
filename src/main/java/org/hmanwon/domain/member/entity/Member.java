@@ -15,9 +15,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.comment.entity.Comment;
+import org.hmanwon.domain.zzan.purchase.entity.PurchaseHistory;
 import org.hmanwon.global.common.entity.BaseTimeEntity;
 
 @Entity
@@ -39,8 +39,11 @@ public class Member extends BaseTimeEntity {
 
     @Column(nullable = false)
     @Min(0)
-    @Setter
     private Long point;
+
+    public void setPoint(@Min(0) Long point) {
+        this.point = point;
+    }
 
     @OneToMany(mappedBy = "member",
         cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -57,8 +60,8 @@ public class Member extends BaseTimeEntity {
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
     }
-    @OneToMany(mappedBy = "member",
-            cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<PurchaseHistory> purchaseHistoryList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member",
+        cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<PurchaseHistory> purchaseHistoryList = new ArrayList<>();
 }
