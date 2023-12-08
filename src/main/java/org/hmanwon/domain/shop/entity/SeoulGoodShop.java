@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Comment;
+import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
@@ -90,9 +91,12 @@ public class SeoulGoodShop {
     @Comment("업소 카테고리 번호")
     private Long category;
 
-    @OneToMany(mappedBy = "seoulGoodShop",
-        cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "seoulGoodShop", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
     @Setter
     private List<Menu> menuList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "seoulGoodShop", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Setter
+    private List<ZzanItem> zzanItemList = new ArrayList<>();
 
 }
