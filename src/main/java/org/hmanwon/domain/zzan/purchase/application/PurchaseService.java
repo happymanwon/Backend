@@ -89,7 +89,6 @@ public class PurchaseService {
         return PurchaseResultResponse.fromEntity(savePh);
     }
 
-    @NotNull
     private PurchaseHistory saveQrImageInPurchaseHistory(PurchaseHistory ph) {
         StringBuilder link = new StringBuilder(useLink).append(ph.getId());
 

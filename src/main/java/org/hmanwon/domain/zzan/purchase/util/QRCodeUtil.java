@@ -26,7 +26,7 @@ public class QRCodeUtil {
      * 그 이미지를 byte 배열 형태로 반환하는 메서드
      * @param link
      * @return QR 코드 이미지를 바이트 배열 형태로 변환
-     * @throws DefaultException
+     * @throws QrCodeException
      */
     public static byte[] generateQRCodeImage(String link) {
         try {
