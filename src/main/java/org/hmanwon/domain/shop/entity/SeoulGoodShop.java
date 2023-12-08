@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +19,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Entity
@@ -93,4 +96,8 @@ public class SeoulGoodShop {
     public void setMenuList(List<Menu> menuList) {
         this.menuList = menuList;
     }
+    @OneToMany(mappedBy = "seoulGoodShop", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Setter
+    private List<ZzanItem> zzanItemList = new ArrayList<>();
+
 }

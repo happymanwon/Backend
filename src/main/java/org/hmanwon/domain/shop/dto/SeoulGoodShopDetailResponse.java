@@ -17,6 +17,9 @@ public class SeoulGoodShopDetailResponse {
     private String name;
     private Long category;
     private String address;
+    private String roadAddress;
+    private String latitude;
+    private String longitude;
     private String info;
     private List<MenuResponse> menuList;
 
@@ -29,6 +32,9 @@ public class SeoulGoodShopDetailResponse {
             .category(seoulGoodShop.getCategory())
             .address(seoulGoodShop.getAddress())
             .info(seoulGoodShop.getInfo())
+            .roadAddress(seoulGoodShop.getRoadAddress())
+            .latitude(seoulGoodShop.getLatitude())
+            .longitude(seoulGoodShop.getLongitude())
             .menuList(
                 Optional.ofNullable(seoulGoodShop.getMenuList())
                     .orElse(new ArrayList<>())
