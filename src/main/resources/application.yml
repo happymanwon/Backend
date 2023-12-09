@@ -28,3 +28,7 @@ server:
 
 kakao:
   rest_api_key : KakaoAK 2d10cd365cbf8f56eda4e243e68f505e
+jwt:
+  secretKey: hmanwonsecretkey
+  accessTokenValidTime: 86400000
+  refreshTokenValidTime: 604800000

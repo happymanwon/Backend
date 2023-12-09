@@ -3,11 +3,13 @@ package org.hmanwon.domain.member.application;
 import static org.hmanwon.domain.member.exception.MemberExceptionCode.NOT_FOUND_MEMBER;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.dao.MemberRepository;
+import org.hmanwon.domain.member.dto.response.MemberResponse;
 import org.hmanwon.domain.member.dto.response.MyBoardsResponseDto;
 import org.hmanwon.domain.member.dto.response.MyCommentResponseDto;
 import org.hmanwon.domain.member.dto.response.NicknameResponse;
@@ -69,6 +71,16 @@ public class MemberService {
             .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
     }
 
+    public MemberResponse findByEmail(String email) {
+        Member member = memberRepository.findByEmail(email);
+        return MemberResponse.builder()
+            .memberId(member.getId())
+            .email(member.getEmail())
+            .nickname(member.getNickName())
+            .point(member.getPoint())
+            .build();
+    }
+
     public NicknameResponse findNickname(String nickname) {
         NicknameResponse nicknameResponse;
         if (memberRepository.existsByNickname(nickname)) {
@@ -77,5 +89,31 @@ public class MemberService {
             nicknameResponse = NicknameResponse.builder().nickname(nickname).exists(false).build();
         }
         return nicknameResponse;
+    }
+
+    public boolean checkEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
+    public MemberResponse addMember(HashMap<String, Object> memberInfoByKakao) {
+        String email = String.valueOf(memberInfoByKakao.get("email"));
+        String nickname = String.valueOf(memberInfoByKakao.get("nickname"));
+
+        Member member = Member.builder()
+            .email(email)
+            .nickName(nickname)
+            .point(0L)
+            .commentList(new ArrayList<>())
+            .boardList(new ArrayList<>())
+            .build();
+
+        memberRepository.save(member);
+
+        return MemberResponse.builder()
+            .memberId(member.getId())
+            .email(member.getEmail())
+            .nickname(member.getNickName())
+            .point(member.getPoint())
+            .build();
     }
 }
