@@ -104,6 +104,9 @@ public class SeoulGoodShop {
         CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Member> memberLikedList = new ArrayList<>();
 
+    public Integer getLikeCount() {
+        return memberLikedList.size();
+    }
     public void setZzanItemList(List<ZzanItem> zzanItemList) {
         this.zzanItemList = zzanItemList;
     }
