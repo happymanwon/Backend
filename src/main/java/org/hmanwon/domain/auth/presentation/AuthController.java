@@ -20,6 +20,6 @@ public class AuthController {
 
     @PostMapping("/login/kakao")
     public ResponseEntity<DataBody<AuthLoginResponse>> KakaoLogin(@RequestParam String code) {
-        return ResponseDTO.ok(authService.kakaoLogin(code), "카카오로그인이 정상적으로 완료되었습니다.");
+        return ResponseDTO.ok(authService.kakaoLogin(code), "카카오 로그인 완료");
     }
 }
