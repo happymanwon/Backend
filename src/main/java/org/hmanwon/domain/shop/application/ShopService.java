@@ -106,6 +106,7 @@ public class ShopService {
                 throw new ShopException(DUPLICATED_REQUEST);
             }
             likedMembers.add(member);
+            seoulGoodShop.setMemberLikedList(likedMembers);
             seoulGoodShopRepository.save(seoulGoodShop);
         } else { //false: 좋아요 취소
             Boolean isRemoved = false;
