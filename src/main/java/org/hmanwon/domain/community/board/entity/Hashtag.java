@@ -1,14 +1,14 @@
-package org.hmanwon.domain.shop.entity;
+package org.hmanwon.domain.community.board.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,20 +20,17 @@ import org.hmanwon.global.common.entity.BaseTimeEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Menu extends BaseTimeEntity {
+public class Hashtag extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
     @Column(nullable = false)
-    private String menuName;
+    private String name;
 
-    @Column(nullable = false)
-    private Integer menuPrice;
+    @OneToMany(mappedBy = "hashtag",
+        cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<BoardHashtag> boardHashtags;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seoul_good_shop_id")
-    private SeoulGoodShop seoulGoodShop;
 }

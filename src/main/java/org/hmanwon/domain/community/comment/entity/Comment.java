@@ -22,21 +22,17 @@ public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @org.hibernate.annotations.Comment("댓글 ID")
     private Long id;
 
     @Column(nullable = false)
-    @org.hibernate.annotations.Comment("댓글 내용")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    @org.hibernate.annotations.Comment("회원 FK")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
-    @org.hibernate.annotations.Comment("게시판 FK")
     private Board board;
 
     @Builder

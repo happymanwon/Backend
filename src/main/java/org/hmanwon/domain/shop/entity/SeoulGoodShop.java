@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,14 +17,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.Comment;
 import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -91,12 +87,19 @@ public class SeoulGoodShop {
     @Comment("업소 카테고리 번호")
     private Long category;
 
-    @OneToMany(mappedBy = "seoulGoodShop", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
-    @Setter
+    @OneToMany(mappedBy = "seoulGoodShop",
+        cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Menu> menuList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "seoulGoodShop", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    @Setter
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
+
+    @OneToMany(mappedBy = "seoulGoodShop", cascade = {
+        CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ZzanItem> zzanItemList = new ArrayList<>();
 
+    public void setZzanItemList(List<ZzanItem> zzanItemList) {
+        this.zzanItemList = zzanItemList;
+    }
 }
