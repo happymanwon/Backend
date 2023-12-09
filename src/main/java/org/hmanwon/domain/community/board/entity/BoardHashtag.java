@@ -10,8 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hmanwon.domain.community.board.entity.Board;
-import org.hmanwon.domain.community.board.entity.Hashtag;
 import org.hmanwon.global.common.entity.BaseTimeEntity;
 
 @Entity
