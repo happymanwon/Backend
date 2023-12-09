@@ -53,6 +53,10 @@ public class Member extends BaseTimeEntity {
         cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member",
+        cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<PurchaseHistory> purchaseHistoryList = new ArrayList<>();
+
     public void setBoardList(List<Board> boardList) {
         this.boardList = boardList;
     }
@@ -60,8 +64,4 @@ public class Member extends BaseTimeEntity {
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
     }
-
-    @OneToMany(mappedBy = "member",
-        cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<PurchaseHistory> purchaseHistoryList = new ArrayList<>();
 }

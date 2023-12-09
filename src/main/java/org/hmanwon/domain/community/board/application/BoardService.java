@@ -11,6 +11,7 @@ import org.hmanwon.domain.community.board.dto.response.BoardDetailResponse;
 import org.hmanwon.domain.community.board.dto.response.BoardResponse;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.board.exception.BoardException;
+import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.application.MemberService;
 import org.hmanwon.domain.member.entity.Member;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,19 @@ public class BoardService {
         Board board = Board.of(
             boardWriteRequest.content(), member
         );
-        return boardRepository.save(board);
+        Board newBoard = boardRepository.save(board);
+        memberService.updateBoardListByMember(member, board);
+        return newBoard;
+    }
+
+    public Board findBoardById(Long boardId) {
+        return boardRepository.findById(boardId).orElseThrow(()-> new BoardException(NOT_FOUND_BOARD));
+    }
+
+    public void updateCommentList(Board board, Comment comment) {
+        List<Comment> comments = board.getCommentList();
+        comments.add(comment);
+        board.setCommentList(comments);
+        boardRepository.save(board);
     }
 }

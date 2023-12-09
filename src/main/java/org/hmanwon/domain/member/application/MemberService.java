@@ -112,4 +112,16 @@ public class MemberService {
     public boolean checkEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
+
+    public void updateBoardListByMember(Member member, Board board) {
+        List<Board> boards = member.getBoardList();
+        boards.add(board);
+        memberRepository.save(member);
+    }
+
+    public void updateCommentListByMember(Member member, Comment comment) {
+        List<Comment> comments = member.getCommentList();
+        comments.add(comment);
+        memberRepository.save(member);
+    }
 }
