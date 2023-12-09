@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/boards?memberId=1
+Content-Type: application/json
+
+{
+  "title": "테스트 제목",
+  "content": "내용"
+}

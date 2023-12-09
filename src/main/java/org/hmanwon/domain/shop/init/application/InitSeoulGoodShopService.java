@@ -8,11 +8,11 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +29,9 @@ import org.hmanwon.domain.shop.init.exception.InitShopException;
 import org.hmanwon.domain.shop.init.exception.InitShopExceptionCode;
 import org.hmanwon.domain.shop.init.util.AddressToCodeConverter;
 import org.hmanwon.domain.shop.init.util.KakaoApiUtil;
+import org.hmanwon.domain.zzan.zzanItem.dao.ZzanItemRepository;
+import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
+import org.hmanwon.domain.zzan.zzanItem.type.SaleStatus;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -42,7 +45,9 @@ public class InitSeoulGoodShopService {
 
     private final SeoulGoodShopRepository seoulGoodShopRepository;
     private final LocalCodeRepository localCodeRepository;
+    private final ZzanItemRepository zzanItemRepository;
     private final ResourceLoader resourceLoader;
+    private final KakaoApiUtil kakaoApiUtil;
     private final String filePath = "seoul_good_shop.json";
     private final Gson gson = new Gson();
 
@@ -52,14 +57,82 @@ public class InitSeoulGoodShopService {
     @Transactional
     public void loadJsonAndInsertData() {
 
-        saveLocalCodeList();
+//        saveLocalCodeList();
+//
+//        List<SeoulGoodShop> seoulGoodShopList = loadShopData();
+//        List<SeoulGoodShop> saveShopData = seoulGoodShopRepository.saveAll(seoulGoodShopList);
+//
+//        if (saveShopData == null) {
+//            throw new InitShopException(FAILED_SAVE);
+//        }
 
-        List<SeoulGoodShop> seoulGoodShopList = loadShopData();
-        List<SeoulGoodShop> saveShopData = seoulGoodShopRepository.saveAll(seoulGoodShopList);
+//        saveZzanItemList();
+    }
 
-        if (saveShopData == null) {
-            throw new InitShopException(FAILED_SAVE);
+    @Transactional
+    public void saveZzanItemList() {
+        List<SeoulGoodShop> seoulGoodShopList = seoulGoodShopRepository.findAll();
+        List<ZzanItem> zzanItemList = new ArrayList<>();
+        for (SeoulGoodShop shop : seoulGoodShopList) {
+            if (shop.getMenuList() == null || shop.getMenuList().size() == 0) continue;
+
+            Menu menu = shop.getMenuList().get(0); //메뉴
+            Double[] discountRate = getDiscountRate(); //할인율
+            Integer salePrice = Math.toIntExact(Math.round(menu.getMenuPrice() * discountRate[1])); //세일 가격
+            int category = shop.getCategory().intValue() - 1; //카테고리
+            String content = getContent(category); //카테고리 별 콘텐츠 내용
+
+            ZzanItem zzanItem = ZzanItem.builder()
+                    .seoulGoodShop(shop)
+                    .shopName(shop.getName())
+                    .imageUrl(shop.getImageUrl())
+                    .content(content)
+                    .deadLine(getDeadLine())
+                    .count(gerCount())
+                    .originalPrice(menu.getMenuPrice())
+                    .discountRate(discountRate[0])
+                    .salePrice(salePrice)
+                    .itemName(menu.getMenuName())
+                    .status(SaleStatus.SALE)
+                    .build();
+
+            zzanItemList.add(zzanItem);
+            shop.getZzanItemList().add(zzanItem);
         }
+        zzanItemRepository.saveAll(zzanItemList);
+        seoulGoodShopRepository.saveAll(seoulGoodShopList);
+    }
+
+    private String getContent(int category) {
+        String[] contents = {
+                "엄마 밥상 생각나는 가성비 좋은 한식",
+                "가성비 좋은 일식",
+                "가성비 좋은 중식",
+                "가볍게 먹기 좋은 가성비 식사",
+                "깔끔하고 저렴한 헤어 맛집",
+                "깔끔하게 만들어주는 세탁 맛집",
+                "가.성.비 많이 놀러오세요"
+        };
+        return contents[category];
+    }
+
+    private LocalDate getDeadLine() {
+        Random random = new Random();
+        int day = random.nextInt(5) + 1;
+        return LocalDate.of(2023, 12, 8).plusDays(day);
+    }
+
+    private Integer gerCount() {
+        Random random = new Random();
+        return random.nextInt(10) + 1;
+    }
+
+    private Double[] getDiscountRate() {
+        Random random = new Random();
+        //할인율 5 ~ 20 할인
+        int dis = random.nextInt(15) + 5;
+        System.out.println(dis);
+        return new Double[] {(double)dis, 1 - (double) dis / 100.0};
     }
 
     private void saveLocalCodeList() {
@@ -83,12 +156,13 @@ public class InitSeoulGoodShopService {
 
         List<SeoulGoodShop> seoulGoodShopList = new ArrayList<>();
 
-        List<CompletableFuture<Void>> apiCalls = new ArrayList<>();
+//        List<CompletableFuture<Void>> apiCalls = new ArrayList<>();
 
         for (SeoulGoodShopDto data : list) {
             SeoulGoodShop seoulGoodShop = dtoToEntity(data);
             seoulGoodShopList.add(seoulGoodShop);
 
+//            비동기 처리를 위한 로직 (에러남) (일단 삭제 X)
 //            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
 //
 //            }, executorService);
@@ -123,7 +197,7 @@ public class InitSeoulGoodShopService {
             data.setCategory(6L);
         }
 
-        AddressDto addressDto = KakaoApiUtil.searchLocInfoByAddress(data.getAddress());
+        AddressDto addressDto = kakaoApiUtil.searchLocInfoByAddress(data.getAddress());
 
         SeoulGoodShop seoulGoodShop = SeoulGoodShop.builder()
             .name(data.getName())
