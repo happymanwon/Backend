@@ -88,6 +88,12 @@ public class ShopService {
         );
     }
 
+    /***
+     * 특정 회원이 특정 가게에 대한 좋아요 상태 변경
+     * @param memberId 회원 ID
+     * @param shopLikeRequest 가게 좋아요 요청 DTO
+     * @return 가게 좋아요 응답 DTO
+     */
     public ShopLikeResponse updateLikeStatus(Long memberId, ShopLikeRequest shopLikeRequest) {
         Member member = memberService.getMemberById(memberId);
         SeoulGoodShop seoulGoodShop = seoulGoodShopRepository.findById(shopLikeRequest.shopId())
