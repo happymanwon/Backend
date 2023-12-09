@@ -11,7 +11,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum MemberExceptionCode implements ExceptionCode {
 
-    NOT_FOUND_MEMBER(INTERNAL_SERVER_ERROR, "Member Error 01", "회원 정보가 존재하지 않습니다.");
+    NOT_FOUND_MEMBER(INTERNAL_SERVER_ERROR, "Member Error 01", "회원 정보가 존재하지 않습니다.")
+    ;
 
     private final HttpStatus status;
     private final String code;

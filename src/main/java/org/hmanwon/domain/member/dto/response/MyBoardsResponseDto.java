@@ -6,7 +6,6 @@ import lombok.Builder;
 @Builder
 public record MyBoardsResponseDto(
     Long boardId,
-    String boardTitle,
     Long memberId,
     String nickname,
     LocalDateTime createAt,

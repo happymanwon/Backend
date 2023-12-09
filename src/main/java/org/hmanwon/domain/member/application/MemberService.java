@@ -25,6 +25,26 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    public MemberResponse addMember(HashMap<String, Object> memberInfoByKakao) {
+        String email = String.valueOf(memberInfoByKakao.get("email"));
+        String nickname = String.valueOf(memberInfoByKakao.get("nickname"));
+
+        Member member = Member.builder()
+            .email(email)
+            .nickname(nickname)
+            .point(0L)
+            .build();
+
+        memberRepository.save(member);
+
+        return MemberResponse.builder()
+            .memberId(member.getId())
+            .email(member.getEmail())
+            .nickname(member.getNickname())
+            .point(member.getPoint())
+            .build();
+    }
+
     public List<MyCommentResponseDto> findCommentsByMember(Long memberId) {
 
         Member member = findMemberById(memberId);
@@ -33,9 +53,8 @@ public class MemberService {
         for (Comment comment : comments) {
             MyCommentResponseDto myCommentResponseDto = MyCommentResponseDto.builder()
                 .boardId(comment.getBoard().getId())
-                .boardTitle(comment.getBoard().getTitle())
                 .memberId(memberId)
-                .nickname(member.getNickName())
+                .nickname(member.getNickname())
                 .commentId(comment.getId())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
@@ -55,9 +74,8 @@ public class MemberService {
         for (Board board : boards) {
             MyBoardsResponseDto myBoardsResponseDto = MyBoardsResponseDto.builder()
                 .boardId(board.getId())
-                .boardTitle(board.getTitle())
                 .memberId(memberId)
-                .nickname(member.getNickName())
+                .nickname(member.getNickname())
                 .createAt(board.getCreatedAt())
                 .updateAt(board.getUpdatedAt())
                 .build();
@@ -76,7 +94,7 @@ public class MemberService {
         return MemberResponse.builder()
             .memberId(member.getId())
             .email(member.getEmail())
-            .nickname(member.getNickName())
+            .nickname(member.getNickname())
             .point(member.getPoint())
             .build();
     }
@@ -93,27 +111,5 @@ public class MemberService {
 
     public boolean checkEmail(String email) {
         return memberRepository.existsByEmail(email);
-    }
-
-    public MemberResponse addMember(HashMap<String, Object> memberInfoByKakao) {
-        String email = String.valueOf(memberInfoByKakao.get("email"));
-        String nickname = String.valueOf(memberInfoByKakao.get("nickname"));
-
-        Member member = Member.builder()
-            .email(email)
-            .nickName(nickname)
-            .point(0L)
-            .commentList(new ArrayList<>())
-            .boardList(new ArrayList<>())
-            .build();
-
-        memberRepository.save(member);
-
-        return MemberResponse.builder()
-            .memberId(member.getId())
-            .email(member.getEmail())
-            .nickname(member.getNickName())
-            .point(member.getPoint())
-            .build();
     }
 }

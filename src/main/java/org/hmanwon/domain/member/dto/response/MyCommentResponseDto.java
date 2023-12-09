@@ -6,7 +6,6 @@ import lombok.Builder;
 @Builder
 public record MyCommentResponseDto(
     Long boardId,
-    String boardTitle,
     Long memberId,
     String nickname,
     Long commentId,
