@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
+import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
 
 
@@ -98,6 +99,10 @@ public class SeoulGoodShop {
     @OneToMany(mappedBy = "seoulGoodShop", cascade = {
         CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ZzanItem> zzanItemList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "seoulGoodShop", cascade = {
+        CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Member> memberLikedList = new ArrayList<>();
 
     public void setZzanItemList(List<ZzanItem> zzanItemList) {
         this.zzanItemList = zzanItemList;
