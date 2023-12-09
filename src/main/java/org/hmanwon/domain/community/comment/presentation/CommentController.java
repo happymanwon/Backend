@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comments")
-public class CommentRestController {
+public class CommentController {
 
     private final CommentService commentService;
 

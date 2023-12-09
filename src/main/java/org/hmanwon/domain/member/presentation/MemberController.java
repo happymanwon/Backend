@@ -25,7 +25,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/nickname")
-    public ResponseEntity<DataBody<NicknameResponse>> getNickname(@RequestParam @NotBlank(message = "닉네임을 입력해주세요") String nickname) {
+    public ResponseEntity<DataBody<NicknameResponse>> getNickname(@RequestParam @NotBlank(message = "닉네임을 입력하세요") String nickname) {
         return ResponseDTO.ok(memberService.findNickname(nickname), "닉네임 존재 여부 조회 완료");
     }
 
