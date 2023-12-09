@@ -43,7 +43,7 @@ public class BoardController {
             ResponseDTO.ok(
                 boardService.getAllBoard(),
                 "게시글을 모두 조회 했습니다."
-        );
+            );
     }
 
     @GetMapping("/{boardId}")
@@ -54,6 +54,6 @@ public class BoardController {
             ResponseDTO.ok(
                 boardService.getBoardDetail(boardId),
                 "게시글을 모두 조회 했습니다."
-        );
+            );
     }
 }
