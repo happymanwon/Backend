@@ -21,7 +21,7 @@ Content-Disposition: form-data; name="longitude"
 Content-Disposition: form-data; name="hashtagNames"
 Content-Type: application/json
 
-["굿"]
+["구욷, 굳"]
 --boundary--
 #Content-Disposition: from-data; name="multipartFiles"; filename="test.jpg"
 #Content-Type: image/gif

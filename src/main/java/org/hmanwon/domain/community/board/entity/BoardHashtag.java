@@ -1,5 +1,6 @@
 package org.hmanwon.domain.community.board.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,8 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hmanwon.domain.community.board.entity.Board;
-import org.hmanwon.domain.community.board.entity.Hashtag;
 import org.hmanwon.global.common.entity.BaseTimeEntity;
 
 @Entity
@@ -31,6 +30,7 @@ public class BoardHashtag extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "hashtage_id")
+    @JsonIgnore
     private Hashtag hashtag;
 
 }

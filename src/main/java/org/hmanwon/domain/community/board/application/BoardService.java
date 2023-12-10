@@ -51,11 +51,12 @@ public class BoardService {
     public List<BoardResponse> getBoardHashtag(String hashtagName) {
         Hashtag hashtag = hashtagRepository.findByName(hashtagName)
             .orElseThrow(() -> new BoardException(NOT_FOUND_HASHTAG));
-        BoardHashtag boardHashtag = boardHashtagRepository.findByHashtag(hashtag)
+        List<BoardHashtag> boardHashtags = boardHashtagRepository.findByHashtag(hashtag)
             .orElseThrow(() -> new BoardException(NOT_FOUND_HASHTAG));
 
-        return boardRepository.findByBoardHashtags(boardHashtag)
-            .stream().map(BoardResponse::fromBoard)
+        return boardHashtags.stream()
+            .map(boardHashtag -> boardHashtag.getBoard())
+            .map(BoardResponse::fromBoard)
             .toList();
 
     }
@@ -87,7 +88,7 @@ public class BoardService {
             for (String hashtagName : boardWriteRequest.hashtagNames()) {
                 String newHashtagName = hashtagName.replace("[", "").replace("]", "")
                     .replace("\"","");
-                Hashtag hashtag = hashtagRepository.findByName(hashtagName)
+                Hashtag hashtag = hashtagRepository.findByName(newHashtagName)
                     .orElseGet(() -> hashtagRepository.save(new Hashtag(newHashtagName)));
                 BoardHashtag boardHashtag = BoardHashtag.builder()
                     .board(board)
