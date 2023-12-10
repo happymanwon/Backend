@@ -18,6 +18,7 @@ import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.board.entity.BoardHashtag;
 import org.hmanwon.domain.community.board.entity.Hashtag;
 import org.hmanwon.domain.community.board.exception.BoardException;
+import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.application.MemberService;
 import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.infra.image.dao.ImageRepository;
@@ -100,8 +101,23 @@ public class BoardService {
         }
         board.setBoardHashtags(boardHashtagList);
 
+        memberService.updateBoardListByMember(member, board);
+
         return boardRepository.save(board);
     }
+
+    public Board findBoardById(Long boardId) {
+        return boardRepository.findById(boardId)
+            .orElseThrow(() -> new BoardException(NOT_FOUND_BOARD));
+    }
+
+    public void updateCommentList(Board board, Comment comment) {
+        List<Comment> comments = board.getComments();
+        comments.add(comment);
+        board.setComments(comments);
+        boardRepository.save(board);
+    }
+
     /*멤버 처리 하는 기능도 추가 해야 함*/
 
     public void reportBoard(Long boardId) {
