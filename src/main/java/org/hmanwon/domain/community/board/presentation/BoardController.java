@@ -61,7 +61,7 @@ public class BoardController {
     ){
         boardService.reportBoard(boardId);
         return ResponseDTO.ok(
-            "게시글을 신고 완료"
+            "게시글 신고 완료"
         );
     }
 
@@ -71,7 +71,7 @@ public class BoardController {
     ){
         return ResponseDTO.ok(
             boardService.getBoardHashtag(hashtagName),
-            "해시 태그에 해당하는 게시글 조회 완료"
+            "해시 태그에 해당 하는 게시글 조회 완료"
         );
     }
 }
