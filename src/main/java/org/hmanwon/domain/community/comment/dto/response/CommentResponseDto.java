@@ -15,7 +15,7 @@ public record CommentResponseDto(
 
     public static CommentResponseDto entityFromDTO(Comment comment) {
         return new CommentResponseDto(comment.getId(), comment.getMember().getId(),
-            comment.getMember().getNickName(), comment.getBoard().getId(),
+            comment.getMember().getNickname(), comment.getBoard().getId(),
             comment.getContent(), comment.getCreatedAt(), comment.getUpdatedAt());
     }
 }

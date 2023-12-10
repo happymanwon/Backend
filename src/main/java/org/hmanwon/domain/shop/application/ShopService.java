@@ -96,7 +96,7 @@ public class ShopService {
      */
     @Transactional
     public ShopLikeResponse updateLikeStatus(Long memberId, ShopLikeRequest shopLikeRequest) {
-        Member member = memberService.getMemberById(memberId);
+        Member member = memberService.findMemberById(memberId);
         SeoulGoodShop seoulGoodShop = seoulGoodShopRepository.findById(shopLikeRequest.shopId())
             .orElseThrow(() -> new ShopException(NOT_FOUND_SHOP));
         Boolean likeStatus = shopLikeRequest.likeStatus();

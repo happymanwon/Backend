@@ -16,7 +16,7 @@ public record BoardDetailResponse(
 
     public static BoardDetailResponse fromBoard(Board board) {
         return BoardDetailResponse.builder()
-            .memberNickName(board.getMember().getNickName())
+            .memberNickName(board.getMember().getNickname())
             .boardId(board.getId())
             .content(board.getContent())
             .commentList(board.getCommentList())

@@ -1,7 +1,6 @@
 package org.hmanwon.domain.community.board.application;
 
 import static org.hmanwon.domain.community.board.exception.BoardExceptionCode.NOT_FOUND_BOARD;
-import static org.hmanwon.domain.member.exception.MemberExceptionCode.NOT_FOUND_MEMBER;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,12 +11,9 @@ import org.hmanwon.domain.community.board.dto.response.BoardDetailResponse;
 import org.hmanwon.domain.community.board.dto.response.BoardResponse;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.board.exception.BoardException;
+import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.application.MemberService;
-import org.hmanwon.domain.member.dao.MemberRepository;
 import org.hmanwon.domain.member.entity.Member;
-import org.hmanwon.domain.member.exception.MemberException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,12 +37,24 @@ public class BoardService {
 
     //나중에 BoardWriteRequest 검증 하는 로직 추가 하겠습니다 -> 커밋 리뷰에 제가 안 남기면 알려주세요
     public Board createBoard(Long memberId, BoardWriteRequest boardWriteRequest) {
-        //멤버 서비스로 빼고 예외도 거기서 해야 함
-        Member member = memberService.getMemberById(memberId);
+        Member member = memberService.findMemberById(memberId);
 
         Board board = Board.of(
             boardWriteRequest.content(), member
         );
-        return boardRepository.save(board);
+        Board newBoard = boardRepository.save(board);
+        memberService.updateBoardListByMember(member, board);
+        return newBoard;
+    }
+
+    public Board findBoardById(Long boardId) {
+        return boardRepository.findById(boardId).orElseThrow(()-> new BoardException(NOT_FOUND_BOARD));
+    }
+
+    public void updateCommentList(Board board, Comment comment) {
+        List<Comment> comments = board.getCommentList();
+        comments.add(comment);
+        board.setCommentList(comments);
+        boardRepository.save(board);
     }
 }

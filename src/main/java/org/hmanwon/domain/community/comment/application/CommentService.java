@@ -2,14 +2,14 @@ package org.hmanwon.domain.community.comment.application;
 
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hmanwon.domain.community.board.application.BoardService;
 import org.hmanwon.domain.community.board.entity.Board;
-import org.hmanwon.domain.community.board.dao.BoardRepository;
+import org.hmanwon.domain.community.comment.dao.CommentRepository;
 import org.hmanwon.domain.community.comment.dto.request.CommentRequestDto;
 import org.hmanwon.domain.community.comment.dto.request.CommentUpdateRequestsDto;
 import org.hmanwon.domain.community.comment.dto.response.CommentResponseDto;
 import org.hmanwon.domain.community.comment.entity.Comment;
-import org.hmanwon.domain.community.comment.dao.CommentRepository;
-import org.hmanwon.domain.member.dao.MemberRepository;
+import org.hmanwon.domain.member.application.MemberService;
 import org.hmanwon.domain.member.entity.Member;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +19,8 @@ import org.springframework.stereotype.Service;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final BoardRepository boardRepository;
-    private final MemberRepository memberRepository;
-
+    private final BoardService boardService;
+    private final MemberService memberService;
     /***
      * 댓글 생성
      * @param memberId 회원 ID
@@ -29,15 +28,16 @@ public class CommentService {
      * @return 댓글 응답 DTO
      */
     public CommentResponseDto createComment(Long memberId, CommentRequestDto commentRequestDTO) {
+        Member member = memberService.findMemberById(memberId);
+        Board board = boardService.findBoardById(commentRequestDTO.boardId());
         Comment comment = Comment.builder()
-            .board((Board) boardRepository.findById(commentRequestDTO.boardId())
-                .orElseThrow()) //추후 변경 예정
-            .member((Member) memberRepository.findById(memberId).orElseThrow()) //추후 변경 예정
+            .board(board)
+            .member(member)
             .content(commentRequestDTO.content())
             .build();
-
         commentRepository.save(comment);
-
+        memberService.updateCommentListByMember(member, comment);
+        boardService.updateCommentList(board, comment);
         return CommentResponseDto.entityFromDTO(comment);
     }
 
