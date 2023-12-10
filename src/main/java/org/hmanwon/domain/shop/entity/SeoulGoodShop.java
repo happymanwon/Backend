@@ -108,7 +108,7 @@ public class SeoulGoodShop {
     }
 
     public Integer getLikeCount() {
-        return memberLikedList.size();
+        return memberLikedList.size()+this.rcmnCnt;
     }
     public void setZzanItemList(List<ZzanItem> zzanItemList) {
         this.zzanItemList = zzanItemList;
