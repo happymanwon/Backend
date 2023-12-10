@@ -55,6 +55,5 @@ public class BoardService {
         List<Comment> comments = board.getCommentList();
         comments.add(comment);
         board.setCommentList(comments);
-        boardRepository.save(board);
     }
 }
