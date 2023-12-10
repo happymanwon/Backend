@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.global.common.entity.BaseTimeEntity;
+import org.hmanwon.infra.image.entity.Image;
 
 @Entity
 @Getter
@@ -37,24 +38,28 @@ public class Board extends BaseTimeEntity {
     private Double longitude;
     private Double latitude;
 
-    @Column(nullable = false)
-    private String imageUrl;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany(mappedBy = "board",
         cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<BoardHashtag> boardHashtags;
+    private List<Image> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "board",
         cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Comment> commentList = new ArrayList<>();
+    private List<BoardHashtag> boardHashtags = new ArrayList<>();
 
-    public void setCommentList(
-        List<Comment> commentList) {
-        this.commentList = commentList;
+    @OneToMany(mappedBy = "board",
+        cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    public void setImages(List<Image> imageList) {
+        this.images = imageList;
+    }
+
+    public void setComments(List<Comment> CommentList) {
+        this.comments = CommentList;
     }
 
     public static Board of(String content, Member member) {

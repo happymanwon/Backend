@@ -19,7 +19,7 @@ public record BoardDetailResponse(
             .memberNickName(board.getMember().getNickName())
             .boardId(board.getId())
             .content(board.getContent())
-            .commentList(board.getCommentList())
+            .commentList(board.getComments())
             .build();
     }
 }

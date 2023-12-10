@@ -1,4 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://db-k3hsu.pub-cdb.ntruss.com:3306/happymanwon-backend-mysql?characterEncoding=utf8
@@ -16,8 +21,19 @@ spring:
         format_sql: true
 
 server:
-  host: 118.67.134.91
+  host: localhost
   port: 8080
 
 kakao:
   rest_api_key: KakaoAK 2d10cd365cbf8f56eda4e243e68f505e
+
+cloud:
+  naver:
+    credentials:
+      access-key: 아직 없음
+      secret-key: 아직 없음
+    region:
+      static: kr-standard #네이버로 했는데 region 안 되면 ap-northeast-2
+    s3:
+      endpoint: https://kr.object.ncloudstorage.com
+      bucket: happymanwon-backend
