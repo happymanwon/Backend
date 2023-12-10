@@ -6,8 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public record BoardWriteRequest(
     String content,
-    List<MultipartFile> multipartFiles,
-    List<Comment> comments
+    List<MultipartFile> multipartFiles
 ) {
 
 }

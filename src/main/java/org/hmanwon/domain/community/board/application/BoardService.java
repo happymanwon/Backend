@@ -63,7 +63,6 @@ public class BoardService {
         }
 
         board.setImages(imageList);
-//        board.setComments(); -> 댓글이랑도 연결하기
 
 
         return boardRepository.save(board);
