@@ -63,7 +63,7 @@ public class BoardService {
     }
 
     public Board createBoard(Long memberId, BoardWriteRequest boardWriteRequest) {
-        Member member = memberService.getMemberById(memberId);
+        Member member = memberService.findMemberById(memberId);
         Board board = Board.of(
             boardWriteRequest.content(),
             member,
