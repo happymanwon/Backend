@@ -55,7 +55,7 @@ public class CommentService {
     public CommentResponseDto updateContent(Long memberId, Long commentId,
         CommentUpdateRequestsDto commentUpdateRequestsDto) {
         Comment comment = getComment(commentId);
-        comment.updateContent(commentUpdateRequestsDto.Content());
+        comment.updateContent(commentUpdateRequestsDto.content());
         commentRepository.save(comment);
         return CommentResponseDto.entityFromDTO(comment);
     }
