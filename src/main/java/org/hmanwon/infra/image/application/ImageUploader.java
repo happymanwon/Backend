@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
+//@Service
 public class ImageUploader {
 
     @Value("${cloud.naver.credentials.access-key}")

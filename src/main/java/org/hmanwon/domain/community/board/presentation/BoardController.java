@@ -1,6 +1,7 @@
 package org.hmanwon.domain.community.board.presentation;
 
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.community.board.application.BoardService;
 import org.hmanwon.domain.community.board.dto.request.BoardWriteRequest;
@@ -8,6 +9,7 @@ import org.hmanwon.domain.community.board.dto.response.BoardDetailResponse;
 import org.hmanwon.domain.community.board.dto.response.BoardResponse;
 import org.hmanwon.global.common.dto.ResponseDTO;
 import org.hmanwon.global.common.dto.ResponseDTO.DataBody;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,11 +29,11 @@ public class BoardController {
     @PostMapping
     public ResponseEntity<DataBody<BoardResponse>> createBoard(
         @RequestParam Long memberId,
-        @RequestBody BoardWriteRequest boardWriteRequest
+        @Valid @RequestBody BoardWriteRequest boardWriteRequest
     ) {
         return ResponseDTO.created(
                 BoardResponse.fromBoard(boardService.createBoard(memberId, boardWriteRequest)),
-                "게시글을 생성 했습니다."
+                "게시글을 생성 완료"
             );
     }
 
@@ -40,7 +42,7 @@ public class BoardController {
     ) {
         return ResponseDTO.ok(
                 boardService.getAllBoard(),
-                "게시글을 모두 조회 했습니다."
+                "전체 게시글 조회 완료"
         );
     }
 
@@ -50,7 +52,7 @@ public class BoardController {
     ) {
         return ResponseDTO.ok(
                 boardService.getBoardDetail(boardId),
-                "게시글을 모두 조회 했습니다."
+                "선택 게시글 조회 완료"
         );
     }
 
@@ -60,17 +62,17 @@ public class BoardController {
     ){
         boardService.reportBoard(boardId);
         return ResponseDTO.ok(
-            "게시글을 신고 했습니다."
+            "게시글을 신고 완료"
         );
     }
 
-    @GetMapping
+    @GetMapping("/hashtag")
     public ResponseEntity<DataBody<List<BoardResponse>>> findBoardsWithHashtag(
-        @RequestParam String hashtagName
+        @RequestParam(required = true) String hashtagName
     ){
         return ResponseDTO.ok(
             boardService.getBoardHashtag(hashtagName),
-            "해시 태그에 해당하는 게시글을 조회 했습니다."
+            "해시 태그에 해당하는 게시글 조회 완료"
         );
     }
 }

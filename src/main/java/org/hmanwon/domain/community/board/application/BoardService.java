@@ -31,7 +31,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberService memberService;
-    private final ImageUploader imageUploader;
+//    private final ImageUploader imageUploader;
     private final ImageRepository imageRepository;
     private final HashtagRepository hashtagRepository;
     private final BoardHashtagRepository boardHashtagRepository;
@@ -68,12 +68,12 @@ public class BoardService {
         );
 
         List<Image> imageList = new ArrayList<>();
-        for (String imageUrl : imageUploader.uploadFile("community",
-            boardWriteRequest.multipartFiles())) {
-            Image image = new Image(imageUrl, board);
-            imageRepository.save(image);
-            imageList.add(image);
-        }
+//        for (String imageUrl : imageUploader.uploadFile("community",
+//            boardWriteRequest.multipartFiles())) {
+//            Image image = new Image(imageUrl, board);
+//            imageRepository.save(image);
+//            imageList.add(image);
+//        }
 
         board.setImages(imageList);
 
