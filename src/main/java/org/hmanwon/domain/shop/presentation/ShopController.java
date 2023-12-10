@@ -1,6 +1,7 @@
 package org.hmanwon.domain.shop.presentation;
 
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.shop.application.ShopService;
 import org.hmanwon.domain.shop.dto.SeoulGoodShopDetailResponse;
@@ -63,8 +64,8 @@ public class ShopController {
     }
 
     @PatchMapping("/likes")
-    public ResponseEntity<DataBody<ShopLikeResponse>> updateShopLikeStatus(@RequestBody
-    ShopLikeRequest shopLikeRequest) {
+    public ResponseEntity<DataBody<ShopLikeResponse>> updateShopLikeStatus(
+        @Valid @RequestBody ShopLikeRequest shopLikeRequest) {
         Long memberId = 1L;
         return ResponseDTO.ok(shopService.updateLikeStatus(memberId, shopLikeRequest),
             "가게 좋아요 상태 변경 완료");

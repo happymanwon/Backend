@@ -100,8 +100,7 @@ public class SeoulGoodShop {
         CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ZzanItem> zzanItemList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "seoulGoodShop", cascade = {
-        CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany
     private List<Member> memberLikedList = new ArrayList<>();
 
     public void setMemberLikedList(List<Member> memberList) {

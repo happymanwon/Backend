@@ -94,6 +94,7 @@ public class ShopService {
      * @param shopLikeRequest 가게 좋아요 요청 DTO
      * @return 가게 좋아요 응답 DTO
      */
+    @Transactional
     public ShopLikeResponse updateLikeStatus(Long memberId, ShopLikeRequest shopLikeRequest) {
         Member member = memberService.getMemberById(memberId);
         SeoulGoodShop seoulGoodShop = seoulGoodShopRepository.findById(shopLikeRequest.shopId())
