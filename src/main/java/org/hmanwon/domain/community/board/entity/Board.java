@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,8 +36,9 @@ public class Board extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    private Double longitude;
     private Double latitude;
+    private Double longitude;
+    @Min(0)
     private Integer reportCnt;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,7 +57,7 @@ public class Board extends BaseTimeEntity {
         cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    public void increaseReportCnt(){
+    public void increaseReportCnt() {
         this.reportCnt++;
     }
 
@@ -63,15 +65,22 @@ public class Board extends BaseTimeEntity {
         this.images = imageList;
     }
 
+    public void setBoardHashtags(List<BoardHashtag> boardHashtagList) {
+        this.boardHashtags = boardHashtagList;
+    }
+
     public void setComments(List<Comment> CommentList) {
         this.comments = CommentList;
     }
 
-    public static Board of(String content, Member member) {
+    public static Board of(String content, Member member, Double latitude, Double longitude) {
         return Board
             .builder()
             .content(content)
+            .reportCnt(0)
             .member(member)
+            .latitude(latitude)
+            .longitude(longitude)
             .build();
     }
 }

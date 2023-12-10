@@ -20,7 +20,6 @@ import org.hmanwon.domain.community.board.entity.Hashtag;
 import org.hmanwon.domain.community.board.exception.BoardException;
 import org.hmanwon.domain.member.application.MemberService;
 import org.hmanwon.domain.member.entity.Member;
-import org.hmanwon.infra.image.application.ImageUploader;
 import org.hmanwon.infra.image.dao.ImageRepository;
 import org.hmanwon.infra.image.entity.Image;
 import org.springframework.stereotype.Service;
@@ -31,13 +30,14 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberService memberService;
-//    private final ImageUploader imageUploader;
+    //    private final ImageUploader imageUploader;
     private final ImageRepository imageRepository;
     private final HashtagRepository hashtagRepository;
     private final BoardHashtagRepository boardHashtagRepository;
 
     public List<BoardResponse> getAllBoard() {
-        return boardRepository.findAll()
+        return Optional.ofNullable(boardRepository.findAll())
+            .orElse(new ArrayList<>())
             .stream().map(BoardResponse::fromBoard)
             .collect(Collectors.toList());
     }
@@ -64,18 +64,40 @@ public class BoardService {
         Member member = memberService.getMemberById(memberId);
         Board board = Board.of(
             boardWriteRequest.content(),
-            member
+            member,
+            boardWriteRequest.latitude().orElse(-1.0),
+            boardWriteRequest.longitude().orElse(-1.0)
         );
 
         List<Image> imageList = new ArrayList<>();
-//        for (String imageUrl : imageUploader.uploadFile("community",
-//            boardWriteRequest.multipartFiles())) {
-//            Image image = new Image(imageUrl, board);
-//            imageRepository.save(image);
-//            imageList.add(image);
+//        if (boardWriteRequest.multipartFiles() != null &&
+//            !boardWriteRequest.multipartFiles().isEmpty()) {
+//            for (String imageUrl : imageUploader.uploadFile("community",
+//                boardWriteRequest.multipartFiles())) {
+//                Image image = new Image(imageUrl, board);
+//                imageRepository.save(image);
+//                imageList.add(image);
+//            }
 //        }
-
         board.setImages(imageList);
+
+        List<BoardHashtag> boardHashtagList = new ArrayList<>();
+        if (boardWriteRequest.hashtagNames() != null &&
+            !boardWriteRequest.hashtagNames().isEmpty()) {
+            for (String hashtagName : boardWriteRequest.hashtagNames()) {
+                String newHashtagName = hashtagName.replace("[", "").replace("]", "")
+                    .replace("\"","");
+                Hashtag hashtag = hashtagRepository.findByName(hashtagName)
+                    .orElseGet(() -> hashtagRepository.save(new Hashtag(newHashtagName)));
+                BoardHashtag boardHashtag = BoardHashtag.builder()
+                    .board(board)
+                    .hashtag(hashtag)
+                    .build();
+
+                boardHashtagList.add(boardHashtag);
+            }
+        }
+        board.setBoardHashtags(boardHashtagList);
 
         return boardRepository.save(board);
     }

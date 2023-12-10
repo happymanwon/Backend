@@ -2,6 +2,7 @@ package org.hmanwon.domain.shop.application;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.shop.dao.LocalCodeRepository;
@@ -24,7 +25,8 @@ public class ShopService {
 
     @Transactional(readOnly = true)
     public List<SeoulGoodShopResponse> getAllShops() {
-        return seoulGoodShopRepository.findAll()
+        return Optional.ofNullable(seoulGoodShopRepository.findAll())
+            .orElse(new ArrayList<>())
             .stream().map(SeoulGoodShopResponse::fromEntity)
             .collect(Collectors.toList());
     }

@@ -26,12 +26,12 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public ResponseEntity<DataBody<BoardResponse>> createBoard(
+    public ResponseEntity<DataBody<BoardDetailResponse>> createBoard(
         @RequestParam Long memberId,
         @Valid @ModelAttribute BoardWriteRequest boardWriteRequest
     ) {
         return ResponseDTO.created(
-                BoardResponse.fromBoard(boardService.createBoard(memberId, boardWriteRequest)),
+            BoardDetailResponse.fromBoard(boardService.createBoard(memberId, boardWriteRequest)),
             "게시글 생성 완료"
             );
     }

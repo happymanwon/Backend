@@ -33,4 +33,7 @@ public class Hashtag extends BaseTimeEntity {
         cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<BoardHashtag> boardHashtags;
 
+    public Hashtag(String name) {
+        this.name = name;
+    }
 }

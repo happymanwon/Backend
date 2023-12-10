@@ -1,34 +1,54 @@
 package org.hmanwon.domain.community.board.dto.response;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.Builder;
 import org.hmanwon.domain.community.board.entity.Board;
-import org.hmanwon.domain.community.board.entity.BoardHashtag;
-import org.hmanwon.domain.community.comment.entity.Comment;
-import org.hmanwon.infra.image.entity.Image;
+import org.hmanwon.domain.community.comment.dto.response.CommentResponseDto;
 
 @Builder
 public record BoardDetailResponse(
-    String memberNickName,
+    String nickname,
     Long boardId,
     String content,
-    List<Comment> commentList,
-    LocalDate createAt,
-    List<Image> images,
-    List<BoardHashtag> boardHashtags
+    Double latitude,
+    Double longitude,
+    LocalDateTime createAt,
+    List<String> imageUrls,
+    List<String> hashtagNames,
+    List<CommentResponseDto> commentList
 
 ) {
 
     public static BoardDetailResponse fromBoard(Board board) {
         return BoardDetailResponse.builder()
-            .memberNickName(board.getMember().getNickName())
+            .nickname(board.getMember().getNickname())
             .boardId(board.getId())
             .content(board.getContent())
-            .commentList(board.getComments())
-            .createAt(LocalDate.from(board.getCreatedAt()))
-            .images(board.getImages())
-            .boardHashtags(board.getBoardHashtags())
+            .latitude(board.getLatitude())
+            .longitude(board.getLongitude())
+            .createAt(board.getCreatedAt())
+            .imageUrls(
+                board.getImages()
+                    .stream().map(image -> image.getImageUrl())
+                    .collect(Collectors.toList())
+            )
+            .hashtagNames(
+                Optional.ofNullable(board.getBoardHashtags())
+                    .orElse(new ArrayList<>())
+                    .stream().map(boardHashtag -> boardHashtag.getHashtag().getName())
+                    .collect(Collectors.toList())
+            )
+            .commentList(
+                Optional.ofNullable(board.getComments())
+                    .orElse(new ArrayList<>())
+                    .stream().map(comment -> CommentResponseDto.entityFromDTO(comment))
+                    .toList()
+            )
             .build();
     }
 }

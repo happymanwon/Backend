@@ -4,7 +4,24 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="content"
 
-숨 참고
+러브
+--boundary
+Content-Disposition: form-data; name="latitude"
+
+13.5
+--boundary
+Content-Disposition: form-data; name="longitude"
+
+23.5
+--boundary
+Content-Disposition: form-data; name="longitude"
+
+23.5
+--boundary
+Content-Disposition: form-data; name="hashtagNames"
+Content-Type: application/json
+
+["굿"]
 --boundary--
 #Content-Disposition: from-data; name="multipartFiles"; filename="test.jpg"
 #Content-Type: image/gif
