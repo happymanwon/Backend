@@ -37,6 +37,7 @@ public class Board extends BaseTimeEntity {
 
     private Double longitude;
     private Double latitude;
+    private Integer reportCnt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -53,6 +54,10 @@ public class Board extends BaseTimeEntity {
     @OneToMany(mappedBy = "board",
         cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    public void increaseReportCnt(){
+        this.reportCnt++;
+    }
 
     public void setImages(List<Image> imageList) {
         this.images = imageList;

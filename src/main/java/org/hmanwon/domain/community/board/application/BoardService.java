@@ -1,10 +1,10 @@
 package org.hmanwon.domain.community.board.application;
 
 import static org.hmanwon.domain.community.board.exception.BoardExceptionCode.NOT_FOUND_BOARD;
-import static org.hmanwon.domain.member.exception.MemberExceptionCode.NOT_FOUND_MEMBER;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.community.board.dao.BoardRepository;
@@ -14,16 +14,11 @@ import org.hmanwon.domain.community.board.dto.response.BoardResponse;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.board.exception.BoardException;
 import org.hmanwon.domain.member.application.MemberService;
-import org.hmanwon.domain.member.dao.MemberRepository;
 import org.hmanwon.domain.member.entity.Member;
-import org.hmanwon.domain.member.exception.MemberException;
 import org.hmanwon.infra.image.application.ImageUploader;
 import org.hmanwon.infra.image.dao.ImageRepository;
 import org.hmanwon.infra.image.entity.Image;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -57,14 +52,24 @@ public class BoardService {
         List<Image> imageList = new ArrayList<>();
         for (String imageUrl : imageUploader.uploadFile("community",
             boardWriteRequest.multipartFiles())) {
-            Image image = new Image(imageUrl,board);
+            Image image = new Image(imageUrl, board);
             imageRepository.save(image);
             imageList.add(image);
         }
 
         board.setImages(imageList);
 
-
         return boardRepository.save(board);
+    }
+
+    public void reportBoard(Long boardId) {
+        Optional<Board> boardOptional = boardRepository.findById(boardId);
+        if (boardOptional.isPresent()) {
+            Board board = boardOptional.get();
+            board.increaseReportCnt();
+            boardRepository.save(board);
+        } else {
+            throw new BoardException(NOT_FOUND_BOARD);
+        }
     }
 }

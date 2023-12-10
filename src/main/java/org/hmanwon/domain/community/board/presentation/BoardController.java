@@ -56,4 +56,14 @@ public class BoardController {
                 "게시글을 모두 조회 했습니다."
         );
     }
+
+    @PostMapping("/reports/{boardId}")
+    public ResponseEntity<DataBody<Void>> reportBoard(
+        @PathVariable Long boardId
+    ){
+        boardService.reportBoard(boardId);
+        return ResponseDTO.ok(
+            "게시글을 신고 했습니다."
+        );
+    }
 }
