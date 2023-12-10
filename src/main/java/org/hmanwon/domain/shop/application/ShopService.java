@@ -108,12 +108,12 @@ public class ShopService {
             }
             likedMembers.add(member);
             seoulGoodShop.setMemberLikedList(likedMembers);
-            seoulGoodShopRepository.save(seoulGoodShop);
         } else { //false: 좋아요 취소
             Boolean isRemoved = false;
             for (Member curMember : likedMembers) {
                 if (curMember.getId().equals(memberId)) {
                     likedMembers.remove(curMember);
+                    seoulGoodShop.setMemberLikedList(likedMembers);
                     isRemoved = true;
                     break;
                 }
