@@ -29,8 +29,7 @@ public class BoardController {
         @RequestParam Long memberId,
         @RequestBody BoardWriteRequest boardWriteRequest
     ) {
-        return
-            ResponseDTO.created(
+        return ResponseDTO.created(
                 BoardResponse.fromBoard(boardService.createBoard(memberId, boardWriteRequest)),
                 "게시글을 생성 했습니다."
             );
@@ -39,8 +38,7 @@ public class BoardController {
     @GetMapping
     public ResponseEntity<DataBody<List<BoardResponse>>> getAllBoard(
     ) {
-        return
-            ResponseDTO.ok(
+        return ResponseDTO.ok(
                 boardService.getAllBoard(),
                 "게시글을 모두 조회 했습니다."
         );
@@ -50,8 +48,7 @@ public class BoardController {
     public ResponseEntity<DataBody<BoardDetailResponse>> getBoardDetail(
         @PathVariable Long boardId
     ) {
-        return
-            ResponseDTO.ok(
+        return ResponseDTO.ok(
                 boardService.getBoardDetail(boardId),
                 "게시글을 모두 조회 했습니다."
         );
@@ -64,6 +61,16 @@ public class BoardController {
         boardService.reportBoard(boardId);
         return ResponseDTO.ok(
             "게시글을 신고 했습니다."
+        );
+    }
+
+    @GetMapping
+    public ResponseEntity<DataBody<List<BoardResponse>>> findBoardsWithHashtag(
+        @RequestParam String hashtagName
+    ){
+        return ResponseDTO.ok(
+            boardService.getBoardHashtag(hashtagName),
+            "해시 태그에 해당하는 게시글을 조회 했습니다."
         );
     }
 }
