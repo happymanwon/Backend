@@ -37,3 +37,7 @@ cloud:
     s3:
       endpoint: https://kr.object.ncloudstorage.com
       bucket: happymanwon-backend
+
+logging:
+  level:
+    org.apache.coyote.http11.Http11InputBuffer: debug

@@ -1,7 +1,14 @@
 POST http://localhost:8080/api/boards?memberId=1
-Content-Type: application/json
+Content-Type: multipart/form-data; boundary=boundary
 
-{
-  "title": "테스트 제목",
-  "content": "내용"
-}
+--boundary
+Content-Disposition: form-data; name="content"
+
+숨 참고
+--boundary--
+#Content-Disposition: from-data; name="multipartFiles"; filename="test.jpg"
+#Content-Type: image/gif
+#
+#C:\Users\hyeon\OneDrive\Desktop\HappyManwon\src\test\resources\test.jpg
+#--boundary
+

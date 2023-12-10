@@ -9,12 +9,11 @@ import org.hmanwon.domain.community.board.dto.response.BoardDetailResponse;
 import org.hmanwon.domain.community.board.dto.response.BoardResponse;
 import org.hmanwon.global.common.dto.ResponseDTO;
 import org.hmanwon.global.common.dto.ResponseDTO.DataBody;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,11 +28,11 @@ public class BoardController {
     @PostMapping
     public ResponseEntity<DataBody<BoardResponse>> createBoard(
         @RequestParam Long memberId,
-        @Valid @RequestBody BoardWriteRequest boardWriteRequest
+        @Valid @ModelAttribute BoardWriteRequest boardWriteRequest
     ) {
         return ResponseDTO.created(
                 BoardResponse.fromBoard(boardService.createBoard(memberId, boardWriteRequest)),
-                "게시글을 생성 완료"
+            "게시글 생성 완료"
             );
     }
 
