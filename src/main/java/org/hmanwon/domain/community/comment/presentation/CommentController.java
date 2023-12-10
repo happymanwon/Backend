@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comments")
-public class CommentRestController {
+public class CommentController {
 
     private final CommentService commentService;
 
@@ -30,7 +30,7 @@ public class CommentRestController {
     ) {
         return ResponseDTO.created(
                 commentService.createComment(1L, commentRequestDTO),
-                "성공적으로 댓글을 생성했습니다."
+                "댓글 생성 완료"
         );
 
 
@@ -43,7 +43,7 @@ public class CommentRestController {
     ) {
         return ResponseDTO.ok(
                 commentService.updateContent(1L, commentId, commentUpdateRequestsDto),
-                "성공적으로 댓글을 수정했습니다."
+                "댓글 수정 완료"
         );
     }
 
@@ -53,7 +53,7 @@ public class CommentRestController {
     ) {
         return ResponseDTO.ok(
                 commentService.deleteCommentById(1L, commentId),
-                "성공적으로 댓글을 삭제했습니다."
+                "댓글 삭제 완료"
         );
     }
 }

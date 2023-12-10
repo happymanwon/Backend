@@ -109,12 +109,12 @@ public class MemberService {
     public void updateBoardListByMember(Member member, Board board) {
         List<Board> boards = member.getBoardList();
         boards.add(board);
-        memberRepository.save(member);
+        member.setBoardList(boards);
     }
 
     public void updateCommentListByMember(Member member, Comment comment) {
         List<Comment> comments = member.getCommentList();
         comments.add(comment);
-        memberRepository.save(member);
+        member.setCommentList(comments);
     }
 }
