@@ -3,8 +3,8 @@ package org.hmanwon.domain.member.presentation;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.hmanwon.domain.community.board.dto.response.BoardResponse;
 import org.hmanwon.domain.member.application.MemberService;
-import org.hmanwon.domain.member.dto.response.MyBoardsResponseDto;
 import org.hmanwon.domain.member.dto.response.MyCommentResponseDto;
 import org.hmanwon.domain.member.dto.response.NicknameResponse;
 import org.hmanwon.global.common.dto.ResponseDTO;
@@ -34,7 +34,7 @@ public class MemberController {
     }
 
     @GetMapping("/boards")
-    public ResponseEntity<DataBody<List<MyBoardsResponseDto>>> getBoardsByMember() {
+    public ResponseEntity<DataBody<List<BoardResponse>>> getBoardsByMember() {
         Long memberId = 1L;
         return ResponseDTO.ok(memberService.findBoardsByMember(memberId), "내 게시글 목록을 조회했습니다.");
     }
