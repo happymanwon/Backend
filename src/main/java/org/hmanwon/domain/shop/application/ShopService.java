@@ -45,7 +45,8 @@ public class ShopService {
     public List<SeoulGoodShopResponse> searchShopByKeywordAndLocalCode(Long localCode,
         String keyword) {
         return seoulGoodShopRepository.findByNameContains(keyword)
-            .stream().filter(shop -> shop.getLocalCode() == getLocalCode(localCode))
+            .stream()
+            .filter(shop -> localCode == null || shop.getLocalCode() == getLocalCode(localCode))
             .map(SeoulGoodShopResponse::fromEntity)
             .collect(Collectors.toList());
     }

@@ -1,2 +1,2 @@
-GET http://localhost:8080/api/shops/search?keyword=ㅁㅇㅁㄴㅇㄴㅁㅇㄴㅁㅇㅁㄴaㅇ
+GET http://118.67.134.91:8080/api/shops/search?keyword=한
 Accept: application/json
