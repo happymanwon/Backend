@@ -127,4 +127,13 @@ public class MemberService {
         comments.add(comment);
         member.setCommentList(comments);
     }
+
+    public List<MemberResponse> findAll() {
+        List<Member> members = memberRepository.findAll();
+        List<MemberResponse> memberResponses = new ArrayList<>();
+        for(Member member: members) {
+            memberResponses.add(findMemberInfo(member.getId()));
+        }
+        return memberResponses;
+    }
 }

@@ -53,4 +53,11 @@ public class MemberController {
             memberService.findMemberInfo(authService.getMemberIdFromValidToken(token)),
             "회원 정보 조회 완료");
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<DataBody<List<MemberResponse>>> getMemberInfoAll() {
+        return ResponseDTO.ok(
+            memberService.findAll(), "테스트용 모든 회원 정보 조회 완료"
+        );
+    }
 }
