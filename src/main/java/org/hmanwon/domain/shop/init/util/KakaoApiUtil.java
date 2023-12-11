@@ -77,8 +77,8 @@ public class KakaoApiUtil {
         if (documents.isEmpty()) return addressDto;
 
         JSONObject address = documents.getJSONObject(0);
-        addressDto.setLatitude(address.getString("x")); //위도
-        addressDto.setLongitude(address.getString("y")); //경도
+        addressDto.setLatitude(address.getString("y")); //위도
+        addressDto.setLongitude(address.getString("x")); //경도
         try {
             addressDto.setRoadAddress(
                     address.getJSONObject("road_address").getString("address_name")

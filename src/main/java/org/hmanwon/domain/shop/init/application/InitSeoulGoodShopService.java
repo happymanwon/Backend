@@ -67,7 +67,10 @@ public class InitSeoulGoodShopService {
 //        }
 
 //        saveZzanItemList();
+//        updateShopInfo();
     }
+
+
 
     @Transactional
     public void saveZzanItemList() {
@@ -135,7 +138,8 @@ public class InitSeoulGoodShopService {
         return new Double[] {(double)dis, 1 - (double) dis / 100.0};
     }
 
-    private void saveLocalCodeList() {
+    @Transactional
+    public void saveLocalCodeList() {
         Set<String> localCodeNameSet = AddressToCodeConverter.getLocalCodeNameSet();
         List<LocalCode> localCodeList = new ArrayList<>();
         for (String name : localCodeNameSet) {
@@ -193,7 +197,16 @@ public class InitSeoulGoodShopService {
     }
 
     private SeoulGoodShop dtoToEntity(SeoulGoodShopDto data) {
-        if (data.getCategory() >= 9L) {
+        if (data.getCategory() == 7L) {
+            data.setCategory(100L);
+        }
+        if (data.getCategory() == 6L) {
+            data.setCategory(7L);
+        }
+        if (data.getCategory() >= 9L && data.getCategory() < 100L) {
+            data.setCategory(7L);
+        }
+        if (data.getCategory() == 100L) {
             data.setCategory(6L);
         }
 
@@ -253,5 +266,91 @@ public class InitSeoulGoodShopService {
             }
         }
         return menuList;
+    }
+
+    private void updateShopInfo() {
+        List<SeoulGoodShop> seoulGoodShopList = seoulGoodShopRepository.findAll();
+//        int count = 0;
+        for (SeoulGoodShop shop : seoulGoodShopList) {
+            String info = shop.getInfo();
+            System.out.println(info);
+//            String updatedInfo = null;
+//            try {
+//
+//                if (info.matches("\\d{2}:\\d{2}~\\d{2}:\\d{2}")) {
+//                    updatedInfo = info;
+//                }
+//
+//                if (info.startsWith("(2022년 5월 기준)")) {
+//                    updatedInfo = info.substring(info.indexOf("(2022년 5월 기준)") + "(2022년 5월 기준)".length());
+//                    updatedInfo = updatedInfo.trim();
+//                    if (updatedInfo.startsWith("○ 영업시간 :")) {
+//                        updatedInfo = updatedInfo.substring(updatedInfo.indexOf("○ 영업시간 :") + "○ 영업시간 :".length());
+//                        updatedInfo = updatedInfo.trim();
+//                    }
+//                }
+//
+//                if (info.startsWith("영업시간 : ")) {
+//                    updatedInfo = info.substring(info.indexOf("영업시간 : ") + "영업시간 : ".length());
+//                    updatedInfo = updatedInfo.trim();
+//                }
+//
+//                if (info.startsWith("○ 영업시간 :")) {
+//                    updatedInfo = info.substring(info.indexOf("○ 영업시간 :") + "○ 영업시간 :".length());
+//                    updatedInfo = updatedInfo.trim();
+//                }
+//
+//                if (info.startsWith("영업시간: ")) {
+//                    updatedInfo = info.substring(info.indexOf("영업시간: ") + "영업시간: ".length());
+//                    updatedInfo = updatedInfo.trim();
+//                }
+//
+//                if (info.startsWith("영업시간 :")) {
+//                    updatedInfo = info.substring(info.indexOf("영업시간 :") + "영업시간 :".length());
+//                    updatedInfo = updatedInfo.trim();
+//                }
+//
+//                if (info.startsWith("영업시간:")) {
+//                    updatedInfo = info.substring(info.indexOf("영업시간:") + "영업시간:".length());
+//                    updatedInfo = updatedInfo.trim();
+//                }
+//
+//                if (info.equals("가게 소개 정보 없음") || info.equals("저렴한 menu, 깨끗한 위생")) {
+//                    updatedInfo = "정보 없음";
+//                }
+//
+//                if (info.startsWith("매일")) {
+//                    updatedInfo = info.substring(info.indexOf("매일") + "매일".length());
+//                    updatedInfo = updatedInfo.trim();
+//                }
+//
+//                if (info.startsWith("매일\n")) {
+//                    updatedInfo = info.substring(info.indexOf("매일\n") + "매일\n".length());
+//                    updatedInfo = updatedInfo.trim();
+//                }
+//
+//                if (updatedInfo != null && updatedInfo.startsWith("좌")) {
+//                    updatedInfo = "정보 없음";
+//                }
+//
+//                // 추출된 부분에서 줄 바꿈 문자를 기준으로 자름
+//                if (updatedInfo != null && updatedInfo.contains("\n")) {
+//                    updatedInfo = updatedInfo.substring(0, updatedInfo.indexOf("\n"));
+//                }
+//
+//                if (updatedInfo.startsWith(":")) {
+//                    updatedInfo = updatedInfo.substring(updatedInfo.indexOf(":") +  (":").length());
+//                }
+//                count++;
+//
+//            } catch (Exception e) {
+//                updatedInfo = "정보 없음";
+//            }
+//
+//            System.out.println("영업시간 : " + updatedInfo);
+//            shop.setInfo("영업시간 : " + updatedInfo);
+        }
+//        System.out.println("count : " + count);
+//        seoulGoodShopRepository.saveAll(seoulGoodShopList);
     }
 }
