@@ -33,9 +33,9 @@ public class ShopController {
 
     @GetMapping("")
     public ResponseEntity<DataBody<List<SeoulGoodShopResponse>>> getShopsByCategoryAndLocalCode(
-        @Valid @RequestParam(name = "categoryId")
+        @Valid @RequestParam(name = "categoryId", required = false)
         @Range(min = 1L, max = 7L, message = "카테고리는 1 ~ 7 사이 어야 합니다") final Long categoryId,
-        @Valid @RequestParam(name = "localCode")
+        @Valid @RequestParam(name = "localCode", required = false)
         @Range(min = 1L, max = 25L, message = "지역 코드는 1 ~ 25 사이 어야 합니다") final Long localCode
     ) {
         return ResponseDTO.ok(
@@ -57,7 +57,7 @@ public class ShopController {
 
     @GetMapping("/search")
     public ResponseEntity<DataBody<List<SeoulGoodShopResponse>>> searchShopByKeyword(
-        @Valid @RequestParam(name = "localCode")
+        @Valid @RequestParam(name = "localCode", required = false)
         @Range(min = 1L, max = 25L, message = "지역 코드는 1 ~ 25 사이 어야 합니다") final Long localCode,
         @Valid @RequestParam(name = "keyword")
         @Length(min = 1, max = 15, message = "검색어는 1글자 ~ 15글자 사이 어야 합니다")
