@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hmanwon.domain.member.dao.MemberRepository;
 import org.hmanwon.domain.member.entity.Member;
+import org.hmanwon.domain.member.exception.MemberException;
+import org.hmanwon.domain.member.exception.MemberExceptionCode;
 import org.hmanwon.domain.zzan.purchase.dao.PurchaseHistoryRepository;
 import org.hmanwon.domain.zzan.purchase.dao.QrImageRepository;
 import org.hmanwon.domain.zzan.purchase.dto.PurchaseResponse;
@@ -190,7 +192,7 @@ public class PurchaseService {
     private Member getMember() {
         //임의로 만들음. 1L
         return memberRepository.findById(1L)
-                .orElseThrow(() -> new DefaultException(DefaultExceptionCode.BAD_REQUEST));
+                .orElseThrow(() -> new MemberException(MemberExceptionCode.NOT_FOUND_MEMBER));
     }
 
     private ZzanItem getZzanItem(Long id) {
