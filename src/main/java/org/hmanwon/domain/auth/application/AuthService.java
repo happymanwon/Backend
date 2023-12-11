@@ -1,8 +1,13 @@
 package org.hmanwon.domain.auth.application;
 
+import static org.hmanwon.domain.auth.exception.AuthExceptionCode.INVALID_TOKEN;
+import static org.hmanwon.domain.auth.exception.AuthExceptionCode.KAKAO_NETWORK_ERROR;
+import static org.hmanwon.domain.auth.exception.AuthExceptionCode.UNAUTHORIZED_TOKEN;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.jsonwebtoken.JwtException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -13,12 +18,16 @@ import java.net.URL;
 import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.auth.dto.AuthLoginResponse;
+import org.hmanwon.domain.auth.exception.AuthException;
 import org.hmanwon.domain.member.application.MemberService;
 import org.hmanwon.domain.member.dto.response.MemberResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AuthService {
 
@@ -105,6 +114,7 @@ public class AuthService {
 
         } catch (IOException e) {
             e.printStackTrace();
+            throw new AuthException(KAKAO_NETWORK_ERROR);
         }
 
         return accessToken;
@@ -149,8 +159,28 @@ public class AuthService {
 
         } catch (IOException e) {
             e.printStackTrace();
+            throw new AuthException(KAKAO_NETWORK_ERROR);
         }
-
         return memberInfo;
+    }
+
+    private Long findMemberIdFromTokenWithValidation(String headerToken) {
+        //예외처리 필요
+        String token = headerToken;
+        Long memberId = -1L;
+        if (StringUtils.hasText(headerToken)) {
+            throw new AuthException(INVALID_TOKEN);
+        }
+        if (headerToken.startsWith("Bearer")) {
+            token = headerToken.substring(7);
+        }
+        try {
+            if (jwtProvider.validateToken(token)) {
+                memberId = jwtProvider.getMemberIdFromToken(token);
+            }
+        } catch (JwtException e) {
+            throw new AuthException(UNAUTHORIZED_TOKEN);
+        }
+        return memberId;
     }
 }
