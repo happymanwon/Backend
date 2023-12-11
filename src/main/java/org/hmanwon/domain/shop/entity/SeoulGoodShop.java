@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -100,7 +102,12 @@ public class SeoulGoodShop {
         CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ZzanItem> zzanItemList = new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+        name = "shop_member_like",
+        joinColumns = @JoinColumn(name = "seoul_good_shop_id"),
+        inverseJoinColumns = @JoinColumn(name = "member_id")
+    )
     private List<Member> memberLikedList = new ArrayList<>();
 
     public void setMemberLikedList(List<Member> memberList) {
