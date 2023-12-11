@@ -39,14 +39,16 @@ public class ShopService {
     }
 
     public SeoulGoodShopDetailResponse getShopDetail(Long shopId) {
-        SeoulGoodShop shop =  seoulGoodShopRepository.findById(shopId)
-                .orElseThrow(() -> new ShopException(NOT_FOUND_SHOP));
+        SeoulGoodShop shop = seoulGoodShopRepository.findById(shopId)
+            .orElseThrow(() -> new ShopException(NOT_FOUND_SHOP));
         return SeoulGoodShopDetailResponse.fromEntity(shop);
     }
 
-    public List<SeoulGoodShopResponse> searchShopByKeyword(String keyword) {
+    public List<SeoulGoodShopResponse> searchShopByKeywordAndLocalCode(Long localCode,
+        String keyword) {
         return seoulGoodShopRepository.findByNameContains(keyword)
-            .stream().map(SeoulGoodShopResponse::fromEntity)
+            .stream().filter(shop -> shop.getLocalCode() == getLocalCode(localCode))
+            .map(SeoulGoodShopResponse::fromEntity)
             .collect(Collectors.toList());
     }
 

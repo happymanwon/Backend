@@ -25,9 +25,9 @@ server:
   port: 8080
 
 kakao:
-  rest_api_key : KakaoAK 2d10cd365cbf8f56eda4e243e68f505e
+  restApiKey : dceb1b292320a7621e7a4cbbbaf81531
 jwt:
-  secretKey: hmanwonsecretkey
+  secretKey: happymanwonsecretkeyafterharutalkback3front2pm1when20231211
   accessTokenValidTime: 86400000
   refreshTokenValidTime: 604800000
 
