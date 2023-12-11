@@ -5,8 +5,10 @@ import static org.hmanwon.global.common.exception.DefaultExceptionCode.INTERNAL_
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.hmanwon.global.common.dto.ErrorResponseDTO;
@@ -88,13 +90,15 @@ public class DefaultExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleConstraintViolationException(
         ConstraintViolationException e, HttpServletRequest request
     ) {
+
         log.error("ConstraintViolationException error url : {}, message : {}",
             request.getRequestURI(),
             e.getMessage()
         );
-        //searchTripListByKeyword.keyword: 검색어를 채워주세요 -> "검색어를 채워주세요" 반환.
-        String[] msgList = e.getMessage().split(":");
-        String msg = msgList[msgList.length - 1].substring(1);
+
+        String msg = e.getConstraintViolations().stream()
+                .map( cv -> cv == null ? "null" : cv.getMessage() )
+                .collect( Collectors.joining( ", " ) );
 
         return new ResponseEntity<>(
             new ErrorResponseDTO(
