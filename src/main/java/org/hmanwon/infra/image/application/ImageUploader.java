@@ -57,11 +57,11 @@ public class ImageUploader {
             .build();
     }
 
-    public List<String> uploadFile(String prefix, final List<MultipartFile> multipartFileList) {
+    public List<String> uploadFile(String prefix, String boardId, final List<MultipartFile> multipartFileList) {
         List<String> imageUrlList = new ArrayList<>();
 
         for (MultipartFile file : multipartFileList) {
-            String fileName = prefix + "/" + ImageName.createFileName(file.getOriginalFilename());
+            String fileName = prefix + "/" + boardId + "/" + ImageName.createFileName(file.getOriginalFilename());
             InitiateMultipartUploadResult initiateMultipartUploadResult =
                 s3.initiateMultipartUpload(new InitiateMultipartUploadRequest(bucket, fileName));
             String uploadId = initiateMultipartUploadResult.getUploadId();

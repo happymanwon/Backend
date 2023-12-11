@@ -74,8 +74,8 @@ public class BoardService {
             boardWriteRequest.longitude().orElse(-1.0)
         );
 
-        board = saveBoardWithImage(boardWriteRequest, board);
         board = saveBoardWithHashtag(boardWriteRequest, board);
+        board = saveBoardWithImage(boardWriteRequest, board);
 
         memberService.updateBoardListByMember(member, board);
 
@@ -107,7 +107,7 @@ public class BoardService {
         List<Image> imageList = new ArrayList<>();
         if (boardWriteRequest.multipartFiles() != null &&
             !boardWriteRequest.multipartFiles().isEmpty()) {
-            for (String imageUrl : imageUploader.uploadFile("community",
+            for (String imageUrl : imageUploader.uploadFile("community", board.getId().toString(),
                 boardWriteRequest.multipartFiles())) {
                 Image image = new Image(imageUrl, board);
                 imageRepository.save(image);
