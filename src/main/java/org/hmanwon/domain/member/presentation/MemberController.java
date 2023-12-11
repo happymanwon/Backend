@@ -50,7 +50,7 @@ public class MemberController {
     public ResponseEntity<DataBody<MemberResponse>> getMemberInfo(
         @RequestHeader(value = "Authorization") String token) {
         return ResponseDTO.ok(
-            memberService.findMemberInfo(authService.findMemberIdFromTokenWithValidation(token)),
+            memberService.findMemberInfo(authService.getMemberIdFromValidToken(token)),
             "회원 정보 조회 완료");
     }
 }
