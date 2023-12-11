@@ -45,6 +45,16 @@ public class MemberService {
             .build();
     }
 
+    public MemberResponse findMemberInfo(Long memberId) {
+        Member member = findMemberById(memberId);
+        return MemberResponse.builder()
+            .memberId(member.getId())
+            .email(member.getEmail())
+            .nickname(member.getNickname())
+            .point(member.getPoint())
+            .build();
+    }
+
     public List<MyCommentResponseDto> findCommentsByMember(Long memberId) {
 
         Member member = findMemberById(memberId);

@@ -164,7 +164,7 @@ public class AuthService {
         return memberInfo;
     }
 
-    private Long findMemberIdFromTokenWithValidation(String headerToken) {
+    public Long findMemberIdFromTokenWithValidation(String headerToken) {
         //예외처리 필요
         String token = headerToken;
         Long memberId = -1L;
