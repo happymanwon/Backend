@@ -36,10 +36,10 @@ public class ShopService {
             .collect(Collectors.toList());
     }
 
-    public List<SeoulGoodShopDetailResponse> getShopDetail(Long shopId) {
-        return seoulGoodShopRepository.findById(shopId)
-            .stream().map(SeoulGoodShopDetailResponse::fromEntity)
-            .collect(Collectors.toList());
+    public SeoulGoodShopDetailResponse getShopDetail(Long shopId) {
+        SeoulGoodShop shop =  seoulGoodShopRepository.findById(shopId)
+                .orElseThrow(() -> new ShopException(NOT_FOUND_SHOP));
+        return SeoulGoodShopDetailResponse.fromEntity(shop);
     }
 
     public List<SeoulGoodShopResponse> searchShopByKeyword(String keyword) {

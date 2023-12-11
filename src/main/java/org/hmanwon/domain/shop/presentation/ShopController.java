@@ -44,7 +44,7 @@ public class ShopController {
 
 
     @GetMapping("/{shopId}")
-    public ResponseEntity<DataBody<List<SeoulGoodShopDetailResponse>>> getShopDetail(
+    public ResponseEntity<DataBody<SeoulGoodShopDetailResponse>> getShopDetail(
         @PathVariable final Long shopId
     ) {
         return ResponseDTO.ok(
