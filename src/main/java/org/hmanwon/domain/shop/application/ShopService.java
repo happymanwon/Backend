@@ -42,9 +42,10 @@ public class ShopService {
         return SeoulGoodShopDetailResponse.fromEntity(shop);
     }
 
-    public List<SeoulGoodShopResponse> searchShopByKeyword(String keyword) {
+    public List<SeoulGoodShopResponse> searchShopByKeyword(Long localCode, String keyword) {
         return seoulGoodShopRepository.findByNameContains(keyword)
-            .stream().map(SeoulGoodShopResponse::fromEntity)
+            .stream().filter(shop -> shop.getLocalCode() == getLocalCode(localCode))
+            .map(SeoulGoodShopResponse::fromEntity)
             .collect(Collectors.toList());
     }
 

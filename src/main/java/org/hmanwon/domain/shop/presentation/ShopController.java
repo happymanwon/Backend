@@ -55,10 +55,11 @@ public class ShopController {
 
     @GetMapping("/search")
     public ResponseEntity<DataBody<List<SeoulGoodShopResponse>>> searchShopByKeyword(
+        @RequestParam(name = "localCode", required = false) final Long localCode,
         @RequestParam(name = "keyword") final String keyword
     ) {
         return ResponseDTO.ok(
-            shopService.searchShopByKeyword(keyword),
+            shopService.searchShopByKeyword(localCode, keyword),
             "착한 가격 업소 검색 완료"
         );
     }
