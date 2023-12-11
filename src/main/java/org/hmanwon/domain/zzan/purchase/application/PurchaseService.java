@@ -48,7 +48,7 @@ public class PurchaseService {
     private final QrImageRepository qrImageRepository;
     private final MemberRepository memberRepository;
 
-    private static final String useLink = "http://localhost:8080/api/zzan-items/use/";
+    private static final String useLink = "http://118.67.134.91:8080/api/zzan-items/use/";
 
     /**
      * 구매 처리 메소드
