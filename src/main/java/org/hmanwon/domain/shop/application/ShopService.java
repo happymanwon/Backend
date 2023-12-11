@@ -3,6 +3,7 @@ package org.hmanwon.domain.shop.application;
 import static org.hmanwon.domain.shop.exception.ShopExceptionCode.DUPLICATED_REQUEST;
 import static org.hmanwon.domain.shop.exception.ShopExceptionCode.NOT_FOUND_SHOP;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
