@@ -33,7 +33,7 @@ public class JwtProvider {
             .claim("memberId", memberId)
             .setIssuedAt(now)
             .setExpiration(expiryDate)
-            .signWith(SignatureAlgorithm.HS512, secretKey)
+            .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact();
     }
 
@@ -43,7 +43,7 @@ public class JwtProvider {
         return Jwts.builder()
             .setIssuedAt(now)
             .setExpiration(new Date(now.getTime() + refreshTokenValidTime))
-            .signWith(SignatureAlgorithm.HS512, secretKey)
+            .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact();
     }
 

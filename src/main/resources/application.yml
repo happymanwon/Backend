@@ -22,6 +22,6 @@ server:
 kakao:
   restApiKey : dceb1b292320a7621e7a4cbbbaf81531
 jwt:
-  secretKey: hmanwonsecretkey
+  secretKey: happymanwonsecretkeyafterharutalkback3front2pm1when20231211
   accessTokenValidTime: 86400000
   refreshTokenValidTime: 604800000
