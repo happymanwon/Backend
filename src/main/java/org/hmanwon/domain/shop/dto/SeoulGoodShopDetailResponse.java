@@ -20,6 +20,7 @@ public class SeoulGoodShopDetailResponse {
     private String roadAddress;
     private String latitude;
     private String longitude;
+    private Integer likeCount;
     private String info;
     private List<MenuResponse> menuList;
 
@@ -35,6 +36,7 @@ public class SeoulGoodShopDetailResponse {
             .roadAddress(seoulGoodShop.getRoadAddress())
             .latitude(seoulGoodShop.getLatitude())
             .longitude(seoulGoodShop.getLongitude())
+            .likeCount(seoulGoodShop.getLikeCount())
             .menuList(
                 Optional.ofNullable(seoulGoodShop.getMenuList())
                     .orElse(new ArrayList<>())

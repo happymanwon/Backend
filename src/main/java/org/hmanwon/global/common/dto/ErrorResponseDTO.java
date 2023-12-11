@@ -11,7 +11,7 @@ public class ErrorResponseDTO {
 
     private final HttpStatus status;
     private final String code;
-    private final String msg;
+    private final String message;
 
     public static ErrorResponseDTO error(ExceptionCode exceptionCode) {
         return new ErrorResponseDTO(
