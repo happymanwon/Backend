@@ -168,7 +168,7 @@ public class AuthService {
         //예외처리 필요
         String token = headerToken;
         Long memberId = -1L;
-        if (StringUtils.hasText(headerToken)) {
+        if (!StringUtils.hasText(headerToken)) {
             throw new AuthException(INVALID_TOKEN);
         }
         if (headerToken.startsWith("Bearer")) {
