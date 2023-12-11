@@ -2,7 +2,9 @@ package org.hmanwon.domain.shop.presentation;
 
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.hmanwon.domain.shop.application.ShopService;
 import org.hmanwon.domain.shop.dto.SeoulGoodShopDetailResponse;
 import org.hmanwon.domain.shop.dto.SeoulGoodShopResponse;
@@ -13,6 +15,7 @@ import org.hmanwon.domain.shop.exception.ShopExceptionCode;
 import org.hmanwon.global.common.dto.ResponseDTO;
 import org.hmanwon.global.common.dto.ResponseDTO.DataBody;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/shops")
 @RequiredArgsConstructor
+@Validated
 public class ShopController {
 
     private final ShopService shopService;
@@ -55,7 +59,10 @@ public class ShopController {
 
     @GetMapping("/search")
     public ResponseEntity<DataBody<List<SeoulGoodShopResponse>>> searchShopByKeyword(
-        @RequestParam(name = "keyword") final String keyword
+        @Valid @RequestParam(name = "keyword")
+        @Length(min = 1, max = 15, message = "검색어는 1글자 ~ 15글자 사이어야 합니다")
+        @NotBlank(message = "검색어를 채워주세요")
+        final String keyword
     ) {
         return ResponseDTO.ok(
             shopService.searchShopByKeyword(keyword),
