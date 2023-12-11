@@ -27,21 +27,22 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity<DataBody<BoardDetailResponse>> createBoard(
-        @RequestParam Long memberId,
         @Valid @ModelAttribute BoardWriteRequest boardWriteRequest
     ) {
+        Long memberId = 1L;
+
         return ResponseDTO.created(
             BoardDetailResponse.fromBoard(boardService.createBoard(memberId, boardWriteRequest)),
             "게시글 생성 완료"
-            );
+        );
     }
 
     @GetMapping
     public ResponseEntity<DataBody<List<BoardResponse>>> getAllBoard(
     ) {
         return ResponseDTO.ok(
-                boardService.getAllBoard(),
-                "전체 게시글 조회 완료"
+            boardService.getAllBoard(),
+            "전체 게시글 조회 완료"
         );
     }
 
@@ -50,15 +51,15 @@ public class BoardController {
         @PathVariable Long boardId
     ) {
         return ResponseDTO.ok(
-                boardService.getBoardDetail(boardId),
-                "선택 게시글 조회 완료"
+            boardService.getBoardDetail(boardId),
+            "선택 게시글 조회 완료"
         );
     }
 
     @PostMapping("/reports/{boardId}")
     public ResponseEntity<DataBody<Void>> reportBoard(
         @PathVariable Long boardId
-    ){
+    ) {
         boardService.reportBoard(boardId);
         return ResponseDTO.ok(
             "게시글 신고 완료"
@@ -68,7 +69,7 @@ public class BoardController {
     @GetMapping("/hashtag")
     public ResponseEntity<DataBody<List<BoardResponse>>> findBoardsWithHashtag(
         @RequestParam(required = true) String hashtagName
-    ){
+    ) {
         return ResponseDTO.ok(
             boardService.getBoardHashtag(hashtagName),
             "해시 태그에 해당 하는 게시글 조회 완료"
