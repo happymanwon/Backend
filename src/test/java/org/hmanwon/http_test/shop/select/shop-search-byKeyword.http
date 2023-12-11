@@ -1,2 +1,2 @@
-GET http://localhost:8080/api/shops/search?keyword=ㅁㅇㅁㄴㅇㄴㅁㅇㄴㅁㅇㅁㄴaㅇㅁ&localCode=1
+GET http://localhost:8080/api/shops/search?keyword=ㅁㅇㅁㄴㅇㄴㅁㅇㄴㅁㅇㅁㄴaㅇ
 Accept: application/json
