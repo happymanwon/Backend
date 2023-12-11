@@ -1,5 +1,8 @@
 package org.hmanwon.domain.shop.presentation;
 
+import static org.hmanwon.domain.shop.exception.ShopExceptionCode.CATEGORY_BAD_REQUEST;
+import static org.hmanwon.domain.shop.exception.ShopExceptionCode.LOCAL_CODE_BAD_REQUEST;
+
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +14,6 @@ import org.hmanwon.domain.shop.dto.SeoulGoodShopResponse;
 import org.hmanwon.domain.shop.dto.ShopLikeRequest;
 import org.hmanwon.domain.shop.dto.ShopLikeResponse;
 import org.hmanwon.domain.shop.exception.ShopException;
-import org.hmanwon.domain.shop.exception.ShopExceptionCode;
 import org.hmanwon.global.common.dto.ResponseDTO;
 import org.hmanwon.global.common.dto.ResponseDTO.DataBody;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +40,7 @@ public class ShopController {
         @RequestParam(name = "localCode", required = false) final Long localCode
     ) {
         if (categoryId == null && categoryId > 7) {
-            throw new ShopException(ShopExceptionCode.CATEGORY_BAD_REQUEST);
+            throw new ShopException(CATEGORY_BAD_REQUEST);
         }
         return ResponseDTO.ok(
             shopService.getShopsByCategoryAndLocalCode(categoryId, localCode),
@@ -65,8 +67,11 @@ public class ShopController {
         @NotBlank(message = "검색어를 채워주세요")
         final String keyword
     ) {
+        if (localCode == null && localCode > 25) {
+            throw new ShopException(LOCAL_CODE_BAD_REQUEST);
+        }
         return ResponseDTO.ok(
-            shopService.searchShopByKeyword(localCode, keyword),
+            shopService.searchShopByKeywordAndLocalCode(localCode, keyword),
             "착한 가격 업소 검색 완료"
         );
     }
