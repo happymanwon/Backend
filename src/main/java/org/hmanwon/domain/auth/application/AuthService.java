@@ -36,7 +36,7 @@ public class AuthService {
 
     @Value("${kakao.restApiKey}")
     String clientId;
-    String redirectURL = "http://118.67.134.91:8080/api/auth/login/kakao";
+    String redirectURL = "http://localhost:3000/auth";
 
     public AuthLoginResponse kakaoLogin(String kakaoAuthorizationCode) {
         //인가코드 받아서 카카오 토큰 발급
