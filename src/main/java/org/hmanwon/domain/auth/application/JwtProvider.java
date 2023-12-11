@@ -55,11 +55,11 @@ public class JwtProvider {
         return claims.getSubject();
     }
 
-    public String getMemberIdFromToken(String token) {
+    public Long getMemberIdFromToken(String token) {
         Claims claims = Jwts.parser()
             .setSigningKey(secretKey)
             .parseClaimsJws(token).getBody();
-        return (String) claims.get("memberId");
+        return (Long) claims.get("memberId");
     }
 
     public boolean validateToken(String token) {

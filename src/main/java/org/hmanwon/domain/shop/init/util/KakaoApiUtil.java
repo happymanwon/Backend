@@ -16,7 +16,7 @@ public class KakaoApiUtil {
 
     private final String REST_API_KEY;
 
-    public KakaoApiUtil(@Value("${kakao.rest_api_key}") String key) {
+    public KakaoApiUtil(@Value("${kakao.restApiKey}") String key) {
         REST_API_KEY = key;
     }
 

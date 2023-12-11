@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -119,7 +120,7 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(value = {
         MethodArgumentNotValidException.class
     })
-    public ResponseEntity<ErrorResponseDTO> handleArgumentNotVaildException(
+    public ResponseEntity<ErrorResponseDTO> handleArgumentNotValidException(
         MethodArgumentNotValidException e, HttpServletRequest request
     ) {
         log.error("MethodArgumentNotValid error url : {}, message : {}",
@@ -141,6 +142,21 @@ public class DefaultExceptionHandler {
         );
     }
 
+    @ExceptionHandler(value = {
+        MissingRequestHeaderException.class
+    })
+    public ResponseEntity<ErrorResponseDTO> handleMissingRequestHeaderException(
+        MissingRequestHeaderException e
+    ) {
+        return new ResponseEntity<>(
+            new ErrorResponseDTO(
+                BAD_REQUEST.getStatus(),
+                BAD_REQUEST.getCode(),
+                e.getMessage()
+            ),
+            HttpStatus.BAD_REQUEST
+        );
+    }
     /**
      * 기타 예외 처리
      *
