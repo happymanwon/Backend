@@ -10,7 +10,7 @@ import org.hmanwon.domain.community.board.entity.Board;
 
 @Builder
 public record BoardResponse(
-    String memberNickName,
+    String nickname,
     Long boardId,
     String content,
     Double latitude,
@@ -23,7 +23,7 @@ public record BoardResponse(
 
     public static BoardResponse fromBoard(Board board) {
         return BoardResponse.builder()
-            .memberNickName(board.getMember().getNickname())
+            .nickname(board.getMember().getNickname())
             .boardId(board.getId())
             .latitude(board.getLatitude())
             .longitude(board.getLongitude())
