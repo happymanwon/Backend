@@ -2,6 +2,7 @@ package org.hmanwon.domain.community.comment.presentation;
 
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hmanwon.domain.auth.application.AuthService;
 import org.hmanwon.domain.community.comment.application.CommentService;
 import org.hmanwon.domain.community.comment.dto.request.CommentRequestDto;
 import org.hmanwon.domain.community.comment.dto.request.CommentUpdateRequestsDto;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,14 +25,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final CommentService commentService;
+    private final AuthService authService;
 
     @PostMapping
     public ResponseEntity<DataBody<CommentResponseDto>> postComment(
+        @RequestHeader(value = "Authorization") String token,
         @Valid @RequestBody CommentRequestDto commentRequestDTO
     ) {
         return ResponseDTO.created(
-                commentService.createComment(1L, commentRequestDTO),
-                "댓글 생성 완료"
+            commentService.createComment(
+                authService.getMemberIdFromValidToken(token), commentRequestDTO),
+            "댓글 생성 완료"
         );
 
 
@@ -38,22 +43,26 @@ public class CommentController {
 
     @PatchMapping("/{commentId}")
     public ResponseEntity<DataBody<CommentResponseDto>> updateCommentContent(
+        @RequestHeader(value = "Authorization") String token,
         @PathVariable Long commentId,
         @Valid @RequestBody CommentUpdateRequestsDto commentUpdateRequestsDto
     ) {
         return ResponseDTO.ok(
-                commentService.updateContent(1L, commentId, commentUpdateRequestsDto),
-                "댓글 수정 완료"
+            commentService.updateContent(
+                authService.getMemberIdFromValidToken(token), commentId, commentUpdateRequestsDto),
+            "댓글 수정 완료"
         );
     }
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<DataBody<CommentResponseDto>> deleteComment(
+        @RequestHeader(value = "Authorization") String token,
         @PathVariable Long commentId
     ) {
         return ResponseDTO.ok(
-                commentService.deleteCommentById(1L, commentId),
-                "댓글 삭제 완료"
+            commentService.deleteCommentById(
+                authService.getMemberIdFromValidToken(token), commentId),
+            "댓글 삭제 완료"
         );
     }
 }
