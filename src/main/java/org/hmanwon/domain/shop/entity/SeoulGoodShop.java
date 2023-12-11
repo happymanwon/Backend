@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Comment;
 import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.domain.zzan.zzanItem.entity.ZzanItem;
@@ -59,6 +60,7 @@ public class SeoulGoodShop {
 
     @Column(nullable = true)
     @Comment("업소 정보")
+    @Setter
     private String info;
 
     @Column(nullable = false)
