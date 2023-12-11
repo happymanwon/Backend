@@ -59,7 +59,7 @@ public class JwtProvider {
         Claims claims = Jwts.parser()
             .setSigningKey(secretKey)
             .parseClaimsJws(token).getBody();
-        return (Long) claims.get("memberId");
+        return Long.parseLong(String.valueOf(claims.get("memberId")));
     }
 
     public boolean validateToken(String token) {
