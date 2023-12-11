@@ -21,7 +21,7 @@ spring:
         format_sql: true
 
 server:
-  host: 118.67.134.91
+  host: localhost
   port: 8080
 
 kakao:
@@ -34,8 +34,8 @@ jwt:
 cloud:
   naver:
     credentials:
-      access-key: 아직 없음
-      secret-key: 아직 없음
+      access-key: Qzlhb9RRM7FenseacUZr
+      secret-key: Kv1b9A7dRmhcJmFy3PibLF0kymq4oiaxZP9umAvf
     region:
       static: kr-standard #네이버로 했는데 region 안 되면 ap-northeast-2
     s3:

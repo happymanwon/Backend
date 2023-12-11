@@ -22,10 +22,16 @@ Content-Disposition: form-data; name="hashtagNames"
 Content-Type: application/json
 
 ["구욷, 굳"]
+
+--boundary
+Content-Disposition: form-data; name="multipartFiles"; filename="test.jpg"
+Content-Type: image/gif
+
+test.jpg
+--boundary
+Content-Disposition: form-data; name="multipartFiles"; filename="6e42d0c6-f5cb-4799-9270-01fe89729b31.png"
+Content-Type: image/gif
+
+6e42d0c6-f5cb-4799-9270-01fe89729b31.png
 --boundary--
-#Content-Disposition: from-data; name="multipartFiles"; filename="test.jpg"
-#Content-Type: image/gif
-#
-#C:\Users\hyeon\OneDrive\Desktop\HappyManwon\src\test\resources\test.jpg
-#--boundary
 

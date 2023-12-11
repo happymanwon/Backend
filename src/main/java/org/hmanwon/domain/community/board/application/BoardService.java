@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.community.board.dao.BoardHashtagRepository;
 import org.hmanwon.domain.community.board.dao.BoardRepository;
@@ -21,6 +22,7 @@ import org.hmanwon.domain.community.board.exception.BoardException;
 import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.application.MemberService;
 import org.hmanwon.domain.member.entity.Member;
+import org.hmanwon.infra.image.application.ImageUploader;
 import org.hmanwon.infra.image.dao.ImageRepository;
 import org.hmanwon.infra.image.entity.Image;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberService memberService;
-    //    private final ImageUploader imageUploader;
+    private final ImageUploader imageUploader;
     private final ImageRepository imageRepository;
     private final HashtagRepository hashtagRepository;
     private final BoardHashtagRepository boardHashtagRepository;
@@ -62,6 +64,7 @@ public class BoardService {
 
     }
 
+    @Transactional
     public Board createBoard(Long memberId, BoardWriteRequest boardWriteRequest) {
         Member member = memberService.findMemberById(memberId);
         Board board = Board.of(
@@ -71,24 +74,21 @@ public class BoardService {
             boardWriteRequest.longitude().orElse(-1.0)
         );
 
-        List<Image> imageList = new ArrayList<>();
-//        if (boardWriteRequest.multipartFiles() != null &&
-//            !boardWriteRequest.multipartFiles().isEmpty()) {
-//            for (String imageUrl : imageUploader.uploadFile("community",
-//                boardWriteRequest.multipartFiles())) {
-//                Image image = new Image(imageUrl, board);
-//                imageRepository.save(image);
-//                imageList.add(image);
-//            }
-//        }
-        board.setImages(imageList);
+        board = saveBoardWithImage(boardWriteRequest, board);
+        board = saveBoardWithHashtag(boardWriteRequest, board);
 
+        memberService.updateBoardListByMember(member, board);
+
+        return boardRepository.save(board);
+    }
+
+    private Board saveBoardWithHashtag(BoardWriteRequest boardWriteRequest, Board board) {
         List<BoardHashtag> boardHashtagList = new ArrayList<>();
         if (boardWriteRequest.hashtagNames() != null &&
             !boardWriteRequest.hashtagNames().isEmpty()) {
             for (String hashtagName : boardWriteRequest.hashtagNames()) {
                 String newHashtagName = hashtagName.replace("[", "").replace("]", "")
-                    .replace("\"","");
+                    .replace("\"", "");
                 Hashtag hashtag = hashtagRepository.findByName(newHashtagName)
                     .orElseGet(() -> hashtagRepository.save(new Hashtag(newHashtagName)));
                 BoardHashtag boardHashtag = BoardHashtag.builder()
@@ -100,9 +100,21 @@ public class BoardService {
             }
         }
         board.setBoardHashtags(boardHashtagList);
+        return boardRepository.save(board);
+    }
 
-        memberService.updateBoardListByMember(member, board);
-
+    private Board saveBoardWithImage(BoardWriteRequest boardWriteRequest, Board board) {
+        List<Image> imageList = new ArrayList<>();
+        if (boardWriteRequest.multipartFiles() != null &&
+            !boardWriteRequest.multipartFiles().isEmpty()) {
+            for (String imageUrl : imageUploader.uploadFile("community",
+                boardWriteRequest.multipartFiles())) {
+                Image image = new Image(imageUrl, board);
+                imageRepository.save(image);
+                imageList.add(image);
+            }
+        }
+        board.setImages(imageList);
         return boardRepository.save(board);
     }
 
