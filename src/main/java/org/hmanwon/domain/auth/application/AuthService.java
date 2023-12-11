@@ -25,7 +25,7 @@ public class AuthService {
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
 
-    @Value("${kakao.rest_api_key}")
+    @Value("${kakao.restApiKey}")
     String clientId;
     String redirectURL = "http://localhost:8080/api/auth/login/kakao";
 
