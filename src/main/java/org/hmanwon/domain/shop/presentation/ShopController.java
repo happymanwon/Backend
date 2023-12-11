@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+import org.hmanwon.domain.auth.application.AuthService;
 import org.hmanwon.domain.shop.application.ShopService;
 import org.hmanwon.domain.shop.dto.SeoulGoodShopDetailResponse;
 import org.hmanwon.domain.shop.dto.SeoulGoodShopResponse;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShopController {
 
     private final ShopService shopService;
+    private final AuthService authService;
 
     @GetMapping("")
     public ResponseEntity<DataBody<List<SeoulGoodShopResponse>>> getShopsByCategoryAndLocalCode(
@@ -71,9 +74,12 @@ public class ShopController {
 
     @PatchMapping("/likes")
     public ResponseEntity<DataBody<ShopLikeResponse>> updateShopLikeStatus(
+        @RequestHeader(value = "Authorization") String token,
         @Valid @RequestBody ShopLikeRequest shopLikeRequest) {
-        Long memberId = 1L;
-        return ResponseDTO.ok(shopService.updateLikeStatus(memberId, shopLikeRequest),
-            "가게 좋아요 상태 변경 완료");
+        return ResponseDTO.ok(
+            shopService.updateLikeStatus(
+                authService.getMemberIdFromValidToken(token), shopLikeRequest),
+            "가게 좋아요 상태 변경 완료"
+        );
     }
 }
