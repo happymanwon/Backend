@@ -1,4 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://db-k3hsu.pub-cdb.ntruss.com:3306/happymanwon-backend-mysql?characterEncoding=utf8
@@ -25,3 +30,18 @@ jwt:
   secretKey: happymanwonsecretkeyafterharutalkback3front2pm1when20231211
   accessTokenValidTime: 86400000
   refreshTokenValidTime: 604800000
+
+cloud:
+  naver:
+    credentials:
+      access-key: 아직 없음
+      secret-key: 아직 없음
+    region:
+      static: kr-standard #네이버로 했는데 region 안 되면 ap-northeast-2
+    s3:
+      endpoint: https://kr.object.ncloudstorage.com
+      bucket: happymanwon-backend
+
+logging:
+  level:
+    org.apache.coyote.http11.Http11InputBuffer: debug

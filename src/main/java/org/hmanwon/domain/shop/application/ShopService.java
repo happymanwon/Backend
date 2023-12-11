@@ -4,6 +4,7 @@ import static org.hmanwon.domain.shop.exception.ShopExceptionCode.DUPLICATED_REQ
 import static org.hmanwon.domain.shop.exception.ShopExceptionCode.NOT_FOUND_SHOP;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.member.application.MemberService;
@@ -31,7 +32,8 @@ public class ShopService {
 
     @Transactional(readOnly = true)
     public List<SeoulGoodShopResponse> getAllShops() {
-        return seoulGoodShopRepository.findAll()
+        return Optional.ofNullable(seoulGoodShopRepository.findAll())
+            .orElse(new ArrayList<>())
             .stream().map(SeoulGoodShopResponse::fromEntity)
             .collect(Collectors.toList());
     }
@@ -45,7 +47,8 @@ public class ShopService {
     public List<SeoulGoodShopResponse> searchShopByKeywordAndLocalCode(Long localCode,
         String keyword) {
         return seoulGoodShopRepository.findByNameContains(keyword)
-            .stream().filter(shop -> shop.getLocalCode() == getLocalCode(localCode))
+            .stream()
+            .filter(shop -> localCode == null || shop.getLocalCode() == getLocalCode(localCode))
             .map(SeoulGoodShopResponse::fromEntity)
             .collect(Collectors.toList());
     }

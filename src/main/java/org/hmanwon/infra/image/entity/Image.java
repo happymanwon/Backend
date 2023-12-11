@@ -1,36 +1,39 @@
-package org.hmanwon.domain.community.board.entity;
+package org.hmanwon.infra.image.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hmanwon.global.common.entity.BaseTimeEntity;
+import org.hmanwon.domain.community.board.entity.Board;
 
-@Entity
 @Getter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class BoardHashtag extends BaseTimeEntity {
+/*게시글이랑 이미지들 같이 삭제하기 위함, qr은 사용할 필요 없을 듯*/
+public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @Column(nullable = false)
+    private String imageUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @ManyToOne
-    @JoinColumn(name = "hashtage_id")
-    @JsonIgnore
-    private Hashtag hashtag;
+    public Image(String imageUrl, Board board) {
+        this.imageUrl = imageUrl;
+        this.board = board;
+    }
 
 }
