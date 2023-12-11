@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.hmanwon.domain.community.board.dto.response.BoardResponse;
 import org.hmanwon.domain.community.board.entity.Board;
 import org.hmanwon.domain.community.comment.entity.Comment;
 import org.hmanwon.domain.member.dao.MemberRepository;
 import org.hmanwon.domain.member.dto.response.MemberResponse;
-import org.hmanwon.domain.member.dto.response.MyBoardsResponseDto;
 import org.hmanwon.domain.member.dto.response.MyCommentResponseDto;
 import org.hmanwon.domain.member.dto.response.NicknameResponse;
 import org.hmanwon.domain.member.entity.Member;
@@ -65,23 +65,16 @@ public class MemberService {
         return myCommentResponseDtoList;
     }
 
-    public List<MyBoardsResponseDto> findBoardsByMember(Long memberId) {
+    public List<BoardResponse> findBoardsByMember(Long memberId) {
 
         Member member = findMemberById(memberId);
         List<Board> boards = member.getBoardList();
-        List<MyBoardsResponseDto> myBoardsResponseDtoList = new ArrayList<>();
+        List<BoardResponse> boardResponses = new ArrayList<>();
 
         for (Board board : boards) {
-            MyBoardsResponseDto myBoardsResponseDto = MyBoardsResponseDto.builder()
-                .boardId(board.getId())
-                .memberId(memberId)
-                .nickname(member.getNickname())
-                .createAt(board.getCreatedAt())
-                .updateAt(board.getUpdatedAt())
-                .build();
-            myBoardsResponseDtoList.add(myBoardsResponseDto);
+            boardResponses.add(BoardResponse.fromBoard(board));
         }
-        return myBoardsResponseDtoList;
+        return boardResponses;
     }
 
     public Member findMemberById(Long memberId) {
@@ -116,12 +109,12 @@ public class MemberService {
     public void updateBoardListByMember(Member member, Board board) {
         List<Board> boards = member.getBoardList();
         boards.add(board);
-        memberRepository.save(member);
+        member.setBoardList(boards);
     }
 
     public void updateCommentListByMember(Member member, Comment comment) {
         List<Comment> comments = member.getCommentList();
         comments.add(comment);
-        memberRepository.save(member);
+        member.setCommentList(comments);
     }
 }
