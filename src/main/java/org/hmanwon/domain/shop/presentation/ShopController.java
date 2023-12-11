@@ -39,8 +39,11 @@ public class ShopController {
         @RequestParam(name = "categoryId", required = false) final Long categoryId,
         @RequestParam(name = "localCode", required = false) final Long localCode
     ) {
-        if (categoryId == null && categoryId > 7) {
+        if (categoryId == null || categoryId > 7) {
             throw new ShopException(CATEGORY_BAD_REQUEST);
+        }
+        if (localCode == null || localCode > 25) {
+            throw new ShopException(LOCAL_CODE_BAD_REQUEST);
         }
         return ResponseDTO.ok(
             shopService.getShopsByCategoryAndLocalCode(categoryId, localCode),
@@ -67,7 +70,7 @@ public class ShopController {
         @NotBlank(message = "검색어를 채워주세요")
         final String keyword
     ) {
-        if (localCode == null && localCode > 25) {
+        if (localCode == null || localCode > 25) {
             throw new ShopException(LOCAL_CODE_BAD_REQUEST);
         }
         return ResponseDTO.ok(

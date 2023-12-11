@@ -1,2 +1,2 @@
-GET http://localhost:8080/api/shops/categories/1
+GET http://localhost:8080/api/shops?categoryId=6&localCode=5
 Accept: application/json
