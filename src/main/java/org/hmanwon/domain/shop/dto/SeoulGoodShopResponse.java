@@ -16,6 +16,7 @@ public class SeoulGoodShopResponse {
     private String roadAddress;
     private String latitude;
     private String longitude;
+    private Integer likeCount;
 
     public static SeoulGoodShopResponse fromEntity(SeoulGoodShop seoulGoodShop){
         return SeoulGoodShopResponse.builder()
@@ -28,6 +29,7 @@ public class SeoulGoodShopResponse {
             .roadAddress(seoulGoodShop.getRoadAddress())
             .latitude(seoulGoodShop.getLatitude())
             .longitude(seoulGoodShop.getLongitude())
+            .likeCount(seoulGoodShop.getLikeCount())
             .build();
     }
 }
