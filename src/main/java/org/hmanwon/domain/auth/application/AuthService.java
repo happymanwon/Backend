@@ -39,6 +39,11 @@ public class AuthService {
     String clientId;
     String redirectURL = "http://localhost:3000/auth";
 
+    /***
+     * 카카오 로그인
+     * @param kakaoAuthorizationCode 카카오 인가코드
+     * @return 로그인 응답 DTO
+     */
     public AuthLoginResponse kakaoLogin(String kakaoAuthorizationCode) {
         //인가코드 받아서 카카오 토큰 발급
         String kakaoAccessToken = getKakaoToken(kakaoAuthorizationCode);
@@ -68,6 +73,11 @@ public class AuthService {
             .build();
     }
 
+    /***
+     * 카카오 토큰 발급
+     * @param code 인가코드
+     * @return 카카오 액세스 토큰
+     */
     public String getKakaoToken(String code) {
 
         String accessToken = "";
@@ -122,6 +132,11 @@ public class AuthService {
     }
 
 
+    /***
+     * 카카오 회원 정보 조회
+     * @param accessToken 카카오 액세스 토큰
+     * @return 카카오 회원 정보
+     */
     public HashMap<String, Object> getMemberInfoFromKakao(String accessToken) {
         HashMap<String, Object> memberInfo = new HashMap<String, Object>();
 
@@ -165,25 +180,40 @@ public class AuthService {
         return memberInfo;
     }
 
+    /***
+     * 토큰 검증 및 회원 ID 조회
+     * @param headerToken 헤더에 담겨진 서비스 토큰
+     * @return 회원 ID
+     */
     public Long getMemberIdFromValidToken(String headerToken) {
         String token = headerToken;
         Long memberId = -1L;
+
+        //토큰이 빈 문자열 또는 NULL값인지 검증
         if (!StringUtils.hasText(headerToken)) {
             throw new AuthException(INVALID_TOKEN);
         }
+        //토큰이 Bearer로 시작하면 실제 토큰 추출
         if (headerToken.startsWith("Bearer")) {
             token = headerToken.substring(7);
         }
         try {
+            //토큰 유효성 검증 및 회원 ID 추출
             if (jwtProvider.validateToken(token)) {
                 memberId = jwtProvider.getMemberIdFromToken(token);
             }
         } catch (JwtException e) {
+            //JWT 예외 발생 시, 예외처리
             throw new AuthException(UNAUTHORIZED_TOKEN);
         }
         return memberId;
     }
 
+    /***
+     * 토큰 유효 여부 조회
+     * @param token 서비스 토큰
+     * @return 토큰 유효성 응답 DTO
+     */
     public TokenValidationResponse validateToken(String token) {
         TokenValidationResponse tokenValidationResponse = TokenValidationResponse.builder().build();
         try{

@@ -25,6 +25,11 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    /***
+     * 회원 가입
+     * @param memberInfoByKakao 카카오 회원 정보
+     * @return 회원 응답 DTO
+     */
     public MemberResponse addMember(HashMap<String, Object> memberInfoByKakao) {
         String email = String.valueOf(memberInfoByKakao.get("email"));
         String nickname = String.valueOf(memberInfoByKakao.get("nickname"));
@@ -45,6 +50,11 @@ public class MemberService {
             .build();
     }
 
+    /***
+     * 특정 회원 정보 조회
+     * @param memberId 회원 ID
+     * @return 회원 응답 DTO
+     */
     public MemberResponse findMemberInfo(Long memberId) {
         Member member = findMemberById(memberId);
         return MemberResponse.builder()
@@ -55,6 +65,11 @@ public class MemberService {
             .build();
     }
 
+    /***
+     * 특정 회원이 작성한 댓글 목록 조회
+     * @param memberId 회원 ID
+     * @return 댓글 응답 DTO 리스트
+     */
     public List<MyCommentResponseDto> findCommentsByMember(Long memberId) {
 
         Member member = findMemberById(memberId);
@@ -75,6 +90,11 @@ public class MemberService {
         return myCommentResponseDtoList;
     }
 
+    /***
+     * 특정 회원이 작성한 게시글 목록 조회
+     * @param memberId 회원 ID
+     * @return 게시글 응답 DTO 리스트
+     */
     public List<BoardResponse> findBoardsByMember(Long memberId) {
 
         Member member = findMemberById(memberId);
@@ -87,11 +107,21 @@ public class MemberService {
         return boardResponses;
     }
 
+    /***
+     * 회원 Entity 조회
+     * @param memberId 회원 ID
+     * @return 회원
+     */
     public Member findMemberById(Long memberId) {
         return memberRepository.findById(memberId)
             .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
     }
 
+    /***
+     * 이메일로 회원 정보 조회
+     * @param email 이메일
+     * @return 회원 응답 DTO
+     */
     public MemberResponse findByEmail(String email) {
         Member member = memberRepository.findByEmail(email);
         return MemberResponse.builder()
@@ -102,6 +132,11 @@ public class MemberService {
             .build();
     }
 
+    /***
+     * 닉네임 존재 여부 조회
+     * @param nickname 닉네임
+     * @return 닉네임 응답 DTO
+     */
     public NicknameResponse findNickname(String nickname) {
         NicknameResponse nicknameResponse;
         if (memberRepository.existsByNickname(nickname)) {
@@ -112,22 +147,41 @@ public class MemberService {
         return nicknameResponse;
     }
 
+    /***
+     * 이메일 존재 여부 조회
+     * @param email 이메일
+     * @return 존재 여부
+     */
     public boolean checkEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
 
+    /***
+     * 특정 회원이 작성한 게시글 목록 수정
+     * @param member 회원 Entity
+     * @param board 게시글 Entity
+     */
     public void updateBoardListByMember(Member member, Board board) {
         List<Board> boards = member.getBoardList();
         boards.add(board);
         member.setBoardList(boards);
     }
 
+    /***
+     * 특정 회원이 작성한 댓글 목록 수정
+     * @param member 회원 Entity
+     * @param comment 댓글 Entity
+     */
     public void updateCommentListByMember(Member member, Comment comment) {
         List<Comment> comments = member.getCommentList();
         comments.add(comment);
         member.setCommentList(comments);
     }
 
+    /***
+     * 전체 회원 정보 조회
+     * @return 회원 응답 DTO 리스트
+     */
     public List<MemberResponse> findAll() {
         List<Member> members = memberRepository.findAll();
         List<MemberResponse> memberResponses = new ArrayList<>();

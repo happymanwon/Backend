@@ -22,6 +22,12 @@ public class JwtProvider {
     @Value("${jwt.refreshTokenValidTime}")
     private long refreshTokenValidTime;
 
+    /***
+     * 액세스 토큰 발급
+     * @param email 회원 이메일
+     * @param memberId 회원 ID
+     * @return 액세스 토큰
+     */
     public String createAccessToken(String email, Long memberId) {
 
         Date now = new Date();
@@ -37,6 +43,10 @@ public class JwtProvider {
             .compact();
     }
 
+    /***
+     * 리프레시 토큰 발급
+     * @return 리프레시 토큰
+     */
     public String createRefreshToken() {
         Date now = new Date();
 
@@ -47,6 +57,11 @@ public class JwtProvider {
             .compact();
     }
 
+    /***
+     * 액세스 토큰에서 이메일 조회
+     * @param token 액세스 토큰
+     * @return 이메일
+     */
     public String getEmailFromToken(String token) {
         Claims claims = Jwts.parser()
             .setSigningKey(secretKey)
@@ -55,6 +70,11 @@ public class JwtProvider {
         return claims.getSubject();
     }
 
+    /***
+     * 액세스 토큰에서 회원 ID 조회
+     * @param token 액세스 토큰
+     * @return 회원 ID
+     */
     public Long getMemberIdFromToken(String token) {
         Claims claims = Jwts.parser()
             .setSigningKey(secretKey)
@@ -62,6 +82,11 @@ public class JwtProvider {
         return Long.parseLong(String.valueOf(claims.get("memberId")));
     }
 
+    /***
+     * 토큰 유효성 검증
+     * @param token 토큰
+     * @return 유효 여부
+     */
     public boolean validateToken(String token) {
         try {
             Claims claims = Jwts.parser()
