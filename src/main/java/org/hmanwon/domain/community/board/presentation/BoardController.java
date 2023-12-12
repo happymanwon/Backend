@@ -10,8 +10,10 @@ import org.hmanwon.domain.community.board.dto.response.BoardResponse;
 import org.hmanwon.global.common.dto.ResponseDTO;
 import org.hmanwon.global.common.dto.ResponseDTO.DataBody;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +34,7 @@ public class BoardController {
         Long memberId = 1L;
 
         return ResponseDTO.created(
-            BoardDetailResponse.fromBoard(boardService.createBoard(memberId, boardWriteRequest)),
+            boardService.createBoard(memberId, boardWriteRequest),
             "게시글 생성 완료"
         );
     }
@@ -43,6 +45,30 @@ public class BoardController {
         return ResponseDTO.ok(
             boardService.getAllBoard(),
             "전체 게시글 조회 완료"
+        );
+    }
+
+    @PatchMapping("/{boardId}")
+    public ResponseEntity<DataBody<BoardDetailResponse>> updateBoard(
+        @PathVariable Long boardId,
+        @Valid @ModelAttribute BoardWriteRequest boardWriteRequest
+    ) {
+        Long memberId = 1L;
+        return ResponseDTO.ok(
+            boardService.updateBoard(boardId, memberId, boardWriteRequest),
+            "선택 게시글 수정 완료"
+        );
+    }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<DataBody<List<BoardResponse>>> deleteBoard(
+        @PathVariable Long boardId
+    ) {
+        Long memberId = 1L;
+        boardService.deleteBoard(boardId, memberId);
+        return ResponseDTO.ok(
+            boardService.getAllBoard(),
+            "선택 게시글 삭제 완료"
         );
     }
 

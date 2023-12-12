@@ -17,7 +17,7 @@ public class ImageName {
     private static final String DOT = ".";
     private static final String UNDER_BAR = "_";
     private static final Set<String> IMAGE_EXTENSIONS = Set.of("jpeg", "jpg", "png", "webp", "heic",
-        "heif");
+        "heif","gif");
 
     public static String createFileName(final String originalFilename) {
         final String extension = StringUtils.getFilenameExtension(originalFilename);

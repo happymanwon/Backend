@@ -13,8 +13,7 @@ public record BoardResponse(
     String nickname,
     Long boardId,
     String content,
-    Double latitude,
-    Double longitude,
+    String roadName,
     LocalDateTime createAt,
     List<String> imageUrls,
     List<String> hashtagNames
@@ -26,8 +25,7 @@ public record BoardResponse(
             .nickname(board.getMember().getNickname())
             .boardId(board.getId())
             .content(board.getContent())
-            .latitude(board.getLatitude())
-            .longitude(board.getLongitude())
+            .roadName(board.getRoadName())
             .createAt(board.getCreatedAt())
             .imageUrls(
                 Optional.ofNullable(board.getImages())

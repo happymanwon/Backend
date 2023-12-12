@@ -30,7 +30,7 @@ public class BoardHashtag extends BaseTimeEntity {
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hashtage_id")
+    @JoinColumn(name = "hashtag_id")
     @JsonIgnore
     private Hashtag hashtag;
 

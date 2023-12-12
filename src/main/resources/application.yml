@@ -37,7 +37,7 @@ cloud:
       access-key: Qzlhb9RRM7FenseacUZr
       secret-key: Kv1b9A7dRmhcJmFy3PibLF0kymq4oiaxZP9umAvf
     region:
-      static: kr-standard #네이버로 했는데 region 안 되면 ap-northeast-2
+      static: kr-standard
     s3:
       endpoint: https://kr.object.ncloudstorage.com
       bucket: happymanwon-backend
