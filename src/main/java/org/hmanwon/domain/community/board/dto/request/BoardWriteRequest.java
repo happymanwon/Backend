@@ -10,8 +10,7 @@ public record BoardWriteRequest(
     String content,
     List<MultipartFile> multipartFiles,
     List<String> hashtagNames,
-    Optional<Double> latitude,
-    Optional<Double> longitude
+    String roadName
 ) {
 
 }

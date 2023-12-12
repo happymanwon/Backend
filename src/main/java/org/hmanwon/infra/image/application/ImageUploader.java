@@ -77,13 +77,13 @@ public class ImageUploader {
             } catch (IOException e) {
                 new ImageException(IMAGE_TRANSFER);
             }
-            imageUrlList.add(fileName);
+            imageUrlList.add("https://kr.object.ncloudstorage.com/happymanwon-backend/"+fileName);
         }
         return imageUrlList;
     }
 
-    public void deleteFile(String prefix, String fileName) {
-        s3.deleteObject(new DeleteObjectRequest(bucket, prefix + "/" + fileName));
+    public void deleteFile(String prefix, String boardId) {
+        s3.deleteObject(new DeleteObjectRequest(bucket, prefix + "/" + boardId));
     }
 
 

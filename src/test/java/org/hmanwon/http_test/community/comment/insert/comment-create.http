@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/comments
+Content-Type: application/json
+
+{
+  "boardId": 3,
+  "content": "라라라라라"
+}
