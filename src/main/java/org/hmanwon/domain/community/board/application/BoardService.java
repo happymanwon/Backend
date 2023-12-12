@@ -150,6 +150,9 @@ public class BoardService {
         imageRepository.deleteAllByBoardId(boardId);
         board = saveBoardWithImage(boardWriteRequest.multipartFiles(), board);
 
+//        if (!board.getBoardHashtags().isEmpty()) {
+//            deleteHashtag(board);
+//        }
         boardHashtagRepository.deleteAllByBoardId(boardId);
         board = saveBoardWithHashtag(boardWriteRequest.hashtagNames(), board);
 
@@ -158,6 +161,18 @@ public class BoardService {
 
         return BoardDetailResponse.fromBoard(boardRepository.save(board));
     }
+
+//    private void deleteHashtag(Board board) {
+//        List<BoardHashtag> boardHashtags = boardHashtagRepository.findByBoard(board);
+//
+//        for (BoardHashtag boardHashtag : boardHashtags) {
+//            Hashtag hashtag = boardHashtag.getHashtag();
+//            if (boardHashtagRepository.countByHashtag(hashtag) == 1) {
+//                boardHashtagRepository.delete(boardHashtag);
+//                hashtagRepository.delete(hashtag);
+//            }
+//        }
+//    }
 
     public void deleteBoard(Long boardId, Long memberId) {
         Board board = findBoardById(boardId);

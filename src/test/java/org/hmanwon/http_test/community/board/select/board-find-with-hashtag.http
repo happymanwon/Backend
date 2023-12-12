@@ -1,2 +1,2 @@
-GET http://localhost:8080/api/boards/hashtag?hashtagName=굳
+GET http://localhost:8080/api/boards/hashtag?hashtagName=다이브
 Accept: application/json
