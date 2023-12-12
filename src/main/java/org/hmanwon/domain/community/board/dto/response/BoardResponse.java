@@ -25,6 +25,7 @@ public record BoardResponse(
         return BoardResponse.builder()
             .nickname(board.getMember().getNickname())
             .boardId(board.getId())
+            .content(board.getContent())
             .latitude(board.getLatitude())
             .longitude(board.getLongitude())
             .createAt(board.getCreatedAt())
