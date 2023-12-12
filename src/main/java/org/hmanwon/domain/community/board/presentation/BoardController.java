@@ -3,6 +3,7 @@ package org.hmanwon.domain.community.board.presentation;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hmanwon.domain.auth.application.AuthService;
 import org.hmanwon.domain.community.board.application.BoardService;
 import org.hmanwon.domain.community.board.dto.request.BoardWriteRequest;
 import org.hmanwon.domain.community.board.dto.response.BoardDetailResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,15 +28,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class BoardController {
 
     private final BoardService boardService;
+    private final AuthService authService;
 
     @PostMapping
     public ResponseEntity<DataBody<BoardDetailResponse>> createBoard(
+        @RequestHeader(value = "Authorization") String token,
         @Valid @ModelAttribute BoardWriteRequest boardWriteRequest
     ) {
-        Long memberId = 1L;
 
         return ResponseDTO.created(
-            boardService.createBoard(memberId, boardWriteRequest),
+            boardService.createBoard(
+                authService.getMemberIdFromValidToken(token),
+                boardWriteRequest
+            ),
             "게시글 생성 완료"
         );
     }
@@ -50,22 +56,24 @@ public class BoardController {
 
     @PatchMapping("/{boardId}")
     public ResponseEntity<DataBody<BoardDetailResponse>> updateBoard(
+        @RequestHeader(value = "Authorization") String token,
         @PathVariable Long boardId,
         @Valid @ModelAttribute BoardWriteRequest boardWriteRequest
     ) {
-        Long memberId = 1L;
         return ResponseDTO.ok(
-            boardService.updateBoard(boardId, memberId, boardWriteRequest),
+            boardService.updateBoard(
+                boardId, authService.getMemberIdFromValidToken(token), boardWriteRequest
+            ),
             "선택 게시글 수정 완료"
         );
     }
 
     @DeleteMapping("/{boardId}")
     public ResponseEntity<DataBody<List<BoardResponse>>> deleteBoard(
+        @RequestHeader(value = "Authorization") String token,
         @PathVariable Long boardId
     ) {
-        Long memberId = 1L;
-        boardService.deleteBoard(boardId, memberId);
+        boardService.deleteBoard(boardId, authService.getMemberIdFromValidToken(token));
         return ResponseDTO.ok(
             boardService.getAllBoard(),
             "선택 게시글 삭제 완료"
