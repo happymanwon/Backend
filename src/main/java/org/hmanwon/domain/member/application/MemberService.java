@@ -45,6 +45,16 @@ public class MemberService {
             .build();
     }
 
+    public MemberResponse findMemberInfo(Long memberId) {
+        Member member = findMemberById(memberId);
+        return MemberResponse.builder()
+            .memberId(member.getId())
+            .email(member.getEmail())
+            .nickname(member.getNickname())
+            .point(member.getPoint())
+            .build();
+    }
+
     public List<MyCommentResponseDto> findCommentsByMember(Long memberId) {
 
         Member member = findMemberById(memberId);
@@ -116,5 +126,14 @@ public class MemberService {
         List<Comment> comments = member.getCommentList();
         comments.add(comment);
         member.setCommentList(comments);
+    }
+
+    public List<MemberResponse> findAll() {
+        List<Member> members = memberRepository.findAll();
+        List<MemberResponse> memberResponses = new ArrayList<>();
+        for(Member member: members) {
+            memberResponses.add(findMemberInfo(member.getId()));
+        }
+        return memberResponses;
     }
 }

@@ -5,8 +5,10 @@ import static org.hmanwon.global.common.exception.DefaultExceptionCode.INTERNAL_
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.hmanwon.global.common.dto.ErrorResponseDTO;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -88,13 +91,15 @@ public class DefaultExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleConstraintViolationException(
         ConstraintViolationException e, HttpServletRequest request
     ) {
+
         log.error("ConstraintViolationException error url : {}, message : {}",
             request.getRequestURI(),
             e.getMessage()
         );
-        //searchTripListByKeyword.keyword: 검색어를 채워주세요 -> "검색어를 채워주세요" 반환.
-        String[] msgList = e.getMessage().split(":");
-        String msg = msgList[msgList.length - 1].substring(1);
+
+        String msg = e.getConstraintViolations().stream()
+                .map( cv -> cv == null ? "null" : cv.getMessage() )
+                .collect( Collectors.joining( ", " ) );
 
         return new ResponseEntity<>(
             new ErrorResponseDTO(
@@ -115,7 +120,7 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(value = {
         MethodArgumentNotValidException.class
     })
-    public ResponseEntity<ErrorResponseDTO> handleArgumentNotVaildException(
+    public ResponseEntity<ErrorResponseDTO> handleArgumentNotValidException(
         MethodArgumentNotValidException e, HttpServletRequest request
     ) {
         log.error("MethodArgumentNotValid error url : {}, message : {}",
@@ -137,6 +142,21 @@ public class DefaultExceptionHandler {
         );
     }
 
+    @ExceptionHandler(value = {
+        MissingRequestHeaderException.class
+    })
+    public ResponseEntity<ErrorResponseDTO> handleMissingRequestHeaderException(
+        MissingRequestHeaderException e
+    ) {
+        return new ResponseEntity<>(
+            new ErrorResponseDTO(
+                BAD_REQUEST.getStatus(),
+                BAD_REQUEST.getCode(),
+                e.getMessage()
+            ),
+            HttpStatus.BAD_REQUEST
+        );
+    }
     /**
      * 기타 예외 처리
      *

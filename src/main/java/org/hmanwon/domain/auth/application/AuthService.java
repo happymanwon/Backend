@@ -1,8 +1,13 @@
 package org.hmanwon.domain.auth.application;
 
+import static org.hmanwon.domain.auth.exception.AuthExceptionCode.INVALID_TOKEN;
+import static org.hmanwon.domain.auth.exception.AuthExceptionCode.KAKAO_NETWORK_ERROR;
+import static org.hmanwon.domain.auth.exception.AuthExceptionCode.UNAUTHORIZED_TOKEN;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.jsonwebtoken.JwtException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -13,21 +18,26 @@ import java.net.URL;
 import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.auth.dto.AuthLoginResponse;
+import org.hmanwon.domain.auth.dto.TokenValidationResponse;
+import org.hmanwon.domain.auth.exception.AuthException;
 import org.hmanwon.domain.member.application.MemberService;
 import org.hmanwon.domain.member.dto.response.MemberResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AuthService {
 
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
 
-    @Value("${kakao.rest_api_key}")
+    @Value("${kakao.restApiKey}")
     String clientId;
-    String redirectURL = "http://localhost:8080/api/auth/login/kakao";
+    String redirectURL = "http://localhost:3000/auth";
 
     public AuthLoginResponse kakaoLogin(String kakaoAuthorizationCode) {
         //인가코드 받아서 카카오 토큰 발급
@@ -105,6 +115,7 @@ public class AuthService {
 
         } catch (IOException e) {
             e.printStackTrace();
+            throw new AuthException(KAKAO_NETWORK_ERROR);
         }
 
         return accessToken;
@@ -149,8 +160,44 @@ public class AuthService {
 
         } catch (IOException e) {
             e.printStackTrace();
+            throw new AuthException(KAKAO_NETWORK_ERROR);
         }
-
         return memberInfo;
+    }
+
+    public Long getMemberIdFromValidToken(String headerToken) {
+        String token = headerToken;
+        Long memberId = -1L;
+        if (!StringUtils.hasText(headerToken)) {
+            throw new AuthException(INVALID_TOKEN);
+        }
+        if (headerToken.startsWith("Bearer")) {
+            token = headerToken.substring(7);
+        }
+        try {
+            if (jwtProvider.validateToken(token)) {
+                memberId = jwtProvider.getMemberIdFromToken(token);
+            }
+        } catch (JwtException e) {
+            throw new AuthException(UNAUTHORIZED_TOKEN);
+        }
+        return memberId;
+    }
+
+    public TokenValidationResponse validateToken(String token) {
+        TokenValidationResponse tokenValidationResponse = TokenValidationResponse.builder().build();
+        try{
+            if(jwtProvider.validateToken(token)){
+                tokenValidationResponse = TokenValidationResponse.builder()
+                        .valid(true).errorMessage("유효한 토큰입니다.").build();
+            }
+        }catch (JwtException e){
+            tokenValidationResponse = TokenValidationResponse.builder()
+                .valid(false).errorMessage("유효하지 않은 토큰입니다: " + e.getMessage()).build();
+        }catch (Exception e) {
+            tokenValidationResponse = TokenValidationResponse.builder()
+                .valid(false).errorMessage("토큰 검증 중 예외가 발생했습니다.").build();
+        }
+        return tokenValidationResponse;
     }
 }
