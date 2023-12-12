@@ -1,5 +1,6 @@
 package org.hmanwon.domain.community.board.application;
 
+import static org.hmanwon.domain.community.board.exception.BoardExceptionCode.FORBIDDEN_BOARD;
 import static org.hmanwon.domain.community.board.exception.BoardExceptionCode.NOT_FOUND_BOARD;
 import static org.hmanwon.domain.community.board.exception.BoardExceptionCode.NOT_FOUND_HASHTAG;
 
@@ -26,6 +27,7 @@ import org.hmanwon.infra.image.application.ImageUploader;
 import org.hmanwon.infra.image.dao.ImageRepository;
 import org.hmanwon.infra.image.entity.Image;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -65,28 +67,31 @@ public class BoardService {
     }
 
     @Transactional
-    public Board createBoard(Long memberId, BoardWriteRequest boardWriteRequest) {
+    public BoardDetailResponse createBoard(Long memberId, BoardWriteRequest boardWriteRequest) {
         Member member = memberService.findMemberById(memberId);
         Board board = Board.of(
             boardWriteRequest.content(),
             member,
-            boardWriteRequest.latitude().orElse(-1.0),
-            boardWriteRequest.longitude().orElse(-1.0)
+            boardWriteRequest.roadName()
         );
 
-        board = saveBoardWithHashtag(boardWriteRequest, board);
-        board = saveBoardWithImage(boardWriteRequest, board);
+        board = saveBoardWithHashtag(boardWriteRequest.hashtagNames(), board);
+        board = saveBoardWithImage(boardWriteRequest.multipartFiles(), board);
 
         memberService.updateBoardListByMember(member, board);
 
-        return boardRepository.save(board);
+        return BoardDetailResponse.fromBoard(boardRepository.save(board));
     }
 
-    private Board saveBoardWithHashtag(BoardWriteRequest boardWriteRequest, Board board) {
-        List<BoardHashtag> boardHashtagList = new ArrayList<>();
-        if (boardWriteRequest.hashtagNames() != null &&
-            !boardWriteRequest.hashtagNames().isEmpty()) {
-            for (String hashtagName : boardWriteRequest.hashtagNames()) {
+    private Board saveBoardWithHashtag(List<String> hashtagNames, Board board) {
+
+        if (board.getBoardHashtags() == null) {
+            board.setBoardHashtags(new ArrayList<>());
+        }
+        board.getBoardHashtags().clear();
+
+        if (hashtagNames != null && !hashtagNames.isEmpty()) {
+            for (String hashtagName : hashtagNames) {
                 String newHashtagName = hashtagName.replace("[", "").replace("]", "")
                     .replace("\"", "");
                 Hashtag hashtag = hashtagRepository.findByName(newHashtagName)
@@ -96,25 +101,27 @@ public class BoardService {
                     .hashtag(hashtag)
                     .build();
 
-                boardHashtagList.add(boardHashtag);
+                board.getBoardHashtags().add(boardHashtag);
             }
         }
-        board.setBoardHashtags(boardHashtagList);
         return boardRepository.save(board);
     }
 
-    private Board saveBoardWithImage(BoardWriteRequest boardWriteRequest, Board board) {
-        List<Image> imageList = new ArrayList<>();
-        if (boardWriteRequest.multipartFiles() != null &&
-            !boardWriteRequest.multipartFiles().isEmpty()) {
+    private Board saveBoardWithImage(List<MultipartFile> multipartFiles, Board board) {
+
+        if (board.getImages() == null) {
+            board.setImages(new ArrayList<>());
+        }
+        board.getImages().clear();
+
+        if (multipartFiles != null && !multipartFiles.isEmpty()) {
             for (String imageUrl : imageUploader.uploadFile("community", board.getId().toString(),
-                boardWriteRequest.multipartFiles())) {
+                multipartFiles)) {
                 Image image = new Image(imageUrl, board);
                 imageRepository.save(image);
-                imageList.add(image);
+                board.getImages().add(image);
             }
         }
-        board.setImages(imageList);
         return boardRepository.save(board);
     }
 
@@ -130,8 +137,54 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    /*멤버 처리 하는 기능도 추가 해야 함*/
+    @Transactional
+    public BoardDetailResponse updateBoard(Long boardId, Long memberId,
+        BoardWriteRequest boardWriteRequest) {
+        Board board = findBoardById(boardId);
 
+        if (memberId != board.getMember().getId()) {
+            throw new BoardException(FORBIDDEN_BOARD);
+        }
+
+        imageUploader.deleteFile("community", boardId.toString());
+        imageRepository.deleteAllByBoardId(boardId);
+        board = saveBoardWithImage(boardWriteRequest.multipartFiles(), board);
+
+//        if (!board.getBoardHashtags().isEmpty()) {
+//            deleteHashtag(board);
+//        }
+        boardHashtagRepository.deleteAllByBoardId(boardId);
+        board = saveBoardWithHashtag(boardWriteRequest.hashtagNames(), board);
+
+        board.updateContent(boardWriteRequest.content());
+        board.updateRoadName(boardWriteRequest.roadName());
+
+        return BoardDetailResponse.fromBoard(boardRepository.save(board));
+    }
+
+//    private void deleteHashtag(Board board) {
+//        List<BoardHashtag> boardHashtags = boardHashtagRepository.findByBoard(board);
+//
+//        for (BoardHashtag boardHashtag : boardHashtags) {
+//            Hashtag hashtag = boardHashtag.getHashtag();
+//            if (boardHashtagRepository.countByHashtag(hashtag) == 1) {
+//                boardHashtagRepository.delete(boardHashtag);
+//                hashtagRepository.delete(hashtag);
+//            }
+//        }
+//    }
+
+    public void deleteBoard(Long boardId, Long memberId) {
+        Board board = findBoardById(boardId);
+        if (memberId != board.getMember().getId()) {
+            throw new BoardException(FORBIDDEN_BOARD);
+        }
+
+        imageUploader.deleteFile("community", boardId.toString());
+        boardRepository.deleteById(boardId);
+    }
+
+    /*멤버 처리 하는 기능도 추가 해야 함*/
     public void reportBoard(Long boardId) {
         Optional<Board> boardOptional = boardRepository.findById(boardId);
         if (boardOptional.isPresent()) {

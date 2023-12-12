@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/comments
+Content-Type: application/json
+
+{
+  "boardId": 16,
+  "content": "다이브"
+}
