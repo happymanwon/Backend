@@ -1,6 +1,6 @@
 package org.hmanwon.infra.image.application;
 
-import static org.hmanwon.infra.image.application.ImageName.createFileName;
+import static org.hmanwon.infra.image.exception.ImageExceptionCode.IMAGE_TRANSFER;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -8,10 +8,13 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.AbortMultipartUploadRequest;
 import com.amazonaws.services.s3.model.CORSRule;
 import com.amazonaws.services.s3.model.CORSRule.AllowedMethods;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.InitiateMultipartUploadRequest;
+import com.amazonaws.services.s3.model.InitiateMultipartUploadResult;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import java.io.IOException;
@@ -21,40 +24,48 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.hmanwon.infra.image.exception.ImageException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-//@Service
+@Service
 public class ImageUploader {
 
-    @Value("${cloud.naver.credentials.access-key}")
     private String accessKey;
-
-    @Value("${cloud.naver.credentials.secret-key}")
     private String secretKey;
-
-    @Value("${cloud.naver.region.static}")
     private String region;
-
-    @Value("${cloud.naver.s3.endpoint}")
     private String endPoint;
-
-    @Value("${cloud.naver.s3.bucket}")
     private String bucket;
+    AmazonS3 s3;
 
-    AmazonS3 s3 = AmazonS3ClientBuilder.standard()
-        .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endPoint, region))
-        .withCredentials(
-            new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
-        .build();
+    public ImageUploader(@Value("${cloud.naver.credentials.access-key}") String accessKey,
+        @Value("${cloud.naver.credentials.secret-key}") String secretKey,
+        @Value("${cloud.naver.region.static}") String region,
+        @Value("${cloud.naver.s3.endpoint}") String endPoint,
+        @Value("${cloud.naver.s3.bucket}") String bucket) {
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.region = region;
+        this.endPoint = endPoint;
+        this.bucket = bucket;
 
+        s3 = AmazonS3ClientBuilder.standard()
+            .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endPoint, region))
+            .withCredentials(
+                new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
+            .build();
+    }
 
-    public List<String> uploadFile(String prefix, final List<MultipartFile> multipartFileList) {
+    public List<String> uploadFile(String prefix, String boardId, final List<MultipartFile> multipartFileList) {
         List<String> imageUrlList = new ArrayList<>();
 
         for (MultipartFile file : multipartFileList) {
-            String fileName = prefix + "/" + createFileName(file.getOriginalFilename());
+            String fileName = prefix + "/" + boardId + "/" + ImageName.createFileName(file.getOriginalFilename());
+            InitiateMultipartUploadResult initiateMultipartUploadResult =
+                s3.initiateMultipartUpload(new InitiateMultipartUploadRequest(bucket, fileName));
+            String uploadId = initiateMultipartUploadResult.getUploadId();
+
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(file.getSize());
             objectMetadata.setContentType(file.getContentType());
@@ -62,9 +73,11 @@ public class ImageUploader {
             try (InputStream inputStream = file.getInputStream()) {
                 s3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
+                s3.abortMultipartUpload(new AbortMultipartUploadRequest(bucket, fileName,uploadId));
             } catch (IOException e) {
-                e.printStackTrace();
+                new ImageException(IMAGE_TRANSFER);
             }
+            imageUrlList.add(fileName);
         }
         return imageUrlList;
     }
