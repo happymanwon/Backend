@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hmanwon.domain.auth.application.AuthService;
+import org.hmanwon.domain.member.application.MemberService;
 import org.hmanwon.domain.member.dao.MemberRepository;
 import org.hmanwon.domain.member.entity.Member;
 import org.hmanwon.domain.member.exception.MemberException;
@@ -48,7 +50,8 @@ public class PurchaseService {
     private final PurchaseHistoryRepository purchaseHistoryRepository;
     private final ZzanItemRepository zzanItemRepository;
     private final QrImageRepository qrImageRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final AuthService authService;
 
     private static final String useLink = "http://118.67.134.91:8080/api/zzan-items/use/";
 
@@ -58,8 +61,8 @@ public class PurchaseService {
      * @return
      */
     @Transactional
-    public PurchaseResultResponse purchase(Long zzanItemId) {
-        Member member = getMember();
+    public PurchaseResultResponse purchase(Long zzanItemId, String token) {
+        Member member = getMember(token);
         ZzanItem zzanItem = getZzanItem(zzanItemId);
 
         // 결제 가능한지 파악 (갯수, 데드라인, 회원 돈)
@@ -69,7 +72,7 @@ public class PurchaseService {
         decreaseZzanItemCount(zzanItem);
 
         //member point 차감.
-        decreaseMemberPoint(member, zzanItem.getSalePrice());
+        member.decreasePoint(zzanItem.getSalePrice());
 
         // 주문 내역 생성
         PurchaseHistory ph = PurchaseHistory.builder()
@@ -143,8 +146,8 @@ public class PurchaseService {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<PurchaseResponse> getPurchaseList() {
-        Member member = getMember();
+    public List<PurchaseResponse> getPurchaseList(String token) {
+        Member member = getMember(token);
         return purchaseHistoryRepository.findByMember(member)
                 .stream()
                 .map(PurchaseResponse::fromEntity)
@@ -176,11 +179,6 @@ public class PurchaseService {
         zzanItemRepository.save(zzanItem);
     }
 
-    private void decreaseMemberPoint(Member member, Integer price) {
-        member.setPoint(member.getPoint() - price);
-        memberRepository.save(member);
-    }
-
     private QrImage createQrImage(String link) {
         byte[] qrCode = QRCodeUtil.generateQRCodeImage(link);
         log.info("QR create Link: {}", link);
@@ -189,10 +187,12 @@ public class PurchaseService {
         return qrImage;
     }
 
-    private Member getMember() {
+    private Member getMember(String token) {
+        Long memberId = authService.getMemberIdFromValidToken(token);
         //임의로 만들음. 1L
-        return memberRepository.findById(1L)
-                .orElseThrow(() -> new MemberException(MemberExceptionCode.NOT_FOUND_MEMBER));
+        return memberService.findMemberById(memberId);
+//        return memberRepository.findById(1L)
+//                .orElseThrow(() -> new MemberException(MemberExceptionCode.NOT_FOUND_MEMBER));
     }
 
     private ZzanItem getZzanItem(Long id) {

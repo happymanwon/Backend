@@ -64,4 +64,8 @@ public class Member extends BaseTimeEntity {
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
     }
+
+    public void decreasePoint(Integer price) {
+        this.point -= price;
+    }
 }
