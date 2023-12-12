@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import org.hmanwon.domain.auth.dto.AuthLoginResponse;
+import org.hmanwon.domain.auth.dto.TokenValidationResponse;
 import org.hmanwon.domain.auth.exception.AuthException;
 import org.hmanwon.domain.member.application.MemberService;
 import org.hmanwon.domain.member.dto.response.MemberResponse;
@@ -36,7 +37,7 @@ public class AuthService {
 
     @Value("${kakao.restApiKey}")
     String clientId;
-    String redirectURL = "http://118.67.134.91:8080/api/auth/login/kakao";
+    String redirectURL = "http://localhost:3000/auth";
 
     public AuthLoginResponse kakaoLogin(String kakaoAuthorizationCode) {
         //인가코드 받아서 카카오 토큰 발급
@@ -165,7 +166,6 @@ public class AuthService {
     }
 
     public Long getMemberIdFromValidToken(String headerToken) {
-        //예외처리 필요
         String token = headerToken;
         Long memberId = -1L;
         if (!StringUtils.hasText(headerToken)) {
@@ -182,5 +182,22 @@ public class AuthService {
             throw new AuthException(UNAUTHORIZED_TOKEN);
         }
         return memberId;
+    }
+
+    public TokenValidationResponse validateToken(String token) {
+        TokenValidationResponse tokenValidationResponse = TokenValidationResponse.builder().build();
+        try{
+            if(jwtProvider.validateToken(token)){
+                tokenValidationResponse = TokenValidationResponse.builder()
+                        .valid(true).errorMessage("유효한 토큰입니다.").build();
+            }
+        }catch (JwtException e){
+            tokenValidationResponse = TokenValidationResponse.builder()
+                .valid(false).errorMessage("유효하지 않은 토큰입니다: " + e.getMessage()).build();
+        }catch (Exception e) {
+            tokenValidationResponse = TokenValidationResponse.builder()
+                .valid(false).errorMessage("토큰 검증 중 예외가 발생했습니다.").build();
+        }
+        return tokenValidationResponse;
     }
 }

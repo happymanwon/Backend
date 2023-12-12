@@ -1,5 +1,6 @@
 package org.hmanwon.domain.community.board.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,11 +27,15 @@ public class Hashtag extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "hashtag",
         cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonIgnore
     private List<BoardHashtag> boardHashtags;
 
+    public Hashtag(String name) {
+        this.name = name;
+    }
 }
