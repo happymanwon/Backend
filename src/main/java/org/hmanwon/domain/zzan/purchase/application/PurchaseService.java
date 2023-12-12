@@ -189,10 +189,7 @@ public class PurchaseService {
 
     private Member getMember(String token) {
         Long memberId = authService.getMemberIdFromValidToken(token);
-        //임의로 만들음. 1L
         return memberService.findMemberById(memberId);
-//        return memberRepository.findById(1L)
-//                .orElseThrow(() -> new MemberException(MemberExceptionCode.NOT_FOUND_MEMBER));
     }
 
     private ZzanItem getZzanItem(Long id) {
