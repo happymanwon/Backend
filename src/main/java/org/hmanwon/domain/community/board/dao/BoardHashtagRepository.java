@@ -15,8 +15,8 @@ public interface BoardHashtagRepository extends JpaRepository<BoardHashtag, Long
     @Query("select b from BoardHashtag b join fetch b.board join fetch b.hashtag where b.hashtag = :hashtag")
     Optional<List<BoardHashtag>> findByHashtag(@Param("hashtag") Hashtag hashtag);
 
-//    @Transactional
-//    @Modifying
+    @Transactional
+    @Modifying
     @Query("DELETE FROM BoardHashtag bh WHERE bh.board.id = :boardId")
     void deleteAllByBoardId(@Param("boardId") Long boardId);
 

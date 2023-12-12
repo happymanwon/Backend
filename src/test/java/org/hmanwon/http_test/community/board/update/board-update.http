@@ -1,4 +1,4 @@
-PATCH http://localhost:8080/api/boards/9
+PATCH http://localhost:8080/api/boards/18
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary

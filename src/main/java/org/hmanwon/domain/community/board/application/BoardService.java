@@ -146,19 +146,15 @@ public class BoardService {
             throw new BoardException(FORBIDDEN_BOARD);
         }
 
-        board = Board.update(
-            boardId,
-            boardWriteRequest.content(),
-            board.getMember(),
-            boardWriteRequest.roadName()
-        );
-
         imageUploader.deleteFile("community", boardId.toString());
         imageRepository.deleteAllByBoardId(boardId);
         board = saveBoardWithImage(boardWriteRequest.multipartFiles(), board);
 
-        board = saveBoardWithHashtag(boardWriteRequest.hashtagNames(), board);
         boardHashtagRepository.deleteAllByBoardId(boardId);
+        board = saveBoardWithHashtag(boardWriteRequest.hashtagNames(), board);
+
+        board.updateContent(boardWriteRequest.content());
+        board.updateRoadName(boardWriteRequest.roadName());
 
         return BoardDetailResponse.fromBoard(boardRepository.save(board));
     }

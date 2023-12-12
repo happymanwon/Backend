@@ -56,6 +56,14 @@ public class Board extends BaseTimeEntity {
         cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updateRoadName(String roadName) {
+        this.roadName = roadName;
+    }
+
     public void increaseReportCnt() {
         this.reportCnt++;
     }
