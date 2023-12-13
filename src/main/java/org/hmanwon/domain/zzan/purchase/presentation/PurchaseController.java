@@ -25,11 +25,11 @@ public class PurchaseController {
 
     @GetMapping("/{zzanItemId}/purchase")
     public ResponseEntity<DataBody<PurchaseResultResponse>> purchase(
-            @RequestHeader(value = "Authorization") String token,
+//            @RequestHeader(value = "Authorization") String token,
             @PathVariable final Long zzanItemId
     ) {
         return ResponseDTO.created(
-                purchaseService.purchase(zzanItemId, token),
+                purchaseService.purchase(zzanItemId, 3L),
                 "주문 처리 완료"
         );
     }
@@ -56,10 +56,10 @@ public class PurchaseController {
 
     @GetMapping("/purchase/list")
     public ResponseEntity<DataBody<List<PurchaseResponse>>> getPurchaseList(
-            @RequestHeader(value = "Authorization") String token
+//            @RequestHeader(value = "Authorization") String token
     ) {
         return ResponseDTO.ok(
-                purchaseService.getPurchaseList(token),
+                purchaseService.getPurchaseList(3L),
                 "구매 목록 전체 조회 완료");
     }
 

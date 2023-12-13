@@ -36,25 +36,25 @@ public class MemberController {
 
     @GetMapping("/comments")
     public ResponseEntity<DataBody<List<MyCommentResponseDto>>> getCommentsByMember(
-        @RequestHeader(value = "Authorization") String token) {
+        /*@RequestHeader(value = "Authorization") String token*/) {
         return ResponseDTO.ok(
-            memberService.findCommentsByMember(authService.getMemberIdFromValidToken(token)),
+            memberService.findCommentsByMember(3L),
             "내 댓글 목록 조회 완료");
     }
 
     @GetMapping("/boards")
     public ResponseEntity<DataBody<List<BoardResponse>>> getBoardsByMember(
-        @RequestHeader(value = "Authorization") String token) {
+        /*@RequestHeader(value = "Authorization") String token*/) {
         return ResponseDTO.ok(
-            memberService.findBoardsByMember(authService.getMemberIdFromValidToken(token)),
+            memberService.findBoardsByMember(3L),
             "내 게시글 목록 조회 완료");
     }
 
     @GetMapping
     public ResponseEntity<DataBody<MemberResponse>> getMemberInfo(
-        @RequestHeader(value = "Authorization") String token) {
+        /*@RequestHeader(value = "Authorization") String token*/) {
         return ResponseDTO.ok(
-            memberService.findMemberInfo(authService.getMemberIdFromValidToken(token)),
+            memberService.findMemberInfo(3L),
             "회원 정보 조회 완료");
     }
 
