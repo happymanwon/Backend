@@ -15,6 +15,7 @@ public record BoardDetailResponse(
     String nickname,
     Long boardId,
     String content,
+    String shopName,
     String roadName,
     LocalDateTime createAt,
     List<String> imageUrls,
@@ -28,6 +29,7 @@ public record BoardDetailResponse(
             .nickname(board.getMember().getNickname())
             .boardId(board.getId())
             .content(board.getContent())
+            .shopName(board.getShopName())
             .roadName(board.getRoadName())
             .createAt(board.getCreatedAt())
             .imageUrls(

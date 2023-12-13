@@ -1,2 +1,2 @@
-DELETE http://localhost:8080/api/boards/17
+DELETE http://localhost:8080/api/boards/8
 Content-Type: application/json

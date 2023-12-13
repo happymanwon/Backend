@@ -72,6 +72,7 @@ public class BoardService {
         Board board = Board.of(
             boardWriteRequest.content(),
             member,
+            boardWriteRequest.shopName(),
             boardWriteRequest.roadName()
         );
 
@@ -157,6 +158,7 @@ public class BoardService {
         board = saveBoardWithHashtag(boardWriteRequest.hashtagNames(), board);
 
         board.updateContent(boardWriteRequest.content());
+        board.updateShopName(boardWriteRequest.shopName());
         board.updateRoadName(boardWriteRequest.roadName());
 
         return BoardDetailResponse.fromBoard(boardRepository.save(board));

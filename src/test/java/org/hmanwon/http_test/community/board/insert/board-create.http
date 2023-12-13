@@ -6,14 +6,18 @@ Content-Disposition: form-data; name="content"
 
 숨 참고
 --boundary
-Content-Disposition: form-data; name="roadName"
+Content-Disposition: form-data; name="shopName"
 
 러브
+--boundary
+Content-Disposition: form-data; name="roadName"
+
+다이브
 --boundary
 Content-Disposition: form-data; name="hashtagNames"
 Content-Type: application/json
 
-["다이브, 우우우우"]
+["우우우우"]
 
 --boundary
 Content-Disposition: form-data; name="multipartFiles"; filename="test.jpg"

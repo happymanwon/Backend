@@ -37,6 +37,7 @@ public class Board extends BaseTimeEntity {
     private String content;
 
     private String roadName;
+    private String shopName;
     @Min(0)
     private Integer reportCnt;
 
@@ -60,6 +61,8 @@ public class Board extends BaseTimeEntity {
         this.content = content;
     }
 
+    public void updateShopName(String shopName) {this.shopName = shopName;}
+
     public void updateRoadName(String roadName) {
         this.roadName = roadName;
     }
@@ -80,24 +83,15 @@ public class Board extends BaseTimeEntity {
         this.comments = CommentList;
     }
 
-    public static Board of(String content, Member member, String roadName) {
+    public static Board of(String content, Member member, String shopName, String roadName) {
         return Board
             .builder()
             .content(content)
             .reportCnt(0)
             .member(member)
+            .shopName(shopName)
             .roadName(roadName)
             .build();
     }
 
-    public static Board update(Long boardId, String content, Member member, String roadName) {
-        return Board
-            .builder()
-            .id(boardId)
-            .content(content)
-            .reportCnt(0)
-            .member(member)
-            .roadName(roadName)
-            .build();
-    }
 }
