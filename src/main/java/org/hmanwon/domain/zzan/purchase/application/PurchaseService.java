@@ -61,8 +61,9 @@ public class PurchaseService {
      * @return
      */
     @Transactional
-    public PurchaseResultResponse purchase(Long zzanItemId, String token) {
-        Member member = getMember(token);
+    public PurchaseResultResponse purchase(Long zzanItemId, Long memberId) {
+//        Member member = getMember(token);
+        Member member = memberService.findMemberById(memberId);
         ZzanItem zzanItem = getZzanItem(zzanItemId);
 
         // 결제 가능한지 파악 (갯수, 데드라인, 회원 돈)
@@ -146,8 +147,9 @@ public class PurchaseService {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<PurchaseResponse> getPurchaseList(String token) {
-        Member member = getMember(token);
+    public List<PurchaseResponse> getPurchaseList(Long memberId) {
+//        Member member = getMember(token);
+        Member member = memberService.findMemberById(memberId);
         return purchaseHistoryRepository.findByMember(member)
                 .stream()
                 .map(PurchaseResponse::fromEntity)

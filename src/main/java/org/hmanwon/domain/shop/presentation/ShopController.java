@@ -74,11 +74,11 @@ public class ShopController {
 
     @PatchMapping("/likes")
     public ResponseEntity<DataBody<ShopLikeResponse>> updateShopLikeStatus(
-        @RequestHeader(value = "Authorization") String token,
+//        @RequestHeader(value = "Authorization") String token,
         @Valid @RequestBody ShopLikeRequest shopLikeRequest) {
         return ResponseDTO.ok(
             shopService.updateLikeStatus(
-                authService.getMemberIdFromValidToken(token), shopLikeRequest),
+                3L, shopLikeRequest),
             "가게 좋아요 상태 변경 완료"
         );
     }
