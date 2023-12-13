@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,10 +25,11 @@ public class PurchaseController {
 
     @GetMapping("/{zzanItemId}/purchase")
     public ResponseEntity<DataBody<PurchaseResultResponse>> purchase(
+            @RequestHeader(value = "Authorization") String token,
             @PathVariable final Long zzanItemId
     ) {
         return ResponseDTO.created(
-                purchaseService.purchase(zzanItemId),
+                purchaseService.purchase(zzanItemId, token),
                 "주문 처리 완료"
         );
     }
@@ -53,9 +55,11 @@ public class PurchaseController {
     }
 
     @GetMapping("/purchase/list")
-    public ResponseEntity<DataBody<List<PurchaseResponse>>> getPurchaseList() {
+    public ResponseEntity<DataBody<List<PurchaseResponse>>> getPurchaseList(
+            @RequestHeader(value = "Authorization") String token
+    ) {
         return ResponseDTO.ok(
-                purchaseService.getPurchaseList(),
+                purchaseService.getPurchaseList(token),
                 "구매 목록 전체 조회 완료");
     }
 
