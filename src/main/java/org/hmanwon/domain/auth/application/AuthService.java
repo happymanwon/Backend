@@ -37,7 +37,7 @@ public class AuthService {
 
     @Value("${kakao.restApiKey}")
     String clientId;
-    String redirectURL = "http://localhost:3000/auth";
+    String redirectURL = "https://happy-manwon.vercel.app/auth";
 
     /***
      * 카카오 로그인
