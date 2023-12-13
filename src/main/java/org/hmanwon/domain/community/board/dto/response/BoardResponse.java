@@ -12,6 +12,7 @@ import org.hmanwon.domain.community.board.entity.Board;
 public record BoardResponse(
     String nickname,
     Long boardId,
+    String shopName,
     String content,
     String roadName,
     LocalDateTime createAt,
@@ -25,6 +26,7 @@ public record BoardResponse(
             .nickname(board.getMember().getNickname())
             .boardId(board.getId())
             .content(board.getContent())
+            .shopName(board.getShopName())
             .roadName(board.getRoadName())
             .createAt(board.getCreatedAt())
             .imageUrls(

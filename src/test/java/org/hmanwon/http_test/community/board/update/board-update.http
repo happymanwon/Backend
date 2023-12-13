@@ -1,4 +1,4 @@
-PATCH http://localhost:8080/api/boards/19
+PATCH http://localhost:8080/api/boards/8
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -6,14 +6,18 @@ Content-Disposition: form-data; name="content"
 
 눈동자 아래로
 --boundary
-Content-Disposition: form-data; name="roadName"
+Content-Disposition: form-data; name="shopName"
 
 감추고 있는 거
+--boundary
+Content-Disposition: form-data; name="roadName"
+
+나르시시스틱
 --boundary
 Content-Disposition: form-data; name="hashtagNames"
 Content-Type: application/json
 
-["나르시시스틱, My, God, I, Love, It, 다이브"]
+["My, God, I, Love, It, 다이브"]
 
 --boundary
 Content-Disposition: form-data; name="multipartFiles"; filename="img.gif"

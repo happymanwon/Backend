@@ -10,6 +10,7 @@ public record BoardWriteRequest(
     String content,
     List<MultipartFile> multipartFiles,
     List<String> hashtagNames,
+    String shopName,
     String roadName
 ) {
 
