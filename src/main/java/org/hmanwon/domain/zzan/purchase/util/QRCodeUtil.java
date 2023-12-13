@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 import lombok.extern.slf4j.Slf4j;
 import org.hmanwon.domain.zzan.purchase.entity.QrImage;
 import org.hmanwon.domain.zzan.purchase.exception.QrCodeException;
-import org.hmanwon.global.common.exception.DefaultException;
 
 @Slf4j
 public class QRCodeUtil {
@@ -26,7 +25,7 @@ public class QRCodeUtil {
      * 그 이미지를 byte 배열 형태로 반환하는 메서드
      * @param link
      * @return QR 코드 이미지를 바이트 배열 형태로 변환
-     * @throws DefaultException
+     * @throws QrCodeException
      */
     public static byte[] generateQRCodeImage(String link) {
         try {
@@ -66,7 +65,7 @@ public class QRCodeUtil {
      * @return
      */
     public static String getQrImageURL(QrImage qrImage) {
-        return "http://localhost:8080/api/zzan-items/qr-code-images/" + qrImage.getId();
+        return "http://118.67.134.91:8080/api/zzan-items/qr-code-images/" + qrImage.getId();
     }
 
 }
