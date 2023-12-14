@@ -53,7 +53,7 @@ public class PurchaseService {
     private final MemberService memberService;
     private final AuthService authService;
 
-    private static final String useLink = "http://118.67.134.91:8080/api/zzan-items/use/";
+    private static final String useLink = "https://happy-manwon.vercel.app/purchase/use?id=";
 
     /**
      * 구매 처리 메소드
@@ -113,12 +113,12 @@ public class PurchaseService {
      * @param purchaseId
      */
     @Transactional
-    public void usePurchase(Long purchaseId) {
+    public boolean usePurchase(Long purchaseId) {
         PurchaseHistory ph = purchaseHistoryRepository.findById(purchaseId)
                 .orElseThrow(() -> new PurchaseException(NOT_FOUND_PURCHASE));
 
         if (ph.getStatus().equals(IN_USE)) {
-            throw new PurchaseException(ALREADY_USE);
+            return false;
         }
 
         ph.setStatus(IN_USE);
@@ -128,6 +128,7 @@ public class PurchaseService {
         if (updatePh == null) {
             throw new PurchaseException(FAILED_PURCHASE_USE);
         }
+        return true;
     }
 
     /**
