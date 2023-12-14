@@ -22,7 +22,7 @@ spring:
 
 server:
   host: 118.67.134.91
-
+  port: 80
 kakao:
   restApiKey : dceb1b292320a7621e7a4cbbbaf81531
 jwt:
