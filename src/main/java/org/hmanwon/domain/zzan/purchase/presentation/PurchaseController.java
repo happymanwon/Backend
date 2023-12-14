@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,12 +35,21 @@ public class PurchaseController {
         );
     }
 
-    @GetMapping("/use/{purchaseId}")
+    @GetMapping("/purchase/use")
     public ResponseEntity<DataBody<Void>> useQrCode(
-            @PathVariable final Long purchaseId
+            @RequestParam(name = "id") final Long purchaseId
     ) {
-        purchaseService.usePurchase(purchaseId);
-        return ResponseDTO.ok("QR 사용 완료");
+        boolean used = purchaseService.usePurchase(purchaseId);
+        String msg = "";
+        if (used) {
+            //QR 사용이 완료됨.
+            msg = "QR 사용이 완료되었습니다.";
+        } else {
+            //이미 사용된 QR임.
+            msg = "이미 사용된 QR로, 사용이 불가능합니다.";
+        }
+
+        return ResponseDTO.ok(msg);
     }
 
 
