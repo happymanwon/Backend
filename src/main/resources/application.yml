@@ -23,10 +23,6 @@ spring:
 server:
   host: 118.67.134.91
   port: 8080
-  ssl:
-    key-store: classpath:keystore.p12
-    key-store-type: PKCS12
-    key-store-password: 12345
 
 kakao:
   restApiKey: dceb1b292320a7621e7a4cbbbaf81531
