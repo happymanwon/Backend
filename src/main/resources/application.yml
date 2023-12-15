@@ -21,6 +21,7 @@ spring:
         format_sql: true
 
 server:
+  host: 118.67.134.91
   port: 443
   ssl:
     key-store: classpath:keystore.p12
