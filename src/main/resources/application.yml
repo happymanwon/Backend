@@ -22,7 +22,7 @@ spring:
 
 server:
   host: 118.67.134.91
-  port: 443
+  port: 8080
   ssl:
     key-store: classpath:keystore.p12
     key-store-type: PKCS12
