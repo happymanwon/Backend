@@ -25,9 +25,11 @@ server:
   ssl:
     key-store: classpath:keystore.p12
     key-store-type: PKCS12
-    key-store-password:
+    key-store-password: 12345
+
 kakao:
-  restApiKey : dceb1b292320a7621e7a4cbbbaf81531
+  restApiKey: dceb1b292320a7621e7a4cbbbaf81531
+
 jwt:
   secretKey: happymanwonsecretkeyafterharutalkback3front2pm1when20231211
   accessTokenValidTime: 86400000
