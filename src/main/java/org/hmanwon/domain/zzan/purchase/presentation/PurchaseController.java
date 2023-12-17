@@ -2,6 +2,7 @@ package org.hmanwon.domain.zzan.purchase.presentation;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.hmanwon.domain.auth.application.AuthService;
 import org.hmanwon.domain.zzan.purchase.application.PurchaseService;
 import org.hmanwon.domain.zzan.purchase.dto.PurchaseResponse;
 import org.hmanwon.domain.zzan.purchase.dto.PurchaseResultResponse;
@@ -23,14 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
+    private final AuthService authService;
 
     @GetMapping("/{zzanItemId}/purchase")
     public ResponseEntity<DataBody<PurchaseResultResponse>> purchase(
-//            @RequestHeader(value = "Authorization") String token,
+            @RequestHeader(value = "Authorization") String token,
             @PathVariable final Long zzanItemId
     ) {
         return ResponseDTO.created(
-                purchaseService.purchase(zzanItemId, 3L),
+                purchaseService.purchase(zzanItemId, authService.getMemberIdFromValidToken(token)),
                 "주문 처리 완료"
         );
     }
@@ -66,10 +68,10 @@ public class PurchaseController {
 
     @GetMapping("/purchase/list")
     public ResponseEntity<DataBody<List<PurchaseResponse>>> getPurchaseList(
-//            @RequestHeader(value = "Authorization") String token
+            @RequestHeader(value = "Authorization") String token
     ) {
         return ResponseDTO.ok(
-                purchaseService.getPurchaseList(3L),
+                purchaseService.getPurchaseList(authService.getMemberIdFromValidToken(token)),
                 "구매 목록 전체 조회 완료");
     }
 

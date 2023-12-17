@@ -32,13 +32,13 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity<DataBody<BoardDetailResponse>> createBoard(
-//        @RequestHeader(value = "Authorization") String token,
+        @RequestHeader(value = "Authorization") String token,
         @Valid @ModelAttribute BoardWriteRequest boardWriteRequest
     ) {
 
         return ResponseDTO.created(
             boardService.createBoard(
-                3L,
+                authService.getMemberIdFromValidToken(token),
                 boardWriteRequest
             ),
             "게시글 생성 완료"
@@ -56,13 +56,13 @@ public class BoardController {
 
     @PatchMapping("/{boardId}")
     public ResponseEntity<DataBody<BoardDetailResponse>> updateBoard(
-//        @RequestHeader(value = "Authorization") String token,
+        @RequestHeader(value = "Authorization") String token,
         @PathVariable Long boardId,
         @Valid @ModelAttribute BoardWriteRequest boardWriteRequest
     ) {
         return ResponseDTO.ok(
             boardService.updateBoard(
-                boardId, 3L, boardWriteRequest
+                boardId, authService.getMemberIdFromValidToken(token), boardWriteRequest
             ),
             "선택 게시글 수정 완료"
         );
@@ -70,10 +70,10 @@ public class BoardController {
 
     @DeleteMapping("/{boardId}")
     public ResponseEntity<DataBody<List<BoardResponse>>> deleteBoard(
-//        @RequestHeader(value = "Authorization") String token,
+        @RequestHeader(value = "Authorization") String token,
         @PathVariable Long boardId
     ) {
-        boardService.deleteBoard(boardId, 3L);
+        boardService.deleteBoard(boardId, authService.getMemberIdFromValidToken(token));
         return ResponseDTO.ok(
             boardService.getAllBoard(),
             "선택 게시글 삭제 완료"
