@@ -29,12 +29,12 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity<DataBody<CommentResponseDto>> postComment(
-//        @RequestHeader(value = "Authorization") String token,
+        @RequestHeader(value = "Authorization") String token,
         @Valid @RequestBody CommentRequestDto commentRequestDTO
     ) {
         return ResponseDTO.created(
             commentService.createComment(
-                4L, commentRequestDTO),
+                authService.getMemberIdFromValidToken(token), commentRequestDTO),
             "댓글 생성 완료"
         );
 
@@ -43,25 +43,25 @@ public class CommentController {
 
     @PatchMapping("/{commentId}")
     public ResponseEntity<DataBody<CommentResponseDto>> updateCommentContent(
-//        @RequestHeader(value = "Authorization") String token,
+        @RequestHeader(value = "Authorization") String token,
         @PathVariable Long commentId,
         @Valid @RequestBody CommentUpdateRequestsDto commentUpdateRequestsDto
     ) {
         return ResponseDTO.ok(
             commentService.updateContent(
-                4L, commentId, commentUpdateRequestsDto),
+                authService.getMemberIdFromValidToken(token), commentId, commentUpdateRequestsDto),
             "댓글 수정 완료"
         );
     }
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<DataBody<CommentResponseDto>> deleteComment(
-//        @RequestHeader(value = "Authorization") String token,
+        @RequestHeader(value = "Authorization") String token,
         @PathVariable Long commentId
     ) {
         return ResponseDTO.ok(
             commentService.deleteCommentById(
-                4L, commentId),
+                authService.getMemberIdFromValidToken(token), commentId),
             "댓글 삭제 완료"
         );
     }
