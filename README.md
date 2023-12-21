@@ -16,7 +16,7 @@
 |                            김현아                            |                            성지운                            |                          이의인                               |
 |:---------------------------------------------------------:|:---------------------------------------------------------:|:----------------------------------------------------------:|
 |            [decten](https://github.com/decten)            |             [sungjiwoon](https://github.com/sungjiwoon )    |     [dldmldlsy](https://github.com/dldmldlsy)      |
-| ![](https://avatars.githubusercontent.com/u/52107658?v=4) | [![](https://avatars.githubusercontent.com/u/59862752?v=4) | ![](https://avatars.githubusercontent.com/u/76683396?v=4) |
+| ![](https://avatars.githubusercontent.com/u/52107658?v=4) | ![](https://avatars.githubusercontent.com/u/59862752?v=4) | ![](https://avatars.githubusercontent.com/u/76683396?v=4) |
 |                 메인 페이지, 짠지도 <br/>단짠단짠                |           메인 페이지, 짠지도<br/>짠처리            |                         로그인 <br> 마이페이지                         |
 <br>
 공통 : API 명세서 작성, 테이블 설계, 팀 노션페이지 작성 및 정리 & **테스트 코드 할 건지 고민**
