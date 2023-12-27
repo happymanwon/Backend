@@ -1,4 +1,4 @@
-# 만원의 행복 - 백엔드
+# 만원의 행복
 
 <div align="center">
 <img width="329" alt="image" src="https://github.com/jannyshim/web1/assets/110325183/fe2831c1-cce2-493c-bd44-40feba4d8c40">
