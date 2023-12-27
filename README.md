@@ -17,7 +17,7 @@
 |                            유지혜                            |     
 |:---------------------------------------------------------:|
 |            [JIHYE0104](https://github.com/JIHYE0104)            | 
-| <img width="300" src="https://avatars.githubusercontent.com/u/150226346?v=4"/> |
+| <img width="295" src="https://avatars.githubusercontent.com/u/150226346?v=4"/> |
 |                 작성 부탁드립니다                |  
 
 ### 프론트
@@ -25,7 +25,7 @@
 |                            심지원                            |                            윤태현                            |     
 |:---------------------------------------------------------:|:---------------------------------------------------------:|
 |            [jannyshim](https://github.com/jannyshim)            |             [yoonth95](https://github.com/yoonth95 )    | 
-| <img width="300" src="https://avatars.githubusercontent.com/u/110325183?v=4"/> | <img width="300" src="https://avatars.githubusercontent.com/u/78673090?v=4"/> |
+| <img width="295" src="https://avatars.githubusercontent.com/u/110325183?v=4"/> | <img width="295" src="https://avatars.githubusercontent.com/u/78673090?v=4"/> |
 |                작성 부탁드립니다                |            작성 부탁드립니다            |  
 
 
