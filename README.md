@@ -1,11 +1,11 @@
 # 만원의 행복 - 백엔드
 
 <div align="center">
-<img width="329" alt="image" src="https://github.com/happymanwon/Backend/assets/52107658/b51a979e-646c-414c-93e7-277b96a39d88">
+<img width="329" alt="image" src="https://github.com/jannyshim/web1/assets/110325183/fe2831c1-cce2-493c-bd44-40feba4d8c40">
 </div>
 <br>
 
-> **한 푼이라도 아끼고 싶은 사람들을 위한 착한가게 웹 서비스** <br/> **개발기간: 2023.11 ~ 2024.02**
+> **한 푼이라도 아쉬운 사람들을 위한 만원의 행복 웹 서비스** <br/> **개발기간: 2023.10 ~ 2024.02**
 
 ## 배포 주소
 
@@ -30,40 +30,36 @@
 
 
 ### 백엔드
+백엔드 공통 : API 명세서 작성, 테이블 설계, 팀 노션페이지 작성 및 정리 & <b>테스트 코드 할 건지 고민</b>
 
 |                            김현아                            |                            성지운                            |                          이의인                               |
 |:---------------------------------------------------------:|:---------------------------------------------------------:|:----------------------------------------------------------:|
 |            [decten](https://github.com/decten)            |             [sungjiwoon](https://github.com/sungjiwoon )    |     [dldmldlsy](https://github.com/dldmldlsy)      |
 | <img width="300" src="https://avatars.githubusercontent.com/u/52107658?v=4"/>| <img width="300" src="https://avatars.githubusercontent.com/u/59862752?v=4"/> | <img width="300" src="https://avatars.githubusercontent.com/u/76683396?v=4"/> |
 |                 메인 페이지, 짠지도 <br/>단짠단짠                |           메인 페이지, 짠지도<br/>짠처리            |                         로그인 <br> 마이페이지                         |
-<br>
-백엔드 공통 : API 명세서 작성, 테이블 설계, 팀 노션페이지 작성 및 정리 & <b>테스트 코드 할 건지 고민</b>
 
 ---
 
 ## 프로젝트 소개
-
-작성해야 함
+#### `기획 의도`
+고물가와 고금리로 인해 국민들의 생활비 부담이 증가하여 만원으로 할 수 있는 것이 매우 제한적입니다.<br>이러한 사회적 흐름에 발맞춰, 단돈 만원으로 저렴하게 이용할 수 있는 착한 가게 들을 알려주는 공공 서비스를 개발 했습니다.
 
 ### 전체 아키텍처
 ![image](https://github.com/happymanwon/Backend/assets/52107658/349587fe-ce1c-4c0d-b615-b1d5ef4a229b)
 
 ### 화면 구성 
 
-| 메인 페이지  |  짠지도   | 짠처리 | 
-| :-------------------------------------------: | :------------: |:------------: |
-|  <img width="329" src="https://github.com/happymanwon/Backend/assets/52107658/bee4443e-0e11-4435-ae80-7210cc3b73d5"/> |  <img width="329" src="https://github.com/happymanwon/Backend/assets/52107658/00dbad2f-3edc-462c-b4c0-28869e967258"/>|   <img width="329" src="https://github.com/happymanwon/Backend/assets/52107658/b257a031-9982-46c4-8101-40eba09e7ddc"/>| 
+| 메인 페이지  |  카테고리 페이지   |가게 상세 페이지   | 
+| :-------------------------------------------: | :------------: | :------------: |
+|<img width="427" alt="메인 페이지" src="https://github.com/jannyshim/web1/assets/110325183/351d4dc3-d069-41d0-acbe-1f800b3ca49f">|<img width="427" alt="카테고리 페이지" src="https://github.com/jannyshim/web1/assets/110325183/a07362c3-34a5-4352-a736-f647eb3b3718">|<img width="427" alt="가게 상세페이지 화면" src="https://github.com/jannyshim/web1/assets/110325183/21f42175-b9bf-4a38-9fcc-58946cfece3c">|
 |  **단짠단짠**   |  **회원 가입**   |   **마이 페이지**   | 
 | <img width="329" src="https://github.com/happymanwon/Backend/assets/52107658/6f6eb114-5982-413d-b31c-7d0245cf1f61"/>   |  <img width="329" src="https://github.com/happymanwon/Backend/assets/52107658/bf795fff-a4ee-4a6c-bd28-48caa7e823c9"/>     | <img width="329" src="https://github.com/happymanwon/Backend/assets/52107658/f866ba24-2c44-4ea1-9faf-1fc3bf332be6"/>
 
-### 페이지 별 기능(어떤 기능이 있는지 사용자 입장으로 작성)
-
-1. 메인 페이지: 카테고리, 검색
-2. 짠지도: ~
-3. 짠처리: ~
-4. 단짠단짠: 커뮤니티
-5. 마이 페이지: ~ 
-
+### 페이지 별 기능
+- <b>메인 페이지</b>: 카테고리, 검색 기능 등을 활용하여 착한가게 업소 정보를 제공합니다.
+- <b>짠지도</b>: 위치 기반 착한 가게 검색을 제공합니다.
+- <b>짠처리</b>: 업소의 할인 상품을 판매합니다.
+- <b>단짠단짠</b>: 커뮤니티 기능을 제공합니다.
 ---
 
 ## 백엔드 Stacks
@@ -94,9 +90,6 @@
 
 - **버전**: Java 17, Spring Boot 3, MySQL 8
 - **라이브러리**: Spring Web, Spring Security, Spring Validation, JPA, JUnit5, Rest-Assured, Lombok, JWT
-- **Infra**: Naver Cloud
-
-
 ---
 ## 백엔드 주요 구현 기술
 
