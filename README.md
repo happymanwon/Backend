@@ -49,11 +49,25 @@
 
 ### 화면 구성 
 
-| 메인 페이지  |  카테고리 페이지   |가게 상세 페이지   | 
+| 메인 페이지 |  카테고리 페이지   |가게 상세 페이지   | 
 | :-------------------------------------------: | :------------: | :------------: |
 |<img width="427" alt="메인 페이지" src="https://github.com/jannyshim/web1/assets/110325183/351d4dc3-d069-41d0-acbe-1f800b3ca49f">|<img width="427" alt="카테고리 페이지" src="https://github.com/jannyshim/web1/assets/110325183/a07362c3-34a5-4352-a736-f647eb3b3718">|<img width="427" alt="가게 상세페이지 화면" src="https://github.com/jannyshim/web1/assets/110325183/21f42175-b9bf-4a38-9fcc-58946cfece3c">|
-|  **단짠단짠**   |  **회원 가입**   |   **마이 페이지**   | 
-| <img width="329" src="https://github.com/happymanwon/Backend/assets/52107658/6f6eb114-5982-413d-b31c-7d0245cf1f61"/>   |  <img width="329" src="https://github.com/happymanwon/Backend/assets/52107658/bf795fff-a4ee-4a6c-bd28-48caa7e823c9"/>     | <img width="329" src="https://github.com/happymanwon/Backend/assets/52107658/f866ba24-2c44-4ea1-9faf-1fc3bf332be6"/>
+
+|짠지도 페이지|짠지도 상세 페이지|짠처리 페이지|
+| :-------------------------------------------: | :------------: | :------------: |
+|<img width="427" alt="짠지도" src="https://github.com/jannyshim/web1/assets/110325183/d2990b7b-cfe5-4142-bcdc-91544b2944ff">|<img width="427" alt="짠지도 상세화면" src="https://github.com/jannyshim/web1/assets/110325183/92de5e4b-ebfe-4589-b7f1-4928aae6fa5f">|<img width="427" alt="짠처리 페이지" src="https://github.com/jannyshim/web1/assets/110325183/73452243-3c3f-4fe3-81f3-9b17c9eb9232">|
+
+|짠처리 가게 상세페이지 화면|짠처리 구매 내역|짠처리 QR 페이지|
+| :-------------------------------------------: | :------------: | :------------: |
+|<img width="427" alt="짠처리 가게 상세페이지 화면" src="https://github.com/jannyshim/web1/assets/110325183/43501342-97f5-4f52-a508-8121b7b6d280">|<img width="427" alt="짠처리 구매내역" src="https://github.com/jannyshim/web1/assets/110325183/edcdddc2-f7d1-47fb-8848-244de6dfab15">|<img width="427" alt="짠처리 QR 화면" src="https://github.com/jannyshim/web1/assets/110325183/7bd2df90-0aa7-4d6e-beb4-f80fa8cd588b">|
+
+|단짠단짠 페이지| 단짠단짠 상세 페이지 |단짠단짠 새 글 쓰기|
+| :-------------------------------------------: | :------------: | :------------: |
+|<img width="427" alt="단짠단짠 페이지" src="https://github.com/jannyshim/web1/assets/110325183/0ac33d3d-2225-44f2-ad1f-b8b20a163999">|<img width="427" alt="단짠단짠 상세 페이지" src="https://github.com/jannyshim/web1/assets/110325183/02c04d90-625b-4e9d-9586-4134f043df73"> |<img width="427" alt="단짠단짠 새 글 쓰기" src="https://github.com/jannyshim/web1/assets/110325183/8a16fb1d-d33a-4489-8b54-4fd3a2f7aaa4">|
+
+|단짠단짠 글 수정|로그인 및 회원가입|
+| :-------------------------------------------: | :------------: |
+|<img width="310" alt="단짠단짠 글 수정" src="https://github.com/jannyshim/web1/assets/110325183/8e86d326-9a81-4718-834a-ce0ea9db2c4c">|<img width="310" alt="로그인 및 회원가입" src="https://github.com/jannyshim/web1/assets/110325183/e194b26b-3147-4587-8405-3ad7d7825673">|
 
 ### 페이지 별 기능
 - <b>메인 페이지</b>: 카테고리, 검색 기능 등을 활용하여 착한가게 업소 정보를 제공합니다.
